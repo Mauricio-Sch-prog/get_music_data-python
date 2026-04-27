@@ -1,48 +1,38 @@
 import tkinter as tk
+from tkinter import filedialog
 
 # from interface.selectFolder import select_music_folder
 import utils
 
-from interface.fileContainer import FileListContainer
+from interface.processContainer import ProcessContainer
 
 from PIL import Image, ImageTk
 
 
 def loadWindow():
-    songList = []
-    folderPath = ''
-    fileContainer = ''
     
     def getFolder():
-        folderPath = tk.filedialog.askdirectory(title="Select your Music Folder")
+        folderPath = filedialog.askdirectory(title="Select your Music Folder")
         folder = utils.getFolderData(folderPath)
         if(folder):
             
-            fileContainer = FileListContainer(root,
-               {
-                   'filename' : {'optional' : False},
-                   'title' : {'optional' : True},
-                   'artist' : {'optional' : True},
-                   'genre' : {'optional' : True},
-               }                               
-                                              )
-            fileContainer.pack(fill="both", expand=True, padx=10, pady=10)
-            
-            songList = folder
-            for song in songList:
-                metadata= utils.get_file_metadata(folder_path=folderPath, file_name=song['file'])
-                fileContainer.add_file({
-                    'filename': song['file'],
-                    **metadata
-                    })
-            
+            def onCloseFolder(event):
+                if event.widget == fileList:
+                    selectFolderBtn.pack(side="top", padx=30, pady=100)
+                else:
+                    pass
         
+            selectFolderBtn.pack_forget()
+            fileList = ProcessContainer(parent=root, folderPath=folderPath , folder=folder)
+            fileList.pack(fill="both", expand=True, padx=10, pady=10)
+            fileList.bind("<Destroy>", onCloseFolder)
+            
         return
     
     
     root = tk.Tk()
     
-    pil_img = Image.open('Imagem_do_WhatsApp_de_2024-02-08_as_14.31.09_50e2a151.jpg')
+    pil_img = Image.open('icon.jpg')
     icon = ImageTk.PhotoImage(pil_img)
     
     root.iconphoto(True, icon)

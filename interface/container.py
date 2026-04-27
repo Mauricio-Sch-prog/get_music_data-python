@@ -1,11 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
 
-class FileListContainer(tk.Frame):
+class ListContainer(tk.Frame):
     def __init__(self, parent, model):
         super().__init__(parent)
         
         self.model = model
+        self.data = {}
+        
         self.header_frame = tk.Frame(self, background="#e0e0e0", bd=1, relief="raised")
         self.header_frame.pack(side="top", fill="x")
         
@@ -22,10 +24,14 @@ class FileListContainer(tk.Frame):
                     anchor="w",
                 ).grid(row=0, column=i, sticky="ew")
             else:
+                self.data[header] = tk.IntVar()
+                
                 tk.Checkbutton(
                     self.header_frame,
                     text=header.capitalize(),
+                    variable=self.data[header],
                     anchor="e",
+                    command=self.get_list_data
                 ).grid(row=0, column=i, sticky="w")
 
         
@@ -69,6 +75,13 @@ class FileListContainer(tk.Frame):
         canvas_width = self.content_container.winfo_width()
         self.canvas.itemconfig(self.canvas_window, width=canvas_width)
         
+        
+    def get_list_data(self):
+        data = {}
+        for val in self.data:
+            data[val] = self.data[val].get()
+
+        return data
 
     def add_file(self, item):
         self.scrollable_frame_row_count +=1

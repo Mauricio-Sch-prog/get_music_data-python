@@ -24,10 +24,12 @@ getSongsDetails = types.FunctionDeclaration(
                     'properties': {
                         'file': {'type': 'string', 'description': 'Original filename'},
                         'title': {'type': 'string', 'description': 'Song title'},
-                        'author': {'type': 'string', 'description': 'Band/Artist'},
-                        'genre': {'type': 'string', 'description': 'Genre'}
+                        'artist': {'type': 'string', 'description': 'Band/Artist'},
+                        'album': {'type': 'string', 'description': 'Song album'},
+                        'genre': {'type': 'string', 'description': 'Genre'},
+                        'date': {'type': 'number', 'description': 'Song release year'}
                     },
-                    'required': ['file', 'title', 'author', 'genre']
+                    'required': ['file', 'title', 'artist', 'album' , 'genre', 'date']
                 }
             }
         }
@@ -38,8 +40,7 @@ tool = types.Tool(function_declarations=[getSongsDetails])
 search_tool = types.Tool(google_search=types.GoogleSearch())
 
 sys_instr = ("You are a music metadata expert. For every filename provided, "
-                 "research the song to find its official title, artist, and genre. "
-                 "You MUST call the get_songs_details function for EVERY file in the list. "
+                 "research the song to find its official title, artist, genre, album and release year(date) "
                  "Do not skip any files.")
 
 
