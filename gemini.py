@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from google.api_core import exceptions
+from google.genai import errors
+
  
 load_dotenv()
 
@@ -47,12 +49,12 @@ sys_instr = ("You are a music metadata expert. For every filename provided, "
 
 
 @retry(
-    
-    
-    stop=stop_after_attempt(5), 
-    wait=wait_exponential(multiplier=1, min=2, max=10),
-    retry=retry_if_exception_type(exceptions.ServiceUnavailable)
+    stop=stop_after_attempt(10), # Increase attempts if the service is very busy
+    wait=wait_exponential(multiplier=2, min=4, max=60), # Wait longer between tries
+    retry=retry_if_exception_type(errors.ServerError), # Target the correct error
+    reraise=True # Ensures the final failure still raises so you can catch it in the loop
 )
+
 def aiQuery(contents, **config_options):
     client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
     try:
@@ -66,7 +68,10 @@ def aiQuery(contents, **config_options):
     except exceptions.ServiceUnavailable as e:
         print(f"Server busy (503), retrying... {e}")
         raise e 
-
+    
+    except Exception as e:
+        print(f"An error ocurred while acessing the api, returning changed data only...")
+        raise e
 
 
 def batchFetchData(musicList):

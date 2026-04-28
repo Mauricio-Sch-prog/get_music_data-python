@@ -3,10 +3,10 @@ from pathlib import Path
 from mutagen.easyid3 import EasyID3
 from mutagen.id3 import ID3
 from mutagen import MutagenError
+from interface.progressBar import ProgressBar
 
 
 def getFolderData(path):
-    print(f"Selected: {path}")
     
     files = os.listdir(path)
     
@@ -47,8 +47,7 @@ def get_file_metadata(folder_path, file_name):
             }
             
             
-        except Exception as e:
-            print(e)
+        except Exception:
             return {
                 'artist': "Unknown",
                 'album': "Unknown",
@@ -63,12 +62,12 @@ def get_file_metadata(folder_path, file_name):
     return
 
 
-def change_file_metadate(folder_path, changed_files, options = False):
-    print(changed_files)
-    print(options)
+def change_file_metadate(folder_path, changed_files, parent, options = False, ):
     original_folder_path = Path(f'{folder_path}')
+    bar = ProgressBar(parent)
     
-    for entry in changed_files:
+    for count, entry in enumerate(changed_files):
+        bar.updateStatus((count / len(changed_files)) * 100)
         file_path = original_folder_path / entry['file']
         if not file_path.exists():
             print(f'not found file path: {file_path}')
@@ -91,9 +90,9 @@ def change_file_metadate(folder_path, changed_files, options = False):
                 if not options[key]:
                     song[key] = str(value)
             song.save()
-            print(f"Updated song: {entry['file']}")
             
         except Exception as e:
             print(f"Error processing {entry['file']}: {e}")
         
+    bar.destroy()
     return

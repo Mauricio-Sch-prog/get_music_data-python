@@ -2,11 +2,13 @@ import tkinter as tk
 from tkinter import ttk
 
 class ListContainer(tk.Frame):
-    def __init__(self, parent, model):
+    def __init__(self, parent, model, title):
         super().__init__(parent)
         
         self.model = model
         self.data = {}
+        
+        tk.Label(self, text=title, fg="#200a38", font=("Arial", 10, "bold"), anchor="w").pack(side="top")
         
         self.header_frame = tk.Frame(self, background="#e0e0e0", bd=1, relief="raised")
         self.header_frame.pack(side="top", fill="x")
@@ -83,10 +85,12 @@ class ListContainer(tk.Frame):
 
         return data
 
-    def add_file(self, item):
+    def add_file(self, item, options = {'main': False}):
         self.scrollable_frame_row_count +=1
         row_idx = self.scrollable_frame_row_count
         
         for count, (key, value) in enumerate(self.model.items()):
-        
-            tk.Label(self.scrollable_frame, text=item[key], bg="#f0f0f0", anchor="w").grid(row=row_idx, column=count, sticky="ew", padx=2, pady=2)
+            if not options['main'] == key:
+                tk.Label(self.scrollable_frame, text=item[key], bg="#f0f0f0", anchor="w").grid(row=row_idx, column=count, sticky="ew", padx=2, pady=2)
+            else:
+                tk.Checkbutton(self.scrollable_frame, text=item[key], bg="#f0f0f0", anchor="w").grid(row=row_idx, column=count, sticky="ew", padx=2, pady=2)

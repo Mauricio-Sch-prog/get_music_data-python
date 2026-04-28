@@ -1,4 +1,3 @@
-import tkinter as tk
 from tkinter import ttk
 
 class ProgressBar(ttk.Progressbar):
@@ -6,7 +5,7 @@ class ProgressBar(ttk.Progressbar):
         super().__init__(parent, length=200, mode="determinate", orient="horizontal")
         self['value'] = 0
         self.update_idletasks()
-        
+        self.pack(anchor='center')
         
     def updateStatus(self, progress):
         self['value'] = progress

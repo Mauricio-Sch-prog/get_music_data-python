@@ -11,14 +11,15 @@ class ProcessContainer(tk.Frame):
         super().__init__(parent)
         
         self.fileContainer = ListContainer(self,
-               {
+               model={
                    'filename' : {'optional' : False},
                    'title' : {'optional' : True},
                    'artist' : {'optional' : True},
                    'genre' : {'optional' : True},
                    'album' : {'optional' : True},
                    'date' : {'optional' : True},
-               }                               
+               },
+                title=folderPath                               
                                               )
         
         self.fileContainer.pack(fill="both", expand=True, padx=10, pady=10)
@@ -33,8 +34,12 @@ class ProcessContainer(tk.Frame):
         
         def run_logic():
             result = getMusicData(folder,self)
-            self.renderResultContainer(result=result, folderPath=folderPath)
-            return result
+            if len(result) != 0:
+                self.renderResultContainer(result=result, folderPath=folderPath)
+            else:
+                self.fileContainer.pack(fill="both", expand=True, padx=10, pady=10)
+                self.nextBtn.pack(anchor='center')
+                self.closeFolderBtn.pack(anchor='center')
         
         
         def closeFolder():
@@ -56,24 +61,27 @@ class ProcessContainer(tk.Frame):
                 })
             
     def renderResultContainer(self, result, folderPath):
-        print(result)
-        self.resultContainer = ListContainer(self,{
-                   'id' : {'optional' : False},
+        
+        
+        self.resultContainer = ListContainer(self,
+                    model={'id' : {'optional' : False},
                    'file' : {'optional' : False},
                    'title' : {'optional' : False},
                    'artist' : {'optional' : False},
                    'genre' : {'optional' : False},
                    'album' : {'optional' : False},
                    'date' : {'optional' : False},
-               })
+               },
+                 title="Changed files")
         
         self.resultContainer.pack(fill="both", expand=True, padx=10, pady=10)
         
         for song in result:
-            self.resultContainer.add_file(song)
+            self.resultContainer.add_file(song, options= {'main': 'id'})
         
         def applyChanges():
-            utils.change_file_metadate(changed_files=result,folder_path=folderPath, options=self.fileContainer.get_list_data())
+            utils.change_file_metadate(changed_files=result,folder_path=folderPath, options=self.fileContainer.get_list_data(), parent=self)
+            self.destroy()
             
             
         self.applyChangesBtn = tk.Button(self, text="Apply changes", command=applyChanges, background="#0320fc")
