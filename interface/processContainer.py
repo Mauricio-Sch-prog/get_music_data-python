@@ -1,14 +1,14 @@
-from interface.container import ListContainer
-import tkinter as tk
+from interface.listContainer import ListContainer
+import customtkinter as ctk
 import utils
 from getMusicData import getMusicData
 import threading
 
-class ProcessContainer(tk.Frame):
-    def __init__(self, parent, folderPath, folder):
+class ProcessContainer(ctk.CTkFrame):
+    def __init__(self, parent, folderPath, folder, ):
         
     
-        super().__init__(parent)
+        super().__init__(parent, bg_color="#200a38", fg_color="#200a38")
         
         self.fileContainer = ListContainer(self,
                model={
@@ -47,10 +47,12 @@ class ProcessContainer(tk.Frame):
             return
         
         
-        self.nextBtn = tk.Button(self, text="Get data", command=processFolderData, background="#03fc28")
+        self.nextBtn = ctk.CTkButton(self, text="Get data", command=processFolderData, bg_color="#200a38", fg_color="#200a38")
+        self.nextBtn.configure(border_width=2, corner_radius=5, border_color="#0e741d", hover_color="#0e741d")
         self.nextBtn.pack(anchor='center')
         
-        self.closeFolderBtn = tk.Button(self, text="close folder", command=closeFolder, background="#fc030b")
+        self.closeFolderBtn = ctk.CTkButton(self, text="close folder", command=closeFolder, fg_color="#200a38")
+        self.closeFolderBtn.configure(border_width=2, corner_radius=5, border_color="#fc030b", hover_color="#fc030b")
         self.closeFolderBtn.pack(anchor='center')
         
         for song in folder:
@@ -61,17 +63,19 @@ class ProcessContainer(tk.Frame):
                 })
             
     def renderResultContainer(self, result, folderPath):
-        
-        
+        print(result[0])
+        options = self.fileContainer.get_list_data()
+        optionKeys = ", ".join(options)
+        model = {}
+        for key, value in result[0].items():
+            if(key in optionKeys and options[key] == 1):
+                model[key] = {'optional' : "Ignore"}
+            else:
+                model[key] = {'optional' : False}
+            print(options)
+        print(model)
         self.resultContainer = ListContainer(self,
-                    model={'id' : {'optional' : False},
-                   'file' : {'optional' : False},
-                   'title' : {'optional' : False},
-                   'artist' : {'optional' : False},
-                   'genre' : {'optional' : False},
-                   'album' : {'optional' : False},
-                   'date' : {'optional' : False},
-               },
+                    model,
                  title="Changed files")
         
         self.resultContainer.pack(fill="both", expand=True, padx=10, pady=10)
@@ -84,5 +88,5 @@ class ProcessContainer(tk.Frame):
             self.destroy()
             
             
-        self.applyChangesBtn = tk.Button(self, text="Apply changes", command=applyChanges, background="#0320fc")
+        self.applyChangesBtn = ctk.CTkButton(self, text="Apply changes", command=applyChanges, fg_color="#0320fc")
         self.applyChangesBtn.pack(anchor='center')
