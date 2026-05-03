@@ -5,8 +5,7 @@ from mutagen.id3 import ID3
 from mutagen import MutagenError
 from interface.progressBar import ProgressBar
 
-
-def getFolderData(path):
+def get_folder_data(path):
     
     files = os.listdir(path)
     
@@ -32,18 +31,12 @@ def get_file_metadata(folder_path, file_name):
         try:
             audio = EasyID3(file_path)
     
-            artist = audio.get('artist', ['Unknown'])[0]
-            album = audio.get('album', ['Unknown'])[0]
-            genre = audio.get('genre', ['Unknown'])[0]
-            title = audio.get('title', ['Unknown'])[0]
-            date = audio.get('date', ['Unknown'])[0]
-
             return {
-                'artist': artist,
-                'album': album,
-                'genre': genre,
-                'title': title,
-                'date' : date,
+                'artist': audio.get('artist', ['Unknown'])[0],
+                'album': audio.get('album', ['Unknown'])[0],
+                'genre': audio.get('genre', ['Unknown'])[0],
+                'title': audio.get('title', ['Unknown'])[0],
+                'date' : audio.get('date', ['Unknown'])[0],
             }
             
             
@@ -96,3 +89,23 @@ def change_file_metadate(folder_path, changed_files, parent, options = False, ):
         
     bar.destroy()
     return
+
+
+def get_changed_files_model(result, options):
+    optionKeys = ", ".join(options)
+    model = {}
+    for key, value in result[0].items():
+        if(key in optionKeys and options[key] == 1):
+            model[key] = {'optional' : "Ignore"}
+        else:
+            model[key] = {'optional' : False}
+    
+    orderedModel = {}
+    order = ["id", 'file', 'title', 'artist', 'genre', 'album', 'date']
+    for orderKey in order:
+        for key, value in model.items():
+            if key in orderKey:
+                orderedModel[key] = value
+   
+            
+    return orderedModel

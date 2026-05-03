@@ -40,7 +40,7 @@ class ProcessContainer(ctk.CTkFrame):
                 self.fileContainer.pack(fill="both", expand=True, padx=10, pady=10)
                 self.nextBtn.pack(anchor='center')
                 self.closeFolderBtn.pack(anchor='center')
-        
+            return
         
         def closeFolder():
             self.destroy()
@@ -63,16 +63,9 @@ class ProcessContainer(ctk.CTkFrame):
                 })
             
     def renderResultContainer(self, result, folderPath):
-        print(result[0])
-        options = self.fileContainer.get_list_data()
-        optionKeys = ", ".join(options)
-        model = {}
-        for key, value in result[0].items():
-            if(key in optionKeys and options[key] == 1):
-                model[key] = {'optional' : "Ignore"}
-            else:
-                model[key] = {'optional' : False}
-            print(options)
+
+        model = utils.get_changed_files_model(result=result,options=self.fileContainer.get_list_data())
+                
         print(model)
         self.resultContainer = ListContainer(self,
                     model,
@@ -84,8 +77,15 @@ class ProcessContainer(ctk.CTkFrame):
             self.resultContainer.add_file(song, options= {'main': 'id'})
         
         def applyChanges():
+            self.fileContainer.pack_forget()
+            self.applyChangesBtn.pack_forget()
+            
+            thread = threading.Thread(target=applyChangesLogic)
+            thread.start()
+            
+        def applyChangesLogic():
             utils.change_file_metadate(changed_files=result,folder_path=folderPath, options=self.fileContainer.get_list_data(), parent=self)
-            self.destroy()
+            self.after(100, self.destroy)
             
             
         self.applyChangesBtn = ctk.CTkButton(self, text="Apply changes", command=applyChanges, fg_color="#0320fc")

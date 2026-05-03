@@ -10,11 +10,10 @@ class ListContainer(ctk.CTkFrame):
         
         for key, val in model.items():
             if(model[key]['optional'] == 'Ignore'):
-                print(f"Removendo {key} dos headers")
                 continue
             self.model[key] = model[key]
         
-        print(f"Modelo: {self.model}")
+
         self.headers = ", ".join(self.model)
         self.data = {}
         
@@ -60,7 +59,6 @@ class ListContainer(ctk.CTkFrame):
         data = {}
         for val in self.data:
             data[val] = self.data[val].get()
-        print(data)
 
         return data
 

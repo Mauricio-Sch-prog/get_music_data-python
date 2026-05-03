@@ -2,6 +2,7 @@ from customtkinter import filedialog
 import customtkinter as ctk
 import utils
 from interface.processContainer import ProcessContainer
+import re
 
 class App(ctk.CTk):
     def __init__(self,):
@@ -21,15 +22,16 @@ class App(ctk.CTk):
     
     def getFolder(self):
         self.folderPath = filedialog.askdirectory(title="Select your Music Folder")
-        self.folder = utils.getFolderData(self.folderPath)
+        self.folder = utils.get_folder_data(self.folderPath)
         if(self.folder):
             self.loadFolder()
 
     def loadFolder(self):
         def onCloseFolder(event):
-            print(event.widget)
-            print(str(self.fileList))
-            if str(event.widget) == str(self.fileList):
+            result = re.split(r'(?=\.)', str(event.widget))
+            result = [item for item in result if item]
+            
+            if str(self.fileList) in result:
                 self.selectFolderBtn.pack(side="top", padx=30, pady=100)
             else:
                 pass
