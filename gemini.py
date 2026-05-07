@@ -70,6 +70,7 @@ def aiQuery(contents, **config_options):
         raise e 
     
     except Exception as e:
+        print(e)
         print(f"An error ocurred while acessing the api, returning changed data only...")
         raise e
 

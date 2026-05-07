@@ -3,7 +3,7 @@ from pathlib import Path
 from mutagen.easyid3 import EasyID3
 from mutagen.id3 import ID3
 from mutagen import MutagenError
-from interface.progressBar import ProgressBar
+from interface.widgets.progressBar import ProgressBar
 
 def get_folder_data(path):
     

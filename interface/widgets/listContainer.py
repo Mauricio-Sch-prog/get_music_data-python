@@ -1,21 +1,23 @@
-import tkinter as tk
-from tkinter import ttk
+
 import customtkinter as ctk
 
 class ListContainer(ctk.CTkFrame):
-    def __init__(self, parent , model : dict, title):
+    def __init__(self, parent , model : dict, title, data, options = {'main': False}):
         super().__init__(parent, bg_color="#200a38")
         
+        self.pack(fill="both", expand=True, padx=10, pady=10)
+        self.data = data
         self.model = {}
-        
+        self.options = options
+
         for key, val in model.items():
             if(model[key]['optional'] == 'Ignore'):
                 continue
             self.model[key] = model[key]
         
+        self.headers = ", ".join(self.model) 
+        self.headerData = {}
 
-        self.headers = ", ".join(self.model)
-        self.data = {}
         
         
         ctk.CTkLabel(self, text=title, fg_color="#200a38", font=("Arial", 10, "bold"), anchor="w").pack(side="top")
@@ -40,35 +42,35 @@ class ListContainer(ctk.CTkFrame):
                     bg_color="#e0e0e0", 
                 ).grid(row=0, column=i, sticky="ew")
             else:
-                check = self.data[header] = ctk.CTkCheckBox(
+                check = ctk.CTkCheckBox(
                     self.header_frame,
                     text=header.capitalize(),
                     fg_color="#cf2020",
-                    command=self.get_list_data
                 )
                 check.grid(row=0, column=i, sticky="w")
-                self.data[header] = check
+                self.headerData[header] = check
                 
                 
         self.scrollable_frame_row_count = 0
-        
+
+        for item in self.data:
+            self.add_file(item=item)
         
         
     def get_list_data(self):
         
         data = {}
-        for val in self.data:
-            data[val] = self.data[val].get()
+        for val in self.headerData:
+            data[val] = self.headerData[val].get()
 
         return data
 
-    def add_file(self, item, options = {'main': False}):
+    def add_file(self, item ):
         self.scrollable_frame_row_count +=1
         row_idx = self.scrollable_frame_row_count
-        
         for count, (key, value) in enumerate(self.model.items()):
             if(key in self.headers):
-                if not options['main'] == key:
+                if not self.options['main'] == key:
                     ctk.CTkLabel(self.scrollable_frame, text=item[key], bg_color="#3d3d3d").grid(row=row_idx, column=count, sticky="ew", padx=2, pady=2)
                 else:
                     ctk.CTkCheckBox(self.scrollable_frame, text=item[key], bg_color="#3d3d3d").grid(row=row_idx, column=count, sticky="ew", padx=2, pady=2)
