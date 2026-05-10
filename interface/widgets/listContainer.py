@@ -1,76 +1,137 @@
 
 import customtkinter as ctk
+from interface.widgets.headers import Headers
+from config import app_config
 
 class ListContainer(ctk.CTkFrame):
-    def __init__(self, parent , model : dict, title, data, options = {'main': False}):
+    def __init__(self, parent, model: dict, title, data, options={'main': False}):
         super().__init__(parent, bg_color="#200a38")
-        
-        self.pack(fill="both", expand=True, padx=10, pady=10)
-        self.data = data
-        self.model = {}
+        self.data = [item | {"status": False} for item in data]
+        self.model_keys = {k: v for k, v in model.items() if v.get('optional') != 'Ignore'}
         self.options = options
+        
+        
+        self.rows = []
+        self.row_height = 35 
+        self.visible_rows = 15 
+        self.buffer_rows = 5     
+        self.total_render = self.visible_rows + self.buffer_rows
+        if len(self.data) < self.total_render:
+            self.total_render = len(self.data)
+        
+        self.content_height = len(self.data) * self.row_height
+        
+        ctk.CTkLabel(self, text=title, font=("Arial", 12, "bold")).pack(pady=5)
+        
+        self.header_frame = Headers(self,model=self.model_keys)
+        
 
-        for key, val in model.items():
-            if(model[key]['optional'] == 'Ignore'):
-                continue
-            self.model[key] = model[key]
+        self.canvas = ctk.CTkCanvas(self, bg="#252525", highlightthickness=0)
+        self.scrollbar = ctk.CTkScrollbar(self, orientation="vertical", command=self.canvas.yview)
+        self.canvas.configure(yscrollcommand=self._scroll_sync)
         
-        self.headers = ", ".join(self.model) 
-        self.headerData = {}
+        self.scrollbar.pack(side="right", fill="y")
+        self.canvas.pack(side="left", fill="both", expand=True)
 
-        
-        
-        ctk.CTkLabel(self, text=title, fg_color="#200a38", font=("Arial", 10, "bold"), anchor="w").pack(side="top")
-        
-        self.header_frame = ctk.CTkFrame(self, bg_color="#e0e0e0", border_width=1, border_color="gray", corner_radius=0)
-        self.header_frame.pack(side="top", fill="x")
-        
-        self.scrollable_frame = ctk.CTkScrollableFrame(self, fg_color="#ffffff", label_text="")
-        self.scrollable_frame.pack(side="top", fill="both", expand=True)
-        
-        for i in range(len(self.model)):
-            self.header_frame.columnconfigure(i, weight=1, uniform="col_group")
-            self.scrollable_frame.columnconfigure(i, weight=1, uniform="col_group")
+        self.canvas.configure(scrollregion=(0, 0, 0, self.content_height))
+
     
-        for i, (header, options) in enumerate(self.model.items()):
-            if not options['optional']:
-                ctk.CTkLabel(
-                    self.header_frame, 
-                    text=header.capitalize(), 
-                    font=("Arial", 10, "bold"), 
-                    fg_color="#cf2020",
-                    bg_color="#e0e0e0", 
-                ).grid(row=0, column=i, sticky="ew")
+        for i in range(self.total_render):
+            row_widgets = self._create_row_widgets()
+            obj_id = self.canvas.create_window(0, i * self.row_height, 
+                                              window=row_widgets['frame'], 
+                                              anchor="nw", 
+                                              width=self.canvas.winfo_width())
+            row_widgets['obj_id'] = obj_id
+            self.rows.append(row_widgets)
+
+        self.canvas.bind("<Configure>", self._on_resize)
+        self.canvas.bind("<MouseWheel>", self._on_mousewheel)
+        self.canvas.bind("<Button-4>", self._on_mousewheel)
+        self.canvas.bind("<Button-5>", self._on_mousewheel) 
+        
+        self._update_view()
+        self.pack(fill="both", expand=True, padx=10, pady=10)
+
+    def _create_row_widgets(self):
+        frame = ctk.CTkFrame(self.canvas, fg_color="#333333", corner_radius=0, height=self.row_height)
+        widgets = {'frame': frame, 'cells': []}
+        
+        for i, key in enumerate(self.model_keys):
+            frame.columnconfigure(i, weight=1, uniform="col")
+            if self.options.get('main') == key:
+                w = ctk.CTkCheckBox(frame, text="")
             else:
-                check = ctk.CTkCheckBox(
-                    self.header_frame,
-                    text=header.capitalize(),
-                    fg_color="#cf2020",
-                )
-                check.grid(row=0, column=i, sticky="w")
-                self.headerData[header] = check
+                w = ctk.CTkLabel(frame, text="")
+            w.grid(row=0, column=i, padx=5)
+            widgets['cells'].append(w)
+            
+        return widgets
+
+    def _update_view(self, *args):
+        scroll_top = self.canvas.yview()[0]
+        start_index = int((scroll_top * self.content_height) / self.row_height)
+        
+        start_index = max(0, min(start_index, len(self.data) - self.total_render))
+
+        for i in range(len(self.rows)):
+            data_idx = start_index + i
+            row_widgets = self.rows[i]
+            
+            if data_idx < len(self.data):
+                item = self.data[data_idx]
+                for cell_idx, key in enumerate(self.model_keys):
+                        
+                    widget = row_widgets['cells'][cell_idx]
+                    val = str(item.get(key, ""))
+
+                    if item['status']:
+                       widget.configure(bg_color=app_config['theme']['secondary_color'][0])
+                    else:
+                       widget.configure(bg_color=app_config['theme']['primary_color'][0])
+                    
+                    if isinstance(widget, ctk.CTkCheckBox):
+                        if item['status']:
+                            widget.select()
+                        else:
+                            widget.deselect()
+                        
+                            
+                        widget.configure(text=val, command=lambda idx=data_idx: self._toggle(idx))
+                    else:
+                        widget.configure(text=val)
                 
-                
-        self.scrollable_frame_row_count = 0
 
-        for item in self.data:
-            self.add_file(item=item)
-        
-        
-    def get_list_data(self):
-        
-        data = {}
-        for val in self.headerData:
-            data[val] = self.headerData[val].get()
+                new_y = data_idx * self.row_height
+                self.canvas.coords(row_widgets['obj_id'], 0, new_y)
+                row_widgets['frame'].lift()
+            else:
+                self.canvas.coords(row_widgets['obj_id'], 0, -500)
 
-        return data
+    def _toggle(self, index):
+        self.data[index]['status'] = not self.data[index]['status']
+        self._update_view()
 
-    def add_file(self, item ):
-        self.scrollable_frame_row_count +=1
-        row_idx = self.scrollable_frame_row_count
-        for count, (key, value) in enumerate(self.model.items()):
-            if(key in self.headers):
-                if not self.options['main'] == key:
-                    ctk.CTkLabel(self.scrollable_frame, text=item[key], bg_color="#3d3d3d").grid(row=row_idx, column=count, sticky="ew", padx=2, pady=2)
-                else:
-                    ctk.CTkCheckBox(self.scrollable_frame, text=item[key], bg_color="#3d3d3d").grid(row=row_idx, column=count, sticky="ew", padx=2, pady=2)
+    def _on_mousewheel(self, event):
+        if event.num == 4 or event.delta > 0:
+            self.canvas.yview_scroll(-1, "units")
+        elif event.num == 5 or event.delta < 0:
+            self.canvas.yview_scroll(1, "units")
+        self._update_view()
+
+    def _on_resize(self, event):
+        for row in self.rows:
+            self.canvas.itemconfig(row['obj_id'], width=event.width)
+        self._update_view()
+
+    def _scroll_sync(self, first, last):
+
+        self.scrollbar.set(first, last)
+        self._update_view()
+
+    def _get_data(self):
+        files = [file for file in self.data if not file['status']]
+        headers = self.header_frame._get_data()
+
+        return (files, headers)
+

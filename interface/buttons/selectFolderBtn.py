@@ -33,7 +33,7 @@ class SelectFolderBtn(ctk.CTkButton):
         for song in data:
                     metadata= utils.get_file_metadata(folder_path=self.folderPath, file_name=song['file'])
                     self.folderData.append({
-                        'filename': song['file'],
+                        'file': song['file'],
                         **metadata
                         })
         self.after(0, lambda:self.load_folder())

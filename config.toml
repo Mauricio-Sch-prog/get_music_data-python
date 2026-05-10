@@ -1,0 +1,18 @@
+# This is a comment - very helpful for users!
+
+[theme]
+# Primary Purple: Rich Royal Purple (Light) / Bright Amethyst (Dark)
+primary_color = ["#5D3FD3", "#9D81FF"]
+
+# Secondary Contrast: Soft Slate (Light) / Deep Charcoal (Dark)
+secondary_color = ["#EBEBEB", "#2B2B2B"]
+
+# Accent Color: Sharp Mint (Great for switches/toggles/highlights)
+accent_color = ["#00A86B", "#40FBAB"]
+
+# Backgrounds
+bg_color = ["#FFFFFF", "#1A1A1A"]
+
+
+[system]
+language = "en"

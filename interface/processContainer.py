@@ -3,9 +3,10 @@ from interface.buttons.closeFolderBtn import CloseFolderBtn
 from interface.buttons.getDataBtn import GetDataBtn
 from interface.buttons.applyChangesBtn import ApplyChangesBtn
 import customtkinter as ctk
+import threading
 import utils
 from getMusicData import getMusicData
-import threading
+from CTkMessagebox import CTkMessagebox
 
 class ProcessContainer(ctk.CTkFrame):
     def __init__(self, parent, folderPath, folderData, callback=None):
@@ -17,7 +18,7 @@ class ProcessContainer(ctk.CTkFrame):
         
         self.fileContainer = ListContainer(self,
                model={
-                   'filename' : {'optional' : False},
+                   'file' : {'optional' : False},
                    'title' : {'optional' : True},
                    'artist' : {'optional' : True},
                    'genre' : {'optional' : True},
@@ -25,11 +26,12 @@ class ProcessContainer(ctk.CTkFrame):
                    'date' : {'optional' : True},
                },
                 title=folderPath,
-                data=folderData      
+                data=folderData,
                                               )
         
         
         def process_folder_data():
+
             self.fileContainer.pack_forget()
             self.getDataBtn.pack_forget()
             self.closeFolderBtn.pack_forget()
@@ -37,10 +39,12 @@ class ProcessContainer(ctk.CTkFrame):
             thread.start()
         
         def run_logic():
-            result = getMusicData(folderData,self)
+            (data, headers) = self.fileContainer._get_data()
+            result = getMusicData(data,self)
             if len(result) != 0:
                 self.renderResultContainer(result=result, folderPath=folderPath)
             else:
+                CTkMessagebox(title="No files", message="No file changed", icon="cancel")
                 self.fileContainer.pack(fill="both", expand=True, padx=10, pady=10)
                 self.nextBtn.pack(anchor='center')
                 self.closeFolderBtn.pack(anchor='center')
@@ -56,9 +60,9 @@ class ProcessContainer(ctk.CTkFrame):
             return
             
     def renderResultContainer(self, result, folderPath):
-
-        model = utils.get_changed_files_model(result=result,options=self.fileContainer.get_list_data())
-                
+        (data, headers) = self.fileContainer._get_data()
+        model = utils.get_changed_files_model(result=result,options=headers)
+        print(model)
         self.resultContainer = ListContainer(self,
                     model,
                  title="Changed files",
@@ -67,8 +71,6 @@ class ProcessContainer(ctk.CTkFrame):
         
         self.resultContainer.pack(fill="both", expand=True, padx=10, pady=10)
         
-        for song in result:
-            self.resultContainer.add_file(song)
         
         def applyChanges():
             self.fileContainer.pack_forget()
@@ -78,7 +80,8 @@ class ProcessContainer(ctk.CTkFrame):
             thread.start()
             
         def applyChangesLogic():
-            utils.change_file_metadate(changed_files=result,folder_path=folderPath, options=self.fileContainer.get_list_data(), parent=self)
+            (data, headers) = self.fileContainer._get_data()
+            utils.change_file_metadate(changed_files=data,folder_path=folderPath, options=headers, parent=self)
             self.after(100, self.close_folder)
             
 
