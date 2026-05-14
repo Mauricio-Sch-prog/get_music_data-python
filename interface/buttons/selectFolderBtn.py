@@ -3,18 +3,23 @@ from customtkinter import filedialog
 import threading
 from CTkMessagebox import CTkMessagebox
 import utils
+from config import app_config
+from interface.widgets.icons import folder_icon
+
 
 class SelectFolderBtn(ctk.CTkButton):
     def __init__(self, parent, on_click_callback=None, **kwargs):
         self.callback = on_click_callback
-        super().__init__(parent, **kwargs)
+        super().__init__(parent, image=folder_icon)
         self.configure(
             text="Select a folder",
             command=self.start_loading,
             corner_radius=20,
-            bg_color="#200a38",
+            bg_color=app_config['theme']['secondary_color'][0],
+            fg_color=app_config['theme']['primary_color'][0],
+            hover_color=app_config['theme']['success_color'][0],
+            **kwargs
         )
-        self.pack(side="top", padx=30, pady=100)
 
     def start_loading(self):
         self.folderPath = filedialog.askdirectory(title="Select your Music Folder")

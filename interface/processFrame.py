@@ -1,4 +1,4 @@
-from interface.widgets.listContainer import ListContainer
+from interface.widgets.listFrame import ListContainer
 from interface.buttons.closeFolderBtn import CloseFolderBtn
 from interface.buttons.getDataBtn import GetDataBtn
 from interface.buttons.applyChangesBtn import ApplyChangesBtn
@@ -7,10 +7,15 @@ import threading
 import utils
 from getMusicData import getMusicData
 from CTkMessagebox import CTkMessagebox
+from config import app_config
 
 class ProcessContainer(ctk.CTkFrame):
     def __init__(self, parent, folderPath, folderData, callback=None):
-        super().__init__(parent, bg_color="#200a38", fg_color="#200a38")
+        super().__init__(parent)
+        self.configure(
+            bg_color=app_config['theme']['secondary_color'][0],
+            fg_color=app_config['theme']['secondary_color'][0],
+        )
         
         self.callback = callback
         self.pack(fill="both", expand=True, padx=10, pady=10)

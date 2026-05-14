@@ -1,6 +1,6 @@
 
 import customtkinter as ctk
-from interface.widgets.headers import Headers
+from interface.widgets.headersFrame import Headers
 from config import app_config
 
 class ListContainer(ctk.CTkFrame):
@@ -14,7 +14,7 @@ class ListContainer(ctk.CTkFrame):
         self.rows = []
         self.row_height = 35 
         self.visible_rows = 15 
-        self.buffer_rows = 5     
+        self.buffer_rows = 3     
         self.total_render = self.visible_rows + self.buffer_rows
         if len(self.data) < self.total_render:
             self.total_render = len(self.data)
@@ -24,7 +24,6 @@ class ListContainer(ctk.CTkFrame):
         ctk.CTkLabel(self, text=title, font=("Arial", 12, "bold")).pack(pady=5)
         
         self.header_frame = Headers(self,model=self.model_keys)
-        
 
         self.canvas = ctk.CTkCanvas(self, bg="#252525", highlightthickness=0)
         self.scrollbar = ctk.CTkScrollbar(self, orientation="vertical", command=self.canvas.yview)
@@ -62,7 +61,7 @@ class ListContainer(ctk.CTkFrame):
             if self.options.get('main') == key:
                 w = ctk.CTkCheckBox(frame, text="")
             else:
-                w = ctk.CTkLabel(frame, text="")
+                w = ctk.CTkLabel(frame, text="", compound="right")
             w.grid(row=0, column=i, padx=5)
             widgets['cells'].append(w)
             
@@ -85,10 +84,10 @@ class ListContainer(ctk.CTkFrame):
                     widget = row_widgets['cells'][cell_idx]
                     val = str(item.get(key, ""))
 
-                    if item['status']:
-                       widget.configure(bg_color=app_config['theme']['secondary_color'][0])
-                    else:
-                       widget.configure(bg_color=app_config['theme']['primary_color'][0])
+                    # if item['status']:
+                    #    widget.configure(bg_color=app_config['theme']['secondary_color'][0])
+                    # else:
+                    #    widget.configure(bg_color=app_config['theme']['primary_color'][0])
                     
                     if isinstance(widget, ctk.CTkCheckBox):
                         if item['status']:
@@ -132,6 +131,5 @@ class ListContainer(ctk.CTkFrame):
     def _get_data(self):
         files = [file for file in self.data if not file['status']]
         headers = self.header_frame._get_data()
-
         return (files, headers)
 

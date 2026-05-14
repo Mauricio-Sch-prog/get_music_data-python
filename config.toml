@@ -1,17 +1,9 @@
-# This is a comment - very helpful for users!
-
 [theme]
-# Primary Purple: Rich Royal Purple (Light) / Bright Amethyst (Dark)
-primary_color = ["#5D3FD3", "#9D81FF"]
-
-# Secondary Contrast: Soft Slate (Light) / Deep Charcoal (Dark)
-secondary_color = ["#EBEBEB", "#2B2B2B"]
-
-# Accent Color: Sharp Mint (Great for switches/toggles/highlights)
-accent_color = ["#00A86B", "#40FBAB"]
-
-# Backgrounds
-bg_color = ["#FFFFFF", "#1A1A1A"]
+primary_color = ["#7b5bf2","#6347d1"]
+secondary_color = ["#1b1d26","#ffffff"]
+accent_color = ["#242732","#f4f4f9"]
+text_color = ["#ffffff","#1a1a1b"]
+success_color = ["#2ecc71","#5236b8"]
 
 
 [system]
