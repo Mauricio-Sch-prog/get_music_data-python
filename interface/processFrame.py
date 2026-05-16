@@ -1,4 +1,4 @@
-from interface.widgets.listFrame import ListContainer
+from interface.widgets.listFrame import ListFrame
 from interface.buttons.closeFolderBtn import CloseFolderBtn
 from interface.buttons.getDataBtn import GetDataBtn
 from interface.buttons.applyChangesBtn import ApplyChangesBtn
@@ -13,15 +13,15 @@ class ProcessContainer(ctk.CTkFrame):
     def __init__(self, parent, folderPath, folderData, callback=None):
         super().__init__(parent)
         self.configure(
-            bg_color=app_config['theme']['secondary_color'][0],
-            fg_color=app_config['theme']['secondary_color'][0],
+            bg_color=app_config.get(section='theme', key='secondary_color'),
+            fg_color=app_config.get(section='theme', key='secondary_color'),
         )
         
         self.callback = callback
         self.pack(fill="both", expand=True, padx=10, pady=10)
         self.folderData=folderData
         
-        self.fileContainer = ListContainer(self,
+        self.fileContainer = ListFrame(self,
                model={
                    'file' : {'optional' : False},
                    'title' : {'optional' : True},
@@ -56,7 +56,9 @@ class ProcessContainer(ctk.CTkFrame):
         
         
         self.getDataBtn = GetDataBtn(self, command=process_folder_data)
+        self.getDataBtn.pack(anchor="center")
         self.closeFolderBtn = CloseFolderBtn(self, command=self.close_folder)
+        self.closeFolderBtn.pack(anchor="center")
         
             
     def close_folder(self):
@@ -67,8 +69,7 @@ class ProcessContainer(ctk.CTkFrame):
     def renderResultContainer(self, result, folderPath):
         (data, headers) = self.fileContainer._get_data()
         model = utils.get_changed_files_model(result=result,options=headers)
-        print(model)
-        self.resultContainer = ListContainer(self,
+        self.resultContainer = ListFrame(self,
                     model,
                  title="Changed files",
                  data=result,
@@ -91,4 +92,5 @@ class ProcessContainer(ctk.CTkFrame):
             
 
         self.applyChangesBtn = ApplyChangesBtn(self, command=applyChanges)
+        self.applyChangesBtn.pack(anchor='center')
         self.closeFolderBtn.pack(anchor='center')

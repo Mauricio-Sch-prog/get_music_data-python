@@ -15,9 +15,10 @@ class SelectFolderBtn(ctk.CTkButton):
             text="Select a folder",
             command=self.start_loading,
             corner_radius=20,
-            bg_color=app_config['theme']['secondary_color'][0],
-            fg_color=app_config['theme']['primary_color'][0],
-            hover_color=app_config['theme']['success_color'][0],
+            bg_color=app_config.get(section='theme', key='secondary_color'),
+            fg_color=app_config.get(section='theme', key='primary_color'),
+            hover_color=app_config.get(section='theme', key='success_color'),
+            text_color=app_config.get(section='theme', key='text_color'),
             **kwargs
         )
 

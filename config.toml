@@ -1,10 +1,20 @@
+data = "don'tremember"
+
 [theme]
-primary_color = ["#7b5bf2","#6347d1"]
-secondary_color = ["#1b1d26","#ffffff"]
-accent_color = ["#242732","#f4f4f9"]
-text_color = ["#ffffff","#1a1a1b"]
-success_color = ["#2ecc71","#5236b8"]
+primary_color = ["#6347d1","#7b5bf2"]
+secondary_color = ["#ffffff","#1b1d26"]
+accent_color = ["#f4f4f9","#242732"]
+text_color = ["#1a1a1b","#ffffff"]
+success_color = ["#5236b8","#2ecc71"]
+list_primary_color = "#252525"
+list_secondary_color = "#333333"
+
 
 
 [system]
 language = "en"
+system_theme = true
+theme = "dark"
+pre_set_theme = 'dark'
+api_batch_fetch = 34
+api_key = "undefined"

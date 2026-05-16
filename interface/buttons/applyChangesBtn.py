@@ -7,12 +7,12 @@ class ApplyChangesBtn(ctk.CTkButton):
         self.configure(
             command=command,
             text="Apply changes",
-            fg_color=app_config['theme']['secondary_color'][0],
-            bg_color=app_config['theme']['secondary_color'][0], 
+            fg_color=app_config.get(section='theme', key='secondary_color'),
+            bg_color=app_config.get(section='theme', key='secondary_color'),
+            text_color=app_config.get(section='theme', key='text_color'),
             border_width=2,
             corner_radius=5, 
             border_color="#0320fc", 
             hover_color="#0320fc",
             **kwargs,
         )
-        self.pack(anchor='center')

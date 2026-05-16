@@ -3,9 +3,9 @@ import customtkinter as ctk
 from interface.widgets.headersFrame import Headers
 from config import app_config
 
-class ListContainer(ctk.CTkFrame):
+class ListFrame(ctk.CTkFrame):
     def __init__(self, parent, model: dict, title, data, options={'main': False}):
-        super().__init__(parent, bg_color="#200a38")
+        super().__init__(parent)
         self.data = [item | {"status": False} for item in data]
         self.model_keys = {k: v for k, v in model.items() if v.get('optional') != 'Ignore'}
         self.options = options
@@ -25,7 +25,10 @@ class ListContainer(ctk.CTkFrame):
         
         self.header_frame = Headers(self,model=self.model_keys)
 
-        self.canvas = ctk.CTkCanvas(self, bg="#252525", highlightthickness=0)
+        self.canvas = ctk.CTkCanvas(
+            self, 
+            bg=app_config.get(section="theme", key='list_primary_color'), 
+            highlightthickness=0)
         self.scrollbar = ctk.CTkScrollbar(self, orientation="vertical", command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self._scroll_sync)
         
@@ -53,7 +56,12 @@ class ListContainer(ctk.CTkFrame):
         self.pack(fill="both", expand=True, padx=10, pady=10)
 
     def _create_row_widgets(self):
-        frame = ctk.CTkFrame(self.canvas, fg_color="#333333", corner_radius=0, height=self.row_height)
+        frame = ctk.CTkFrame(
+            self.canvas, 
+            fg_color=app_config.get(section="theme", key='list_secondary_color'), 
+            corner_radius=0, 
+            height=self.row_height
+            )
         widgets = {'frame': frame, 'cells': []}
         
         for i, key in enumerate(self.model_keys):
@@ -83,11 +91,6 @@ class ListContainer(ctk.CTkFrame):
                         
                     widget = row_widgets['cells'][cell_idx]
                     val = str(item.get(key, ""))
-
-                    # if item['status']:
-                    #    widget.configure(bg_color=app_config['theme']['secondary_color'][0])
-                    # else:
-                    #    widget.configure(bg_color=app_config['theme']['primary_color'][0])
                     
                     if isinstance(widget, ctk.CTkCheckBox):
                         if item['status']:

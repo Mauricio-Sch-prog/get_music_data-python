@@ -14,10 +14,11 @@ class ConfigBtn(ctk.CTkButton):
         self.configure(
             command=self._toggle_config,
             text=None,
-            fg_color=app_config['theme']['secondary_color'][0],
-            bg_color=app_config['theme']['secondary_color'][0],
+            fg_color=app_config.get(section='theme', key='secondary_color'),
+            bg_color=app_config.get(section='theme', key='secondary_color'),
+            text_color=app_config.get(section='theme', key='text_color'),
             corner_radius=5, 
-            hover_color=app_config['theme']['accent_color'][0],
+            hover_color=app_config.get(section='theme', key='accent_color'),
             width=40,
             height=40,
             anchor="center",
@@ -34,6 +35,7 @@ class ConfigBtn(ctk.CTkButton):
                     continue
                 widget.pack_forget()
             self.configFrame.pack(fill="both", expand=True, padx=10, pady=10)
+            self.configFrame.adjust()
         else:
             self.configFrame.pack_forget()
             self.load()

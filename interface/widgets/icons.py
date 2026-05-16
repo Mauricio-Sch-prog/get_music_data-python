@@ -37,3 +37,21 @@ arrow_down_icon = ctk.CTkImage(
     dark_image=Image.open(ICON_DIR / "arrow-big-down-dash-dark.png"),
     size=(24, 24),
 )
+
+x_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "x-light.png"),
+    dark_image=Image.open(ICON_DIR / "x-dark.png"),
+    size=(16, 16),
+)
+
+check_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "check-light.png"),
+    dark_image=Image.open(ICON_DIR / "check-dark.png"),
+    size=(16, 16),
+)
+
+theme_toggle_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "theme_toggle_off.png"),
+    dark_image=Image.open(ICON_DIR / "theme_toggle_on.png"),
+    size=(24, 24),
+)

@@ -8,11 +8,11 @@ class CloseFolderBtn(ctk.CTkButton):
         self.configure(
             command=command,
             text="Close folder",
-            fg_color=app_config['theme']['secondary_color'][0],
+            fg_color=app_config.get(section='theme', key='secondary_color'),
+            text_color=app_config.get(section='theme', key='text_color'),
             border_width=2,
             corner_radius=5, 
             border_color="#fc030b", 
             hover_color="#fc030b",
             **kwargs,
         )
-        self.pack(anchor='center')

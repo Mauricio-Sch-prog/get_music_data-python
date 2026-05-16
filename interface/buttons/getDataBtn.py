@@ -7,16 +7,16 @@ class GetDataBtn(ctk.CTkButton):
         self.configure(
             command=command,
             text="Get data",
-            fg_color=app_config['theme']['secondary_color'][0],
-            bg_color=app_config['theme']['secondary_color'][0], 
+            fg_color=app_config.get(section='theme', key='secondary_color'),
+            bg_color=app_config.get(section='theme', key='secondary_color'),
+            text_color=app_config.get(section='theme', key='text_color'),
             border_width=2,
             corner_radius=5, 
-            border_color=app_config['theme']['success_color'][0], 
-            hover_color=app_config['theme']['success_color'][0],
+            border_color=app_config.get(section='theme', key='success_color'), 
+            hover_color=app_config.get(section='theme', key='success_color'),
             anchor="center",
             # border_spacing=10,
             # compound="center",
             **kwargs
         )
-        self.pack(anchor='center')
 
