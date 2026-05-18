@@ -14,7 +14,7 @@ list_secondary_color = "#333333"
 [system]
 language = "en"
 system_theme = true
-theme = "dark"
+theme = "light"
 pre_set_theme = 'dark'
-api_batch_fetch = 34
-api_key = "undefined"
+api_batch_fetch = 8
+api_key = "AIzaSyDIWjFwVIbGHx24MKt2du9y0wb7_p0S5bw"

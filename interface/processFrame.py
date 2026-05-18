@@ -51,7 +51,7 @@ class ProcessContainer(ctk.CTkFrame):
             else:
                 CTkMessagebox(title="No files", message="No file changed", icon="cancel")
                 self.fileContainer.pack(fill="both", expand=True, padx=10, pady=10)
-                self.nextBtn.pack(anchor='center')
+                self.getDataBtn.pack(anchor='center')
                 self.closeFolderBtn.pack(anchor='center')
         
         
@@ -86,7 +86,7 @@ class ProcessContainer(ctk.CTkFrame):
             thread.start()
             
         def applyChangesLogic():
-            (data, headers) = self.fileContainer._get_data()
+            (data, headers) = self.resultContainer._get_data()
             utils.change_file_metadate(changed_files=data,folder_path=folderPath, options=headers, parent=self)
             self.after(100, self.close_folder)
             

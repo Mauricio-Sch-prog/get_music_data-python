@@ -13,7 +13,7 @@ class SelectFolderBtn(ctk.CTkButton):
         super().__init__(parent, image=folder_icon)
         self.configure(
             text="Select a folder",
-            command=self.start_loading,
+            command=self._start_loading,
             corner_radius=20,
             bg_color=app_config.get(section='theme', key='secondary_color'),
             fg_color=app_config.get(section='theme', key='primary_color'),
@@ -22,19 +22,22 @@ class SelectFolderBtn(ctk.CTkButton):
             **kwargs
         )
 
-    def start_loading(self):
+    def _start_loading(self):
         self.folderPath = filedialog.askdirectory(title="Select your Music Folder")
         self.configure(state="disabled")
         self.configure(text="Scanning files...")
 
-
-        thread = threading.Thread(target=self.read_folder, daemon=True)
+        thread = threading.Thread(target=self._read_folder, daemon=True)
         thread.start()
         return
     
-    def read_folder(self):
-        data = utils.get_folder_data(self.folderPath)
+    def _read_folder(self):
         self.folderData = []
+        if not self.folderPath:
+            return self._load_folder()
+
+
+        data = utils.get_folder_data(self.folderPath)
 
         for song in data:
                     metadata= utils.get_file_metadata(folder_path=self.folderPath, file_name=song['file'])
@@ -42,13 +45,24 @@ class SelectFolderBtn(ctk.CTkButton):
                         'file': song['file'],
                         **metadata
                         })
-        self.after(0, lambda:self.load_folder())
+        self.after(0, lambda:self._load_folder())
 
-    def load_folder(self):
+    def _load_folder(self):
         self.configure(state="normal")
         self.configure(text="Select a folder")
         if(self.folderData and self.callback):
             self.callback()
             return
-        CTkMessagebox(title="Error", message="Music folder not found!", icon="cancel")
+        
+        if not self.folderPath:
+            CTkMessagebox(
+                title="Folder not selected", 
+                message="No folder was selected", 
+                icon="cancel")
+        
+        else:
+             CTkMessagebox(
+                title="Error", 
+                message="Music folder not found!", 
+                icon="cancel")
         return

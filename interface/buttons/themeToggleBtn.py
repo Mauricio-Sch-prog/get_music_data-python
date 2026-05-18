@@ -9,7 +9,6 @@ class ThemeToggleBtn(ctk.CTkFrame):
             text="",
             image=theme_toggle_icon,
         )
-        self.icon.pack(side="left")
 
         self.callback = callback
 
@@ -24,9 +23,10 @@ class ThemeToggleBtn(ctk.CTkFrame):
             command=self._on_toggle
         )
 
-        if(self.switch_var.get() == 'Dark'):
+        if self.switch_var.get() == 'Dark':
             self.switch.select()
 
+        self.icon.pack(side="left")
         self.switch.pack(side="right")
 
 

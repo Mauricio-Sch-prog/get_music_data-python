@@ -6,22 +6,7 @@ import darkdetect
 CONFIG_PATH = "config.toml"
 
 
-def start_settings():
-    with open("config.toml", "r") as f:
-        config = tomlkit.parse(f.read())
-    
-    if config['system']['system_theme'] == True:
-        print("using system's theme")
-        theme = darkdetect.theme().lower()
-        
-    else:
-        theme = config["system"]["pre_set_theme"]
-    config["system"]["theme"] = theme
 
-    with open("config.toml", "w") as f:
-        f.write(tomlkit.dumps(config))
-
-    return
 
 
 class ConfigManager():
@@ -54,6 +39,16 @@ class ConfigManager():
         if key:
             return self._config.get(section, {}).get(key)
         return self._config.get(section)
+    
+
+    def adjust_system_theme(self):
+        if self.get(section="system", key="system_theme"):
+            theme = darkdetect.theme().lower()
+        else:
+            theme = self.get(section="system", key="theme")
+            
+        return theme
+
     
 app_config = ConfigManager()
 

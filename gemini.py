@@ -2,14 +2,12 @@ import os
 
 from google import genai
 from google.genai import types
-from dotenv import load_dotenv
-
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from google.api_core import exceptions
 from google.genai import errors
 
- 
-load_dotenv()
+from config import app_config
+
 
 
 
@@ -42,8 +40,8 @@ tool = types.Tool(function_declarations=[getSongsDetails])
 search_tool = types.Tool(google_search=types.GoogleSearch())
 
 sys_instr = ("You are a music metadata expert. For every filename provided, "
-                 "research the song to find its official title, artist, genre, album and release year(date) "
-                 "Do not skip any files.")
+                 "research the song to find its official title, artist, genre, album and release year"
+                 "Do not skip any files. do not return date as 0")
 
 
 
@@ -56,7 +54,7 @@ sys_instr = ("You are a music metadata expert. For every filename provided, "
 )
 
 def aiQuery(contents, **config_options):
-    client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+    client = genai.Client(api_key=app_config.get(section="system", key="api_key"))
     try:
         response = client.models.generate_content(
             model='gemini-2.5-flash',
