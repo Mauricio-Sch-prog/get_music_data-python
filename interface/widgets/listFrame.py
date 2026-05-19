@@ -93,7 +93,7 @@ class ListFrame(ctk.CTkFrame):
                     val = str(item.get(key, ""))
                     
                     if isinstance(widget, ctk.CTkCheckBox):
-                        if item['status']:
+                        if item.get('status', False):
                             widget.select()
                         else:
                             widget.deselect()
@@ -132,7 +132,8 @@ class ListFrame(ctk.CTkFrame):
         self._update_view()
 
     def _get_data(self):
-        files = [file for file in self.data if not file['status']]
+        data = self.data
+        files = [file for file in data if not file['status']]
         headers = self.header_frame._get_data()
         return (files, headers)
 

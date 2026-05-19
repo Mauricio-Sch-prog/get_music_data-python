@@ -53,8 +53,8 @@ sys_instr = ("You are a music metadata expert. For every filename provided, "
     reraise=True # Ensures the final failure still raises so you can catch it in the loop
 )
 
-def aiQuery(contents, **config_options):
-    client = genai.Client(api_key=app_config.get(section="system", key="api_key"))
+def aiQuery(contents, api_key = None, **config_options):
+    client = genai.Client(api_key = api_key)
     try:
         response = client.models.generate_content(
             model='gemini-2.5-flash',
@@ -73,7 +73,7 @@ def aiQuery(contents, **config_options):
         raise e
 
 
-def batchFetchData(musicList):
+def batchFetchData(musicList, api_key):
     
     filenames = [item['file'] for item in musicList]
     
@@ -81,13 +81,15 @@ def batchFetchData(musicList):
     
     research_response = aiQuery(
         f"Research the following music files and find their official title, artist, and genre: {formatted_list}",
-        tools = [search_tool]
+        api_key = api_key,
+        tools = [search_tool],
     )
     
     
     final_response = aiQuery(
         f"Based on this research: {research_response.text}. "
         f"Now, call get_songs_details for these specific files: {formatted_list}",
+        api_key = api_key,
         system_instruction=sys_instr,
             tools=[tool],
             tool_config=types.ToolConfig(

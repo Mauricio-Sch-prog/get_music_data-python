@@ -2,9 +2,11 @@ import customtkinter as ctk
 from config import app_config
 
 class TextInput(ctk.CTkFrame):
-    def __init__(self, master, text, placeholder, set = None, **kwargs):
+    def __init__(self, master, text = "", placeholder = None, set = None, **kwargs):
         super().__init__(
-            master=master,
+            master,
+            fg_color=app_config.get(section='theme', key='accent_color'),
+            bg_color=app_config.get(section='theme', key='accent_color'),
             **kwargs,
             )
         

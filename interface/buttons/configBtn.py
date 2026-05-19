@@ -10,7 +10,7 @@ class ConfigBtn(ctk.CTkButton):
                          )
         self.state = False
         self.load = load
-        self.configFrame = ConfigFrame(master)
+        self.config_frame = ConfigFrame(master)
         self.configure(
             command=self._toggle_config,
             text=None,
@@ -30,15 +30,12 @@ class ConfigBtn(ctk.CTkButton):
     def _toggle_config(self):
         self.state = not self.state
         if self.state:
-            for widget in self.master.winfo_children():
-                if widget == self:
-                    continue
-                widget.pack_forget()
-            self.configFrame.pack(fill="both", expand=True, padx=10, pady=10)
-            self.configFrame.adjust()
+
+            self.config_frame.place()
+            self.config_frame.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.9, relheight=0.9)
+            self.config_frame.lift()
         else:
-            self.configFrame.pack_forget()
-            self.load()
+            self.config_frame.place_forget()
 
 
 
