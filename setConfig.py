@@ -19,9 +19,8 @@ list_secondary_color = "#333333"
 language = "en"
 system_theme = true
 theme = "dark"
-pre_set_theme = 'dark'
-api_batch_fetch = 12
-api_key = "AIzaSyAUSlpO98ubEqlSma-W2emRjMHathAS2ac"
+api_batch_fetch = 10
+api_key = ""
 """
 
 def init_config():

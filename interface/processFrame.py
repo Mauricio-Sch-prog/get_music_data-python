@@ -20,7 +20,10 @@ class ProcessContainer(ctk.CTkFrame):
         self.callback = callback
         self.pack(fill="both", expand=True, padx=10, pady=10)
         self.folderData=folderData
+        self.load_folder_in_list(data = folderData, path = folderPath)
         
+
+    def load_folder_in_list(self, data, path):
         self.fileContainer = ListFrame(self,
                model={
                    'file' : {'optional' : False},
@@ -30,16 +33,13 @@ class ProcessContainer(ctk.CTkFrame):
                    'album' : {'optional' : True},
                    'date' : {'optional' : True},
                },
-                title=folderPath,
-                data=folderData,
+                title=path,
+                data=data,
                                               )
-        
-        
         def process_folder_data():
-
-            self.fileContainer.pack_forget()
-            self.getDataBtn.pack_forget()
-            self.closeFolderBtn.pack_forget()
+            self.fileContainer.grid_forget()
+            self.getDataBtn.grid_forget()
+            self.closeFolderBtn.grid_forget()
             thread = threading.Thread(target=run_logic)
             thread.start()
         
@@ -47,20 +47,25 @@ class ProcessContainer(ctk.CTkFrame):
             (data, headers) = self.fileContainer._get_data()
             result = getMusicData(data,self)
             if len(result) != 0:
-                self.renderResultContainer(result=result, folderPath=folderPath)
+                self.renderResultContainer(result=result, folderPath=path)
             else:
                 CTkMessagebox(title="No files", message="No file changed", icon="cancel")
-                self.fileContainer.pack(fill="both", expand=True, padx=10, pady=10)
-                self.getDataBtn.pack(anchor='center')
-                self.closeFolderBtn.pack(anchor='center')
+                render_grid()
         
+        def render_grid():
+            self.grid_columnconfigure(0, weight=1)
+            self.grid_columnconfigure(1, weight=1)
+            self.grid_rowconfigure(0, weight=1) 
+            self.grid_rowconfigure(1, weight=0)
+            self.fileContainer.grid(row=0, column=0,sticky="NSEW", columnspan=2)
+            self.getDataBtn.grid(row=1, column=1, sticky="NSEW", pady=5)
+            self.closeFolderBtn.grid(row=1, column=0, sticky="NSEW", pady=5)
         
         self.getDataBtn = GetDataBtn(self, command=process_folder_data)
-        self.getDataBtn.pack(anchor="center")
         self.closeFolderBtn = CloseFolderBtn(self, command=self.close_folder)
-        self.closeFolderBtn.pack(anchor="center")
-        
-            
+        render_grid()
+
+
     def close_folder(self):
             self.destroy()
             self.callback()
@@ -68,6 +73,7 @@ class ProcessContainer(ctk.CTkFrame):
             
     def renderResultContainer(self, result, folderPath):
         (data, headers) = self.fileContainer._get_data()
+        print(result)
         model = utils.get_changed_files_model(result=result,options=headers)
         self.resultContainer = ListFrame(self,
                     model,
@@ -75,12 +81,12 @@ class ProcessContainer(ctk.CTkFrame):
                  data=result,
                  options= {'main': 'id'})
         
-        self.resultContainer.pack(fill="both", expand=True, padx=10, pady=10)
         
         
         def applyChanges():
-            self.fileContainer.pack_forget()
-            self.applyChangesBtn.pack_forget()
+            self.fileContainer.grid_forget()
+            self.applyChangesBtn.grid_forget()
+            self.closeFolderBtn.grid_forget()
             
             thread = threading.Thread(target=applyChangesLogic)
             thread.start()
@@ -91,6 +97,9 @@ class ProcessContainer(ctk.CTkFrame):
             self.after(100, self.close_folder)
             
 
+
         self.applyChangesBtn = ApplyChangesBtn(self, command=applyChanges)
-        self.applyChangesBtn.pack(anchor='center')
-        self.closeFolderBtn.pack(anchor='center')
+
+        self.resultContainer.grid(row=0, column=0,sticky="NSEW", columnspan=2)
+        self.applyChangesBtn.grid(row=1, column=1, sticky="NSEW", pady=5)
+        self.closeFolderBtn.grid(row=1, column=0, sticky="NSEW", pady=5)

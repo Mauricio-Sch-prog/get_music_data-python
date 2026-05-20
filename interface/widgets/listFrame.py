@@ -53,7 +53,6 @@ class ListFrame(ctk.CTkFrame):
         self.canvas.bind("<Button-5>", self._on_mousewheel) 
         
         self._update_view()
-        self.pack(fill="both", expand=True, padx=10, pady=10)
 
     def _create_row_widgets(self):
         frame = ctk.CTkFrame(
@@ -68,9 +67,13 @@ class ListFrame(ctk.CTkFrame):
             frame.columnconfigure(i, weight=1, uniform="col")
             if self.options.get('main') == key:
                 w = ctk.CTkCheckBox(frame, text="")
+                w.grid(row=0, column=i, padx=5, sticky="w")
             else:
-                w = ctk.CTkLabel(frame, text="", compound="right")
-            w.grid(row=0, column=i, padx=5)
+                w = ctk.CTkLabel(frame, text="", compound="right", anchor="w")
+                w.grid(row=0, column=i, padx=5, sticky="ew")
+                w.bind("<Enter>", lambda event, label=w: self.show_tooltip(event, label))
+                w.bind("<Leave>", lambda event: self.hide_tooltip())
+
             widgets['cells'].append(w)
             
         return widgets
@@ -137,3 +140,33 @@ class ListFrame(ctk.CTkFrame):
         headers = self.header_frame._get_data()
         return (files, headers)
 
+
+    def show_tooltip(self, event, label):
+        text = label.cget("text")
+        if not text:
+            return
+            
+        self.hide_tooltip()
+        
+        self.tooltip = ctk.CTkToplevel(self)
+        self.tooltip.wm_overrideredirect(True)
+        
+        x = event.x_root + 15
+        y = event.y_root + 10
+        self.tooltip.wm_geometry(f"+{x}+{y}")
+     
+        tooltip_label = ctk.CTkLabel(
+            self.tooltip, 
+            text=text, 
+            fg_color=app_config.get(section="theme", key="secondary_color"), # Matches your UI
+            text_color=app_config.get(section="theme", key="text_color"),
+            corner_radius=4,
+            padx=6,
+            pady=4
+        )
+        tooltip_label.pack()
+
+    def hide_tooltip(self):
+        if hasattr(self, 'tooltip') and self.tooltip:
+            self.tooltip.destroy()
+            self.tooltip = None

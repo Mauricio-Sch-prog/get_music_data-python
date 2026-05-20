@@ -8,6 +8,4 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 if __name__ == "__main__":
     init_config()
-
-
     App()

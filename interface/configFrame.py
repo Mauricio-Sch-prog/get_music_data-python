@@ -5,7 +5,7 @@ from interface.buttons.applyChangesBtn import ApplyChangesBtn
 from interface.buttons.themeToggleBtn import ThemeToggleBtn
 from interface.buttons.switchBtn import SwitchBtn
 from interface.buttons.textInput import TextInput
-
+ 
 class ConfigFrame(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master, 
@@ -92,14 +92,13 @@ class ConfigFrame(ctk.CTkFrame):
         app_config.edit_system_config("api_batch_fetch", self.slider.get())
         app_config.edit_system_config("api_key", self.api_key_input.get())
         ctk.set_appearance_mode(app_config.adjust_system_theme())
-
-    def get(self):
-        return self.toggle_theme_btn.get()
-
-
-        
-
-
-
+        self.state = False
+        self.place_forget()
 
     
+    def adjust_buttons(self):
+        self.slider.slider.set(app_config.get(section="system", key="api_batch_fetch"))
+        self.slider._update_text(self.slider.slider_var)
+        self.api_key_input.input_var.set(app_config.get(section="system", key="api_key"))
+
+        return

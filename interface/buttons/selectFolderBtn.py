@@ -45,6 +45,9 @@ class SelectFolderBtn(ctk.CTkButton):
                         'file': song['file'],
                         **metadata
                         })
+                    
+        self.folderData.sort(key=lambda x: x['file'].lower())
+        
         self.after(0, lambda:self._load_folder())
 
     def _load_folder(self):

@@ -5,10 +5,6 @@ import darkdetect
 
 CONFIG_PATH = "config.toml"
 
-
-
-
-
 class ConfigManager():
     def __init__(self):
         self._config = self._load_settings()
@@ -46,9 +42,7 @@ class ConfigManager():
             theme = darkdetect.theme().lower()
         else:
             theme = self.get(section="system", key="theme")
-            
         return theme
 
     
 app_config = ConfigManager()
-

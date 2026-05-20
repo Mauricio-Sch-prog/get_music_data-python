@@ -37,6 +37,7 @@ class App():
             folderPath=self.selectBtn.folderPath,
             folderData=self.selectBtn.folderData, 
             callback=on_close_folder)
+        self.fileList.pack(fill="both", expand=True, padx=10, pady=10)
         print
 
 

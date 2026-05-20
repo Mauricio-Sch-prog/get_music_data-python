@@ -41,7 +41,8 @@ search_tool = types.Tool(google_search=types.GoogleSearch())
 
 sys_instr = ("You are a music metadata expert. For every filename provided, "
                  "research the song to find its official title, artist, genre, album and release year"
-                 "Do not skip any files. do not return date as 0")
+                 "Do not skip any files. do not return date as 0"
+                 "Do not fill genre with vague descriptions like 'music' or 'soundtrack'")
 
 
 

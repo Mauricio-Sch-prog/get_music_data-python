@@ -8,9 +8,9 @@ class ConfigBtn(ctk.CTkButton):
         super().__init__(master,
                          image=config_icon,
                          )
-        self.state = False
         self.load = load
         self.config_frame = ConfigFrame(master)
+        self.config_frame.state = False
         self.configure(
             command=self._toggle_config,
             text=None,
@@ -28,12 +28,12 @@ class ConfigBtn(ctk.CTkButton):
         )
 
     def _toggle_config(self):
-        self.state = not self.state
-        if self.state:
-
-            self.config_frame.place()
+        self.config_frame.state = not self.config_frame.state
+        if self.config_frame.state:
+            self.config_frame.adjust_buttons()
             self.config_frame.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.9, relheight=0.9)
             self.config_frame.lift()
+
         else:
             self.config_frame.place_forget()
 
