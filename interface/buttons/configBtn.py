@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from interface.configFrame import ConfigFrame
-from interface.widgets.icons import config_icon
-from config import app_config
+from interface.icons import config_icon
+from config.config import app_config
 
 class ConfigBtn(ctk.CTkButton):
     def __init__(self, master : ctk.CTk , load = None, **kwargs):

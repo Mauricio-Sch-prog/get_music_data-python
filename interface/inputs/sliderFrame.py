@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from config import app_config
+from config.config import app_config
 class Slider(ctk.CTkFrame):
     def __init__(self, master, text="", steps = 1, callback = None, range = [0, 100], set = 0, **kwargs):
         super().__init__(

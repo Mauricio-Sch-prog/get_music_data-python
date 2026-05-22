@@ -3,11 +3,14 @@ from interface.processFrame import ProcessContainer
 from interface.root import Root
 from interface.buttons.selectFolderBtn import SelectFolderBtn
 from interface.buttons.configBtn import ConfigBtn
+from config.laguageSettings import laguage_settings
+
+
+
 class App():
     def __init__(self):
         super().__init__()
-        
-
+        laguage_settings.set_app(self)
 
         self.root = Root()
         self.load = self._load_widgets

@@ -1,12 +1,12 @@
 import customtkinter as ctk
-from config import app_config
-from interface.widgets.icons import arrow_down_icon
+from config.config import app_config
+from interface.icons import arrow_down_icon
 class ApplyChangesBtn(ctk.CTkButton):
     def __init__(self, master , command= None, **kwargs):
         super().__init__(master, image=arrow_down_icon)
         self.configure(
             command=command,
-            text="Apply changes",
+            text=_("Apply changes"),
             fg_color=kwargs.get('fg_color', app_config.get(section='theme', key='secondary_color')),
             bg_color=kwargs.get('bg_color', app_config.get(section='theme', key='secondary_color')),
             text_color=app_config.get(section='theme', key='text_color'),

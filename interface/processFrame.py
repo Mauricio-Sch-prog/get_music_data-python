@@ -4,10 +4,10 @@ from interface.buttons.getDataBtn import GetDataBtn
 from interface.buttons.applyChangesBtn import ApplyChangesBtn
 import customtkinter as ctk
 import threading
-import utils
-from getMusicData import getMusicData
+import utils.utils as utils
+from utils.getMusicData import getMusicData
 from CTkMessagebox import CTkMessagebox
-from config import app_config
+from config.config import app_config
 
 class ProcessContainer(ctk.CTkFrame):
     def __init__(self, parent, folderPath, folderData, callback=None):
@@ -49,7 +49,7 @@ class ProcessContainer(ctk.CTkFrame):
             if len(result) != 0:
                 self.renderResultContainer(result=result, folderPath=path)
             else:
-                CTkMessagebox(title="No files", message="No file changed", icon="cancel")
+                CTkMessagebox(title=_("No files"), message=_("No file changed"), icon="cancel")
                 render_grid()
         
         def render_grid():
@@ -73,11 +73,10 @@ class ProcessContainer(ctk.CTkFrame):
             
     def renderResultContainer(self, result, folderPath):
         (data, headers) = self.fileContainer._get_data()
-        print(result)
         model = utils.get_changed_files_model(result=result,options=headers)
         self.resultContainer = ListFrame(self,
                     model,
-                 title="Changed files",
+                 title=_("Changed files"),
                  data=result,
                  options= {'main': 'id'})
         

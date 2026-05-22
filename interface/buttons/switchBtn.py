@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from config import app_config
+from config.config import app_config
 
 class SwitchBtn(ctk.CTkFrame):
     def __init__(self, master, text = "", callback = None, set = False, **kwargs):

@@ -1,10 +1,12 @@
 import customtkinter as ctk
-from config import app_config
-from interface.buttons.sliderFrame import Slider
+from config.config import app_config
+from config.laguageSettings import laguage_settings
 from interface.buttons.applyChangesBtn import ApplyChangesBtn
 from interface.buttons.themeToggleBtn import ThemeToggleBtn
 from interface.buttons.switchBtn import SwitchBtn
-from interface.buttons.textInput import TextInput
+from interface.inputs.textInput import TextInput
+from interface.inputs.sliderFrame import Slider
+from interface.inputs.optionsInput import OptionsInputFrame
  
 class ConfigFrame(ctk.CTkFrame):
     def __init__(self, master):
@@ -16,14 +18,14 @@ class ConfigFrame(ctk.CTkFrame):
 
         self.label = ctk.CTkLabel(
             self,
-            text="Config",
+            text=_("Config"),
             fg_color= app_config.get(section='theme', key='accent_color')
         )
 
-        self.slider_label = ctk.CTkLabel(self, text="Batch fetch per api request")
-        self.theme_label = ctk.CTkLabel(self, text="Theme")
-        self.system_theme_label = ctk.CTkLabel(self, text="Use system's theme")
-        self.api_key_label = ctk.CTkLabel(self, text="API KEY")
+        self.slider_label = ctk.CTkLabel(self, text=_("Batch fetch per api request"))
+        self.theme_label = ctk.CTkLabel(self, text=_("Theme"))
+        self.system_theme_label = ctk.CTkLabel(self, text=_("Use system's theme"))
+        self.api_key_label = ctk.CTkLabel(self, text=_("API KEY"))
 
 
         self.slider = Slider(
@@ -46,8 +48,15 @@ class ConfigFrame(ctk.CTkFrame):
 
         self.api_key_input = TextInput(
             master=self,
-            placeholder="Place here your gemini api key",
+            placeholder=_("Place here your gemini api key"),
             set=app_config.get(section="system", key="api_key")
+        )
+
+        self.laguage_select = OptionsInputFrame(
+            self,
+            options={"English" : "en", "Spanish" : "es"},
+            callback=self._on_laguage_change,
+            preset="English"
         )
 
 
@@ -75,18 +84,23 @@ class ConfigFrame(ctk.CTkFrame):
         self.api_key_label.grid(row=4, column=0, sticky="w", padx=10, pady=5)
         self.api_key_input.grid(row=4, column=1, sticky="w", padx=10, pady=5)
 
+        self.laguage_select.grid(row=4, column=1, sticky="w", padx=10, pady=5)
+
         self.apply_changes_btn.grid(row=5, column=0, columnspan=2, pady=15)
 
 
     def _toggle_theme(self):
         app_config.edit_system_config(key="theme", value=self.toggle_theme_btn.get())
         ctk.set_appearance_mode(app_config.adjust_system_theme())
-        # ctk.set_appearance_mode(self.toggle_theme_btn.get())
 
     def _switch_system_theme(self):
         app_config.edit_system_config(key="system_theme", value=self.system_theme_switch.get())
         ctk.set_appearance_mode(app_config.adjust_system_theme())
         
+    def _on_laguage_change(self, value):
+        print(value)
+        laguage_settings.change_laguage(value)
+        return
 
     def _apply_changes(self):
         app_config.edit_system_config("api_batch_fetch", self.slider.get())

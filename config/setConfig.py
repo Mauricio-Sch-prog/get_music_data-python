@@ -1,5 +1,6 @@
 from pathlib import Path
-from config import app_config
+from config.config import app_config
+from config.laguageSettings import laguage_settings
 
 CONFIG_FILE = Path("config.toml")
 
@@ -30,3 +31,4 @@ def init_config():
             f.write(DEFAULT_CONFIG) 
         print("Config file written and saved to disk.")
     app_config._reload()
+    laguage_settings.change_laguage()

@@ -1,10 +1,14 @@
+import sys
+from pathlib import Path
 import customtkinter as ctk
 from PIL import Image
-from pathlib import Path
 
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    BASE_DIR = Path(sys._MEIPASS)
+else:
+    BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent 
-ICON_DIR = BASE_DIR / "icons"
+ICON_DIR = BASE_DIR / "get_music_data-python" / "interface" / "icons"
 
 config_icon = ctk.CTkImage(
     light_image=Image.open(ICON_DIR / "settings-light.png"),

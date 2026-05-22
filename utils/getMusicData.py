@@ -1,9 +1,9 @@
-import gemini
+import utils.gemini as gemini
 from google.genai import errors
 import time
 from interface.widgets.progressBar import ProgressBar
 from tkinter import messagebox
-from config import app_config
+from config.config import app_config
 
 def getMusicData(songs: list, parent):
     songListData = []
@@ -21,27 +21,27 @@ def getMusicData(songs: list, parent):
     #     time.sleep(0.3)
     
     
-    for i in range(0, len(songs), batch_size):
-        fetch = songs[i : i + batch_size]
+    # for i in range(0, len(songs), batch_size):
+    #     fetch = songs[i : i + batch_size]
         
-        try:
-            editedFetch = gemini.batchFetchData(musicList= fetch, api_key = api_key)
-            if editedFetch:
-                for count, entry in enumerate(editedFetch, 1):
-                    entry['id'] = i + count
-                songListData.extend(editedFetch)
-        except errors.ServerError:
-            print("Model is overloaded. Skipping this batch or waiting longer...")
-            time.sleep(30)
-            continue
+    #     try:
+    #         editedFetch = gemini.batchFetchData(musicList= fetch, api_key = api_key)
+    #         if editedFetch:
+    #             for count, entry in enumerate(editedFetch, 1):
+    #                 entry['id'] = i + count
+    #             songListData.extend(editedFetch)
+    #     except errors.ServerError:
+    #         print("Model is overloaded. Skipping this batch or waiting longer...")
+    #         time.sleep(30)
+    #         continue
         
-        except Exception as e:
-            bar.destroy()
-            messagebox.showerror("Something went wrong", e)
-            return songListData
+    #     except Exception as e:
+    #         bar.destroy()
+    #         messagebox.showerror(_("Something went wrong"), e)
+    #         return songListData
     
-        bar.updateStatus((i + batch_size) / len(songs))
-        time.sleep(4)
+    #     bar.updateStatus((i + batch_size) / len(songs))
+    #     time.sleep(4)
         
     bar.destroy()
     return songListData

@@ -1,7 +1,7 @@
 
 import customtkinter as ctk
 from interface.widgets.headersFrame import Headers
-from config import app_config
+from config.config import app_config
 
 class ListFrame(ctk.CTkFrame):
     def __init__(self, parent, model: dict, title, data, options={'main': False}):

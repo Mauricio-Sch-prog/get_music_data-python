@@ -6,7 +6,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 from google.api_core import exceptions
 from google.genai import errors
 
-from config import app_config
+from config.config import app_config
 
 
 

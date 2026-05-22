@@ -1,7 +1,7 @@
 import customtkinter as ctk
-from config import app_config
-from interface.widgets.icons import check_icon
-from interface.widgets.icons import x_icon
+from config.config import app_config
+from interface.icons import check_icon
+from interface.icons import x_icon
 
 class Headers(ctk.CTkFrame):
     def __init__(self, master, model, **kwargs):

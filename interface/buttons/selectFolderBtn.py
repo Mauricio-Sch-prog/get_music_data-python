@@ -2,9 +2,9 @@ import customtkinter as ctk
 from customtkinter import filedialog
 import threading
 from CTkMessagebox import CTkMessagebox
-import utils
-from config import app_config
-from interface.widgets.icons import folder_icon
+import utils.utils as utils
+from config.config import app_config
+from interface.icons import folder_icon
 
 
 class SelectFolderBtn(ctk.CTkButton):
@@ -12,7 +12,7 @@ class SelectFolderBtn(ctk.CTkButton):
         self.callback = on_click_callback
         super().__init__(parent, image=folder_icon)
         self.configure(
-            text="Select a folder",
+            text=_("Select a folder"),
             command=self._start_loading,
             corner_radius=20,
             bg_color=app_config.get(section='theme', key='secondary_color'),
@@ -23,9 +23,9 @@ class SelectFolderBtn(ctk.CTkButton):
         )
 
     def _start_loading(self):
-        self.folderPath = filedialog.askdirectory(title="Select your Music Folder")
+        self.folderPath = filedialog.askdirectory(title=_("Select your Music Folder"))
         self.configure(state="disabled")
-        self.configure(text="Scanning files...")
+        self.configure(text=_("Scanning files..."))
 
         thread = threading.Thread(target=self._read_folder, daemon=True)
         thread.start()
@@ -47,25 +47,25 @@ class SelectFolderBtn(ctk.CTkButton):
                         })
                     
         self.folderData.sort(key=lambda x: x['file'].lower())
-        
+
         self.after(0, lambda:self._load_folder())
 
     def _load_folder(self):
         self.configure(state="normal")
-        self.configure(text="Select a folder")
+        self.configure(text=_("Select a folder"))
         if(self.folderData and self.callback):
             self.callback()
             return
         
         if not self.folderPath:
             CTkMessagebox(
-                title="Folder not selected", 
-                message="No folder was selected", 
+                title=_("Folder not selected"), 
+                message=_("No folder was selected"), 
                 icon="cancel")
         
         else:
              CTkMessagebox(
-                title="Error", 
-                message="Music folder not found!", 
+                title=_("Error"), 
+                message=_("Music folder not found!"), 
                 icon="cancel")
         return
