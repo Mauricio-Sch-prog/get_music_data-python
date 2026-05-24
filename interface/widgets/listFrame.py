@@ -21,7 +21,8 @@ class ListFrame(ctk.CTkFrame):
         
         self.content_height = len(self.data) * self.row_height
         
-        ctk.CTkLabel(self, text=title, font=("Arial", 12, "bold")).pack(pady=5)
+        self.title = ctk.CTkLabel(self, text=title, font=("Arial", 12, "bold"))
+        self.title.pack(pady=5)
         
         self.header_frame = Headers(self,model=self.model_keys)
 
@@ -173,4 +174,6 @@ class ListFrame(ctk.CTkFrame):
 
 
     def update_gui(self):
+        print("updating headers")
+        self.header_frame.update_gui()
         return

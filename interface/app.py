@@ -56,4 +56,5 @@ class App():
     def update_gui(self):
         self.selectBtn.update_gui()
         if self.fileList:
+            print("updating list gui")
             self.fileList.update_gui()

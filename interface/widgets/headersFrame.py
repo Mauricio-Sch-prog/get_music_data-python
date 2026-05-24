@@ -16,7 +16,8 @@ class Headers(ctk.CTkFrame):
         self.primaryColor = app_config.get(section='theme', key='list_primary_color')
         self.secondaryColor = app_config.get(section='theme', key='secondary_color')
         self.hoverColor = app_config.get(section='theme', key='accent_color')
-
+        self._get_header_text()
+        
         for i, (key, value) in enumerate(model.items()):
             self.data[key] = False
             self.columnconfigure(i, weight=1, uniform="col")
@@ -28,16 +29,17 @@ class Headers(ctk.CTkFrame):
                 bg_color=self.primaryColor, 
                 corner_radius=0,
             )
+            frame.key = key
 
-            image = ctk.CTkLabel(
+            frame.image_display = ctk.CTkLabel(
                 frame,    
                 text="",
                 image=check_icon if value['optional'] else None,
                 )
             
-            label = ctk.CTkLabel(
+            frame.label_display = ctk.CTkLabel(
                 frame, 
-                text=key.capitalize(),
+                text=self.header_text[key].capitalize(),
                 )
             
             
@@ -45,7 +47,7 @@ class Headers(ctk.CTkFrame):
             
 
             if value['optional']:   
-                image.pack(side="left", expand=True, anchor="e", padx=(0, 8))
+                frame.image_display.pack(side="left", expand=True, anchor="e", padx=(0, 8))
                 frame.hover_color = "#411313"
                 frame.color = self.primaryColor
 
@@ -66,7 +68,7 @@ class Headers(ctk.CTkFrame):
                 def _on_leave(event, b=frame):
                     b.configure(fg_color=b.color)
 
-                def _on_click(event, b=frame, c=image):
+                def _on_click(event, b=frame, c=frame.image_display):
                     if hasattr(b, 'command') and callable(b.command):
                         b.command(frame=b, image=c) 
                 
@@ -75,22 +77,40 @@ class Headers(ctk.CTkFrame):
                 frame.bind("<Button-1>", _on_click)
                 frame.configure(cursor="hand2")
                 
-                image.bind("<Enter>", _on_enter)
-                image.bind("<Leave>", _on_leave)
-                image.bind("<Button-1>", _on_click)
-                image.configure(cursor="hand2")
+                frame.image_display.bind("<Enter>", _on_enter)
+                frame.image_display.bind("<Leave>", _on_leave)
+                frame.image_display.bind("<Button-1>", _on_click)
+                frame.image_display.configure(cursor="hand2")
                 
-                label.bind("<Enter>", _on_enter)
-                label.bind("<Leave>", _on_leave)
-                label.bind("<Button-1>", _on_click)
-                label.configure(cursor="hand2")
+                frame.label_display.bind("<Enter>", _on_enter)
+                frame.label_display.bind("<Leave>", _on_leave)
+                frame.label_display.bind("<Button-1>", _on_click)
+                frame.label_display.configure(cursor="hand2")
                 
-            label.pack(
+            frame.label_display.pack(
                 side="left" if value['optional'] else None, 
                 expand=True, 
                 anchor="w" if value['optional'] else None)
             frame.grid(row=0, column=i, sticky="NSEW")
             
+
+    def _get_header_text(self):
+        self.header_text = {
+            'id' : 'id', 
+            'file' : _('file'), 
+            'title' : _('title'), 
+            'artist' : _('artist'), 
+            'genre' : _('genre'), 
+            'album' : _('album'), 
+            'date' : _('date')
+        }
         
     def _get_data(self):
         return self.data
+    
+    def update_gui(self):
+        self._get_header_text()
+
+        for widget in self.winfo_children():
+            print(widget.key)
+            widget.label_display.configure(text = self.header_text[widget.key].capitalize())

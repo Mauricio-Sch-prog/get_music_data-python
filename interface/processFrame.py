@@ -18,8 +18,9 @@ class ProcessContainer(ctk.CTkFrame):
         )
         
         self.callback = callback
-        self.pack(fill="both", expand=True, padx=10, pady=10)
         self.folderData=folderData
+        self.resultContainer = None
+
         self.load_folder_in_list(data = folderData, path = folderPath)
         
 
@@ -104,6 +105,11 @@ class ProcessContainer(ctk.CTkFrame):
         self.closeFolderBtn.grid(row=1, column=0, sticky="NSEW", pady=5)
 
     def update_gui(self):
+        print(1)
         self.getDataBtn.update_gui()
         self.closeFolderBtn.update_gui()
+        self.fileContainer.update_gui()
+        if self.resultContainer:
+            self.resultContainer.update_gui()
+            self.resultContainer.title.configure(text=_("Changed files"))
         return
