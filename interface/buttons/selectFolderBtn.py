@@ -69,3 +69,6 @@ class SelectFolderBtn(ctk.CTkButton):
                 message=_("Music folder not found!"), 
                 icon="cancel")
         return
+    
+    def update_gui(self):
+        self.configure(text=_("Select a folder"))

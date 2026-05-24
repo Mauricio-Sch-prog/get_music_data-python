@@ -13,7 +13,6 @@ class App():
         laguage_settings.set_app(self)
 
         self.root = Root()
-        self.load = self._load_widgets
         self.selectBtn = SelectFolderBtn(
             self.root,
             on_click_callback=self.load_folder
@@ -23,6 +22,7 @@ class App():
             self.root,
             load=self._load_widgets
         )
+        self.fileList = None
 
         self.root.bind("WM_DELETE_WINDOW", self.on_closing)
 
@@ -33,6 +33,7 @@ class App():
     def load_folder(self):
         def on_close_folder():
             self.selectBtn.pack(side="top", padx=30, pady=100)
+            self.fileList = None
         
         self.selectBtn.pack_forget()
         self.fileList = ProcessContainer(
@@ -41,7 +42,6 @@ class App():
             folderData=self.selectBtn.folderData, 
             callback=on_close_folder)
         self.fileList.pack(fill="both", expand=True, padx=10, pady=10)
-        print
 
 
 
@@ -52,3 +52,8 @@ class App():
 
     def on_closing(self):
         self.root.destroy()
+
+    def update_gui(self):
+        self.selectBtn.update_gui()
+        if self.fileList:
+            self.fileList.update_gui()

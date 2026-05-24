@@ -54,9 +54,12 @@ class ConfigFrame(ctk.CTkFrame):
 
         self.laguage_select = OptionsInputFrame(
             self,
-            options={"English" : "en", "Spanish" : "es"},
+            options={
+                "en" : "English", 
+                "es" : "Spanish",
+                },
             callback=self._on_laguage_change,
-            preset="English"
+            preset=app_config.get(section="system", key="language")
         )
 
 
@@ -88,6 +91,8 @@ class ConfigFrame(ctk.CTkFrame):
 
         self.apply_changes_btn.grid(row=5, column=0, columnspan=2, pady=15)
 
+        self.bind("<Unmap>", self.adjust_buttons)
+
 
     def _toggle_theme(self):
         app_config.edit_system_config(key="theme", value=self.toggle_theme_btn.get())
@@ -98,21 +103,33 @@ class ConfigFrame(ctk.CTkFrame):
         ctk.set_appearance_mode(app_config.adjust_system_theme())
         
     def _on_laguage_change(self, value):
-        print(value)
         laguage_settings.change_laguage(value)
+        self.update_gui()
         return
 
     def _apply_changes(self):
         app_config.edit_system_config("api_batch_fetch", self.slider.get())
         app_config.edit_system_config("api_key", self.api_key_input.get())
+        app_config.edit_system_config("language", self.laguage_select.get())
         ctk.set_appearance_mode(app_config.adjust_system_theme())
         self.state = False
         self.place_forget()
 
     
-    def adjust_buttons(self):
+    def adjust_buttons(self, event = None):
         self.slider.slider.set(app_config.get(section="system", key="api_batch_fetch"))
         self.slider._update_text(self.slider.slider_var)
         self.api_key_input.input_var.set(app_config.get(section="system", key="api_key"))
+        self.laguage_select.set(app_config.get(section="system", key="language"))
+        self._on_laguage_change(app_config.get(section="system", key="language"))
 
         return
+    
+    def update_gui(self):
+        self.label.configure(text=_("Config"))
+        self.slider_label.configure(text=_("Batch fetch per api request"))
+        self.theme_label.configure(text=_("Theme"))
+        self.system_theme_label.configure(text=_("Use system's theme"))
+        self.api_key_label.configure(text=_("API KEY"))
+        self.api_key_input.input.configure(placeholder_text=_("Place here your gemini api key"))
+        self.apply_changes_btn.update_gui()

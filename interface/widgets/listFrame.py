@@ -170,3 +170,7 @@ class ListFrame(ctk.CTkFrame):
         if hasattr(self, 'tooltip') and self.tooltip:
             self.tooltip.destroy()
             self.tooltip = None
+
+
+    def update_gui(self):
+        return

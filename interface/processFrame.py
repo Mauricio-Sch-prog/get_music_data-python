@@ -102,3 +102,8 @@ class ProcessContainer(ctk.CTkFrame):
         self.resultContainer.grid(row=0, column=0,sticky="NSEW", columnspan=2)
         self.applyChangesBtn.grid(row=1, column=1, sticky="NSEW", pady=5)
         self.closeFolderBtn.grid(row=1, column=0, sticky="NSEW", pady=5)
+
+    def update_gui(self):
+        self.getDataBtn.update_gui()
+        self.closeFolderBtn.update_gui()
+        return

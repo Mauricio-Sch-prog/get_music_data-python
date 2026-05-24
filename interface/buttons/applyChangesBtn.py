@@ -15,3 +15,6 @@ class ApplyChangesBtn(ctk.CTkButton):
             border_color="#0320fc", 
             hover_color="#0320fc",
         )
+
+    def update_gui(self):
+        self.configure(text=_("Apply changes"))

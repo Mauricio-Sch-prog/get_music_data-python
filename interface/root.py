@@ -11,8 +11,4 @@ class Root(ctk.CTk):
         self.geometry("800x600")
         self.configure(fg_color=app_config.get(section='theme', key='secondary_color'))
 
-
-    def print(self):
-        print(_("laguage test"))
-        self.update_idletasks()
         

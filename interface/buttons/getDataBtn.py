@@ -18,3 +18,6 @@ class GetDataBtn(ctk.CTkButton):
             **kwargs
         )
 
+    def update_gui(self):
+        self.configure(text=_("Get data"))
+

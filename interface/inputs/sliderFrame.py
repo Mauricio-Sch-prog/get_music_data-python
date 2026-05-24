@@ -44,3 +44,4 @@ class Slider(ctk.CTkFrame):
     
     def get(self):
         return int(self.slider_var.get())
+    

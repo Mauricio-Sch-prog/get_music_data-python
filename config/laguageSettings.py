@@ -18,7 +18,6 @@ class LaguageSettingsManager():
 
     def change_laguage(self, laguage = None):
         lang_code = laguage if laguage else app_config.get(section="system", key="language")
-        print(f"setting app laguage to {lang_code}")
         
         es_translations = gettext.translation(
             'base', 
@@ -36,6 +35,6 @@ class LaguageSettingsManager():
         self.app = app
     
     def _update_ui(self):
-        self.app.root.print()
+        self.app.update_gui()
 
 laguage_settings = LaguageSettingsManager()

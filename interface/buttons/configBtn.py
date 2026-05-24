@@ -30,7 +30,6 @@ class ConfigBtn(ctk.CTkButton):
     def _toggle_config(self):
         self.config_frame.state = not self.config_frame.state
         if self.config_frame.state:
-            self.config_frame.adjust_buttons()
             self.config_frame.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.9, relheight=0.9)
             self.config_frame.lift()
 

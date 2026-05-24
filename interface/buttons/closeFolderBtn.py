@@ -16,3 +16,6 @@ class CloseFolderBtn(ctk.CTkButton):
             hover_color="#fc030b",
             **kwargs,
         )
+
+    def update_gui(self):
+        self.configure(text=_("Close folder"))
