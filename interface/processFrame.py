@@ -5,111 +5,58 @@ from interface.buttons.applyChangesBtn import ApplyChangesBtn
 import customtkinter as ctk
 import threading
 import utils.utils as utils
-from utils.getMusicData import getMusicData
+from utils.getMusicData import get_music_data
 from CTkMessagebox import CTkMessagebox
 from config.config import app_config
+from interface.widgets.folderList import FolderList
+from interface.widgets.resultList import ResultList
 
 class ProcessContainer(ctk.CTkFrame):
-    def __init__(self, parent, folderPath, folderData, callback=None):
+    def __init__(self, parent, folderPath, close_callback=None):
         super().__init__(parent)
         self.configure(
             bg_color=app_config.get(section='theme', key='secondary_color'),
             fg_color=app_config.get(section='theme', key='secondary_color'),
         )
         
-        self.callback = callback
-        self.folderData=folderData
-        self.resultContainer = None
+        self.close_callback = close_callback
+        self.result_list = None
 
-        self.load_folder_in_list(data = folderData, path = folderPath)
+        self._load_folder_list(path = folderPath)
         
 
-    def load_folder_in_list(self, data, path):
-        self.fileContainer = ListFrame(self,
-               model={
-                   'file' : {'optional' : False},
-                   'title' : {'optional' : True},
-                   'artist' : {'optional' : True},
-                   'genre' : {'optional' : True},
-                   'album' : {'optional' : True},
-                   'date' : {'optional' : True},
-               },
-                title=path,
-                data=data,
-                                              )
-        def process_folder_data():
-            self.fileContainer.grid_forget()
-            self.getDataBtn.grid_forget()
-            self.closeFolderBtn.grid_forget()
-            thread = threading.Thread(target=run_logic)
-            thread.start()
-        
-        def run_logic():
-            (data, headers) = self.fileContainer._get_data()
-            result = getMusicData(data,self)
-            if len(result) != 0:
-                self.renderResultContainer(result=result, folderPath=path)
-            else:
-                CTkMessagebox(title=_("No files"), message=_("No file changed"), icon="cancel")
-                render_grid()
-        
-        def render_grid():
-            self.grid_columnconfigure(0, weight=1)
-            self.grid_columnconfigure(1, weight=1)
-            self.grid_rowconfigure(0, weight=1) 
-            self.grid_rowconfigure(1, weight=0)
-            self.fileContainer.grid(row=0, column=0,sticky="NSEW", columnspan=2)
-            self.getDataBtn.grid(row=1, column=1, sticky="NSEW", pady=5)
-            self.closeFolderBtn.grid(row=1, column=0, sticky="NSEW", pady=5)
-        
-        self.getDataBtn = GetDataBtn(self, command=process_folder_data)
-        self.closeFolderBtn = CloseFolderBtn(self, command=self.close_folder)
-        render_grid()
+    def _load_folder_list(self, path):
+        self.folder_list = FolderList(
+            self,
+            folderpath=path,
+            close_callback=self._close_process,
+            callback=self._load_result_list
+        )
+        self.folder_list.pack(fill="both", expand=True, padx=10, pady=10)
+
+            
+    def _load_result_list(self, result, folderpath, options):
+        self.folder_list.pack_forget()
+        self.result_list = ResultList(
+            self,
+            data=result,
+            folderpath=folderpath,
+            options=options,
+            close_callback=self._close_process,
+        )
+
+        self.result_list.pack(fill="both", expand=True, padx=10, pady=10)
 
 
-    def close_folder(self):
+    def _close_process(self):
             self.destroy()
-            self.callback()
+            self.close_callback()
             return
-            
-    def renderResultContainer(self, result, folderPath):
-        (data, headers) = self.fileContainer._get_data()
-        model = utils.get_changed_files_model(result=result,options=headers)
-        self.resultContainer = ListFrame(self,
-                    model,
-                 title=_("Changed files"),
-                 data=result,
-                 options= {'main': 'id'})
-        
-        
-        
-        def applyChanges():
-            self.fileContainer.grid_forget()
-            self.applyChangesBtn.grid_forget()
-            self.closeFolderBtn.grid_forget()
-            
-            thread = threading.Thread(target=applyChangesLogic)
-            thread.start()
-            
-        def applyChangesLogic():
-            (data, headers) = self.resultContainer._get_data()
-            utils.change_file_metadate(changed_files=data,folder_path=folderPath, options=headers, parent=self)
-            self.after(100, self.close_folder)
-            
-
-
-        self.applyChangesBtn = ApplyChangesBtn(self, command=applyChanges)
-
-        self.resultContainer.grid(row=0, column=0,sticky="NSEW", columnspan=2)
-        self.applyChangesBtn.grid(row=1, column=1, sticky="NSEW", pady=5)
-        self.closeFolderBtn.grid(row=1, column=0, sticky="NSEW", pady=5)
+    
 
     def update_gui(self):
-        print(1)
-        self.getDataBtn.update_gui()
-        self.closeFolderBtn.update_gui()
-        self.fileContainer.update_gui()
-        if self.resultContainer:
-            self.resultContainer.update_gui()
-            self.resultContainer.title.configure(text=_("Changed files"))
+        self.folder_list.update_gui()
+        if self.result_list:
+            self.result_list.update_gui()
+            self.result_list.title.configure(text=_("Changed files"))
         return

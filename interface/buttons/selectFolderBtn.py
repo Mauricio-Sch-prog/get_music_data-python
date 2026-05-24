@@ -32,21 +32,10 @@ class SelectFolderBtn(ctk.CTkButton):
         return
     
     def _read_folder(self):
-        self.folderData = []
+        self.folderData = None
         if not self.folderPath:
             return self._load_folder()
-
-
-        data = utils.get_folder_data(self.folderPath)
-
-        for song in data:
-                    metadata= utils.get_file_metadata(folder_path=self.folderPath, file_name=song['file'])
-                    self.folderData.append({
-                        'file': song['file'],
-                        **metadata
-                        })
-                    
-        self.folderData.sort(key=lambda x: x['file'].lower())
+        self.folderData = utils.get_folder_data(self.folderPath)
 
         self.after(0, lambda:self._load_folder())
 

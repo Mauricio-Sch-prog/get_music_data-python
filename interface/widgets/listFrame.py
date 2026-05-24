@@ -4,11 +4,11 @@ from interface.widgets.headersFrame import Headers
 from config.config import app_config
 
 class ListFrame(ctk.CTkFrame):
-    def __init__(self, parent, model: dict, title, data, options={'main': False}):
+    def __init__(self, parent, model: dict, title, data, custom={'main': False}):
         super().__init__(parent)
         self.data = [item | {"status": False} for item in data]
         self.model_keys = {k: v for k, v in model.items() if v.get('optional') != 'Ignore'}
-        self.options = options
+        self.custom = custom
         
         
         self.rows = []
@@ -66,7 +66,7 @@ class ListFrame(ctk.CTkFrame):
         
         for i, key in enumerate(self.model_keys):
             frame.columnconfigure(i, weight=1, uniform="col")
-            if self.options.get('main') == key:
+            if self.custom.get('main') == key:
                 w = ctk.CTkCheckBox(frame, text="")
                 w.grid(row=0, column=i, padx=5, sticky="w")
             else:
