@@ -6,6 +6,6 @@ class ProgressBar(ctk.CTkProgressBar):
         
         self.set(0)
         
-    def updateStatus(self, progress):
+    def update_status(self, progress):
         self.after(0, lambda: self.set(progress))
         self.update_idletasks()

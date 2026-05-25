@@ -4,6 +4,7 @@ from interface.root import Root
 from interface.buttons.selectFolderBtn import SelectFolderBtn
 from interface.buttons.configBtn import ConfigBtn
 from config.laguageSettings import laguage_settings
+import sys
 
 
 
@@ -39,7 +40,7 @@ class App():
         self.fileList = ProcessContainer(
             parent=self.root, 
             folderPath=self.selectBtn.folderPath,
-            callback=on_close_folder)
+            close_callback=on_close_folder)
         self.fileList.pack(fill="both", expand=True, padx=10, pady=10)
 
 
@@ -51,6 +52,11 @@ class App():
 
     def on_closing(self):
         self.root.destroy()
+        if hasattr(laguage_settings, 'set_app'):
+            laguage_settings.set_app(None)
+        self.root.quit()     # Stops mainloop
+        self.root.destroy()  # Destroys widgets
+        sys.exit(0)
 
     def update_gui(self):
         self.selectBtn.update_gui()

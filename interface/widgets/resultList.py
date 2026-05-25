@@ -75,6 +75,7 @@ class ResultList(ctk.CTkFrame):
         self.apply_changes_btn.grid(row=1, column=1, sticky="NSEW", pady=5)
 
     def update_gui(self):
+        self.list.title.configure(text=_("Changed files"))
         self.list.update_gui()
         self.close_folder_btn.update_gui()
         self.apply_changes_btn.update_gui()

@@ -25,34 +25,35 @@ def get_folder_data(path):
                 
 
 def get_file_metadata(folder_path, file_name):
+    # Use Path object joining correctly
+    file_path = Path(folder_path) / file_name
+    
+    # Initialize default dictionary
+    default_metadata = {
+        'artist': "Unknown",
+        'album': "Unknown",
+        'genre': "Unknown",
+        'title': "Unknown",
+        'date': "Unknown",
+    }
 
-    file_path = Path(F'{folder_path}/{file_name}')
     if file_path.exists():
         try:
-            audio = EasyID3(file_path)
-    
-            return {
-                'artist': audio.get('artist', ['Unknown'])[0],
-                'album': audio.get('album', ['Unknown'])[0],
-                'genre': audio.get('genre', ['Unknown'])[0],
-                'title': audio.get('title', ['Unknown'])[0],
-                'date' : audio.get('date', ['Unknown'])[0],
-            }
-            
-            
+            with open(file_path, 'rb') as f:
+                audio = EasyID3(f)
+        
+                return {
+                    'artist': audio.get('artist', ['Unknown'])[0],
+                    'album': audio.get('album', ['Unknown'])[0],
+                    'genre': audio.get('genre', ['Unknown'])[0],
+                    'title': audio.get('title', ['Unknown'])[0],
+                    'date': audio.get('date', ['Unknown'])[0],
+                }
         except Exception:
-            return {
-                'artist': "Unknown",
-                'album': "Unknown",
-                'genre': "Unknown",
-                'title': "Unknown",
-                'date' : "Unknown",
-            }
-        
+            return default_metadata
     else:
-        print("File not found.")
-        
-    return
+        print(f"File not found: {file_path}")
+        return default_metadata
 
 
 def change_file_metadate(folderpath, changed_files, parent, options = False):

@@ -1,12 +1,4 @@
-from interface.widgets.listFrame import ListFrame
-from interface.buttons.closeFolderBtn import CloseFolderBtn
-from interface.buttons.getDataBtn import GetDataBtn
-from interface.buttons.applyChangesBtn import ApplyChangesBtn
 import customtkinter as ctk
-import threading
-import utils.utils as utils
-from utils.getMusicData import get_music_data
-from CTkMessagebox import CTkMessagebox
 from config.config import app_config
 from interface.widgets.folderList import FolderList
 from interface.widgets.resultList import ResultList
@@ -58,5 +50,4 @@ class ProcessContainer(ctk.CTkFrame):
         self.folder_list.update_gui()
         if self.result_list:
             self.result_list.update_gui()
-            self.result_list.title.configure(text=_("Changed files"))
         return
