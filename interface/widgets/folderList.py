@@ -3,6 +3,7 @@ import threading
 
 from utils import utils
 from utils.getMusicData import get_music_data
+from utils.folderDataManager import folder_manager
 
 from CTkMessagebox import CTkMessagebox
 from interface.widgets.listFrame import ListFrame
@@ -26,16 +27,7 @@ class FolderList(ctk.CTkFrame):
         thread.start()
 
     def _get_folderpath_data(self):
-        local_data = []
-        data = utils.get_folder_data(self.folderpath)
-
-        for song in data:
-            metadata = utils.get_file_metadata(folder_path=self.folderpath, file_name=song['file'])
-            local_data.append({
-                'file': song['file'],
-                **metadata
-            })
-                    
+        local_data = folder_manager.get_folder_data(self.folderpath)
         local_data.sort(key=lambda x: x['file'].lower())
         self.folderData = local_data
 
@@ -87,7 +79,8 @@ class FolderList(ctk.CTkFrame):
             master= self,
             process= get_music_data,
             on_complete_callback=on_complete,
-            songs = data
+            songs = data,
+            folderpath = self.folderpath,
         )
         result.pack(fill="both", expand=True, padx=10, pady=10)
 

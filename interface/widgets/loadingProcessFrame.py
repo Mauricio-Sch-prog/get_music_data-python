@@ -62,6 +62,7 @@ class LoadingProcessFrame(ctk.CTkFrame):
             self,
             process_result=result,
             resume_callback=self._handle_completion,
+            folderpath = self.process_params["folderpath"]
         )
 
         self.manager.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.9, relheight=0.9)

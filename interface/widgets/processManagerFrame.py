@@ -8,11 +8,12 @@ from interface.icons import repeat_icon
 from config.data import app_data
 
 class ProcessManagerFrame(ctk.CTkFrame):
-    def __init__(self, master, process_result, resume_callback, ):
+    def __init__(self, master, process_result, resume_callback, folderpath ):
         super().__init__(
             master=master
         )
 
+        self.folderpath = folderpath
         self.process_result = process_result
         self.resume_callback = resume_callback
         
@@ -65,6 +66,7 @@ class ProcessManagerFrame(ctk.CTkFrame):
             key="unchanged_processes",
             value={
                 "id" : id.isoformat(),
+                "folderpath" : self.folderpath,
                 "songs" : self.process_result["songs"],
                 "progress" : self.process_result["progress"],
                 "data" : self.process_result["data"],
