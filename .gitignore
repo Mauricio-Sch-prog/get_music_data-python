@@ -2,5 +2,6 @@
 playlist-test
 toAdd.txt
 config.toml
+saves.json
 dist
 build

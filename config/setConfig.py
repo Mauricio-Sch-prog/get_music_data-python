@@ -1,8 +1,18 @@
 from pathlib import Path
+import json
+import sys
+
 from config.config import app_config
+from config.data import app_data
 from config.laguageSettings import laguage_settings
 
-CONFIG_FILE = Path("config.toml")
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    BASE_DIR = Path(sys._MEIPASS)
+else:
+    BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+CONFIG_FILE = BASE_DIR  / "get_music_data-python" / "config.toml"
+DATA_FILE = BASE_DIR  / "get_music_data-python" / "data.json"
 
 DEFAULT_CONFIG = """# Application Configuration File
 
@@ -24,11 +34,24 @@ api_batch_fetch = 10
 api_key = ""
 """
 
+default_data = {"unchanged_processes": []}
+
 def init_config():
-    config_file = Path("config.toml")
+    config_file = Path(CONFIG_FILE)
     if not config_file.exists():
         with open(config_file, "w", encoding="utf-8") as f:
             f.write(DEFAULT_CONFIG) 
         print("Config file written and saved to disk.")
+
+    data_file = Path(DATA_FILE)
+    if not data_file.exists():
+        with open(data_file, "w", encoding="utf-8") as f:
+            json.dump(default_data, f, indent=4)
+        print("Data file written and saved to disk.")
+
     app_config._reload()
+    app_data._reload()
+
     laguage_settings.change_laguage()
+
+

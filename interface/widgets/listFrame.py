@@ -174,6 +174,5 @@ class ListFrame(ctk.CTkFrame):
 
 
     def update_gui(self):
-        print("updating headers")
         self.header_frame.update_gui()
         return

@@ -1,5 +1,5 @@
 
-from interface.processFrame import ProcessContainer
+from interface.widgets.processFrame import ProcessContainer
 from interface.root import Root
 from interface.buttons.selectFolderBtn import SelectFolderBtn
 from interface.buttons.configBtn import ConfigBtn
@@ -61,5 +61,4 @@ class App():
     def update_gui(self):
         self.selectBtn.update_gui()
         if self.fileList:
-            print("updating list gui")
             self.fileList.update_gui()

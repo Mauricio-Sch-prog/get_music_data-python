@@ -1,18 +1,22 @@
 import tomllib
 import tomlkit
-import os
+
 import darkdetect
+import sys
+from pathlib import Path
+
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    BASE_DIR = Path(sys._MEIPASS)
+else:
+    BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+JSON_DIR = BASE_DIR  / "get_music_data-python" / "data.json"
 
 CONFIG_PATH = "config.toml"
 
 class ConfigManager():
-    def __init__(self):
-        self._config = self._load_settings()
 
     def _load_settings(self):
-        if not os.path.exists(CONFIG_PATH):
-            return {"theme": {"primary_color": "#1f538d"}, "system": {"language": "en"}}
-        
         with open(CONFIG_PATH, "rb") as f:
             return tomllib.load(f)
         

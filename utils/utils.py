@@ -57,7 +57,6 @@ def get_file_metadata(folder_path, file_name):
 
 
 def change_file_metadate(folderpath, changed_files, parent, options = False):
-    print(changed_files)
     original_folder_path = Path(f'{folderpath}')
     bar = ProgressBar(parent)
     for song in changed_files:

@@ -2,16 +2,6 @@ import customtkinter as ctk
 import threading
 
 from utils import utils
-from utils.getMusicData import get_music_data_test
-
-from CTkMessagebox import CTkMessagebox
-from interface.widgets.listFrame import ListFrame
-from interface.buttons.closeFolderBtn import CloseFolderBtn
-from interface.buttons.getDataBtn import GetDataBtn
-import customtkinter as ctk
-import threading
-
-from utils import utils
 from utils.getMusicData import get_music_data
 
 from CTkMessagebox import CTkMessagebox
@@ -85,22 +75,23 @@ class FolderList(ctk.CTkFrame):
         thread.start()
 
     def _run_logic(self, data, headers):
-        # get_music_data shouldn't keep references to UI elements either
-        def print_result(result):
-            print(result)
+        def on_complete(success, data, error):
+            if success:
+                self.after(0, lambda: self._handle_process_result(data, headers))
+            else:
+                print(error)
+                self.after(0, lambda: self._render_grid())
+                return
+
         result = LoadingProcessFrame(
             master= self,
-            process= get_music_data_test,
-            on_complete_callback=print_result,
+            process= get_music_data,
+            on_complete_callback=on_complete,
             songs = data
         )
         result.pack(fill="both", expand=True, padx=10, pady=10)
-        # result = get_music_data(data, None) 
-        
-        # Direct the outcome back to the main loop safely
-        # self.after(0, lambda: self._handle_process_result(result, headers))
 
-    def _handle_process_result(self, result, headers):
+    def _handle_process_result(self,result, headers):
         if len(result) != 0:
             if self.callback:
                  self.callback(
@@ -122,7 +113,6 @@ class FolderList(ctk.CTkFrame):
         self.close_folder_btn.grid(row=1, column=0, sticky="NSEW", pady=5)
 
     def update_gui(self):
-        # Guard clause in case the elements haven't loaded yet
         if hasattr(self, 'list'):
             self.list.update_gui()
             self.close_folder_btn.update_gui()

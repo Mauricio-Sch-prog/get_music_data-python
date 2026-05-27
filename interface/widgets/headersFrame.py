@@ -112,5 +112,4 @@ class Headers(ctk.CTkFrame):
         self._get_header_text()
 
         for widget in self.winfo_children():
-            print(widget.key)
             widget.label_display.configure(text = self.header_text[widget.key].capitalize())

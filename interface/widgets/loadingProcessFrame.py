@@ -4,6 +4,8 @@ import threading
 from CTkMessagebox import CTkMessagebox
 from interface.widgets.progressBar import ProgressBar 
 
+from interface.widgets.processManagerFrame import ProcessManagerFrame
+
 class LoadingProcessFrame(ctk.CTkFrame):
     def __init__(self, master, process, on_complete_callback=None, **process_params):
         super().__init__(master)
@@ -23,7 +25,11 @@ class LoadingProcessFrame(ctk.CTkFrame):
     def _run_process(self):
         try:
             result = self.process(callback=self._route_progress_to_ui, **self.process_params)
-            self.after(0, self._handle_completion, result)
+
+            if result["success"]:
+                self.after(0, self._handle_completion, result)
+            elif len(result["data"]) > 0:
+                self.after(0, self._handle_unchanged_data, result)
 
         except Exception as e:
             self.after(0, self._handle_error, e)
@@ -44,9 +50,20 @@ class LoadingProcessFrame(ctk.CTkFrame):
         self.destroy()
         CTkMessagebox(
                 title=_("Something went wrong"), 
-                message=error, 
+                message=error,
                 icon="cancel")
 
         if self.on_complete_callback:
             self.on_complete_callback(success=False, data=None, error=error)
+
+
+    def _handle_unchanged_data(self, result):
+        self.manager = ProcessManagerFrame(
+            self,
+            process_result=result,
+            resume_callback=self._handle_completion,
+        )
+
+        self.manager.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.9, relheight=0.9)
+        self.manager.lift()
         

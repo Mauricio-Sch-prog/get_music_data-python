@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from interface.configFrame import ConfigFrame
+from interface.widgets.configFrame import ConfigFrame
 from interface.icons import config_icon
 from config.config import app_config
 

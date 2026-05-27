@@ -13,7 +13,6 @@ class ResultList(ctk.CTkFrame):
             master,
         )
 
-        print(data)
         self.close_callback = close_callback
         self.callback = callback
         self.folderpath = folderpath

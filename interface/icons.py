@@ -57,3 +57,15 @@ theme_toggle_icon = ctk.CTkImage(
     dark_image=Image.open(ICON_DIR / "theme_toggle_on.png"),
     size=(24, 24),
 )
+
+save_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "save-light.png"),
+    dark_image=Image.open(ICON_DIR / "save-dark.png"),
+    size=(24, 24),
+)
+
+repeat_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "repeat-light.png"),
+    dark_image=Image.open(ICON_DIR / "repeat-dark.png"),
+    size=(24, 24),
+)
