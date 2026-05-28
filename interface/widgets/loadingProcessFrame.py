@@ -4,7 +4,7 @@ import threading
 from CTkMessagebox import CTkMessagebox
 from interface.widgets.progressBar import ProgressBar 
 
-from interface.widgets.processManagerFrame import ProcessManagerFrame
+# from interface.widgets.processManagerFrame import ProcessManagerFrame
 
 class LoadingProcessFrame(ctk.CTkFrame):
     def __init__(self, master, process, on_complete_callback=None, **process_params):
@@ -58,13 +58,16 @@ class LoadingProcessFrame(ctk.CTkFrame):
 
 
     def _handle_unchanged_data(self, result):
-        self.manager = ProcessManagerFrame(
-            self,
-            process_result=result,
-            resume_callback=self._handle_completion,
-            folderpath = self.process_params["folderpath"]
-        )
+        # self.manager = ProcessManagerFrame(
+        #     self.master,
+        #     process_result=result,
+        #     resume_callback=self._handle_completion,
+        #     folderpath = self.process_params["folderpath"]
+        # )
+        self.destroy()
+        if self.on_complete_callback:
+            self.on_complete_callback(success="manager", data=result, error=None)
 
-        self.manager.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.9, relheight=0.9)
-        self.manager.lift()
+        # self.manager.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.9, relheight=0.9)
+        # self.manager.lift()
         

@@ -1,19 +1,18 @@
 import utils.gemini as gemini
 from google.genai import errors
 import time
-from tkinter import messagebox
 from config.config import app_config
-
-  
 
 
 def get_music_data(
-        songs: list, 
+        songs: list,
         callback = None, 
         progress = 0,
         data = None,
         **kwargs,
         ):
+
+    print(progress)
 
     if data is None:
         data = []
@@ -37,8 +36,8 @@ def get_music_data(
             if callback:
                 callback(progress / len(songs))
 
-            if progress > 10:
-                raise ValueError("NÂO PASSARAS!")
+            # if progress > 10:
+            #     raise ValueError("NÂO PASSARAS!")
 
 
             time.sleep(2)

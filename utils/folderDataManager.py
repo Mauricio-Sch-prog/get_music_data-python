@@ -1,11 +1,9 @@
 import os
 from utils import utils
 
-
 class FolderDataManager:
     def get_folder_data(self, folder_path):
         files = os.listdir(folder_path)
-    
         folder_songs = [f for f in files if f.endswith(('.mp3', '.wav', '.flac'))]
         data = []
         
@@ -20,7 +18,7 @@ class FolderDataManager:
         print(f"\nFound {len(folder_songs)} songs:")
         return data
     
-    def validate_folder(self, data, folder_path):
+    def validate_folder(self, folder_path):
         folder_songs = self.get_folder_data(folder_path)
         if not len(folder_songs) > 0:
             return False

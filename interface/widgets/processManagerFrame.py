@@ -1,14 +1,24 @@
 import customtkinter as ctk
 import datetime
+import threading
 
+from config.data import app_data
+from utils.getMusicData import get_music_data
+
+
+from interface.widgets.loadingProcessFrame import LoadingProcessFrame
 from interface.buttons.btn import Btn
-
 from interface.icons import save_icon
 from interface.icons import repeat_icon
-from config.data import app_data
 
 class ProcessManagerFrame(ctk.CTkFrame):
-    def __init__(self, master, process_result, resume_callback, folderpath ):
+    def __init__(
+            self, 
+            master, 
+            process_result, 
+            resume_callback, 
+            retry_callback,
+            folderpath ):
         super().__init__(
             master=master
         )
@@ -16,6 +26,7 @@ class ProcessManagerFrame(ctk.CTkFrame):
         self.folderpath = folderpath
         self.process_result = process_result
         self.resume_callback = resume_callback
+        self.retry_callback = retry_callback
         
         self.label = ctk.CTkLabel(
             self,
@@ -54,13 +65,21 @@ class ProcessManagerFrame(ctk.CTkFrame):
 
     def _on_resume(self):
         self.destroy()
-        self.after(0, self.resume_callback, self.process_result["data"])
+        self.after(0, self.resume_callback, self.process_result)
         return
 
     def _on_retry(self):
+        self.destroy()
+        self.after(0, self.retry_callback, self.process_result)
         return
     
     def _on_save(self):
+        self.save_process_btn.on_click()
+        self.save_process_btn.text = _("Save progress for later")
+        thread = threading.Thread(target=self._on_save_logic, daemon=True)
+        thread.start()
+    
+    def _on_save_logic(self):
         id = datetime.datetime.now()
         app_data.add_data(
             key="unchanged_processes",
@@ -72,4 +91,7 @@ class ProcessManagerFrame(ctk.CTkFrame):
                 "data" : self.process_result["data"],
             }
         )
-        return
+        self.after(0, lambda:self._on_save_end())
+    
+    def _on_save_end(self):
+        self.save_process_btn.on_click_end()

@@ -31,6 +31,7 @@ class ConfigFrame(ctk.CTkFrame):
         self.slider = Slider(
             master=self,
             steps=None,
+            range=[1,100],
             set=app_config.get(section='system', key='api_batch_fetch')
         )
  

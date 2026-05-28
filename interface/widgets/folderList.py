@@ -1,13 +1,13 @@
 import customtkinter as ctk
 import threading
 
-from utils import utils
 from utils.getMusicData import get_music_data
 from utils.folderDataManager import folder_manager
 
 from CTkMessagebox import CTkMessagebox
 from interface.widgets.listFrame import ListFrame
 from interface.widgets.loadingProcessFrame import LoadingProcessFrame
+from interface.widgets.processManagerFrame import ProcessManagerFrame
 from interface.buttons.closeFolderBtn import CloseFolderBtn
 from interface.buttons.getDataBtn import GetDataBtn
 
@@ -63,38 +63,72 @@ class FolderList(ctk.CTkFrame):
         
         (data, headers) = self.list._get_data()
         
-        thread = threading.Thread(target=self._run_logic, args=(data, headers), daemon=True)
+        thread = threading.Thread(target=self._run_logic, kwargs={"songs" : data}, daemon=True)
         thread.start()
 
-    def _run_logic(self, data, headers):
-        def on_complete(success, data, error):
-            if success:
-                self.after(0, lambda: self._handle_process_result(data, headers))
+    def on_complete(self, success, data, error):
+            if success == True:
+                self.after(0, lambda: self._handle_process_result(data))
+            elif success == "manager":
+                self.after(0, lambda: self._load_manager(data))
             else:
                 print(error)
                 self.after(0, lambda: self._render_grid())
                 return
 
+    def _run_logic(self, songs, **process_params):
+        
+
         result = LoadingProcessFrame(
             master= self,
             process= get_music_data,
-            on_complete_callback=on_complete,
-            songs = data,
+            on_complete_callback=self.on_complete,
+            songs = songs,
             folderpath = self.folderpath,
+            **process_params
         )
         result.pack(fill="both", expand=True, padx=10, pady=10)
 
-    def _handle_process_result(self,result, headers):
+
+    def _load_manager(self, data):
+        self.manager = ProcessManagerFrame(
+            self.master,
+            process_result=data,
+            resume_callback=self._handle_process_result,
+            retry_callback=self._retry,
+            folderpath = self.folderpath
+        )
+        self.manager.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.9, relheight=0.9)
+        self.manager.lift()
+
+
+    def _retry(self, process_data):
+        thread = threading.Thread(
+            target=self._run_logic, 
+            kwargs={
+                "songs" : process_data["songs"],
+                "data" : process_data["data"],
+                "progress" : process_data["progress"],
+            }
+            , daemon=True)
+        thread.start()
+
+
+    def _handle_process_result(self,result):
+        print(result)
+        (data, headers) = self.list._get_data()
         if len(result) != 0:
             if self.callback:
                  self.callback(
-                    result=result, 
-                    folderpath=self.folderpath, 
-                    options=headers
+                    result=result['data'],
+                    folderpath=self.folderpath,
+                    options=headers,
                  )
         else:
             CTkMessagebox(title=_("No files"), message=_("No file changed"), icon="cancel")
             self._render_grid()
+
+
 
     def _render_grid(self):
         self.grid_columnconfigure(0, weight=1)

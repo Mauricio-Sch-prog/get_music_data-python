@@ -16,6 +16,24 @@ class Btn(ctk.CTkButton):
         self.configure(
             **kwargs
         )
+        self.on_click_text = _("Loading...")
+        
+
+    def on_click(self):
+        self.configure(
+            text=self.on_click_text,
+            state="disabled",
+            )
+        
+    def on_click_end(self):
+        self.configure(
+            text=self.text,
+            state="normal",
+            )
 
     def update_gui(self, text):
         self.configure(text=text)
+        self.text = text
+        self.on_click_text = _("Loading...")
+
+

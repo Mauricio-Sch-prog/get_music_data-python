@@ -1,6 +1,8 @@
 import customtkinter as ctk
 import threading
 
+
+from utils.folderDataManager import folder_manager
 from utils import utils
 
 from interface.widgets.listFrame import ListFrame
@@ -13,6 +15,7 @@ class ResultList(ctk.CTkFrame):
             master,
         )
 
+        self.data = folder_manager.check_files_exists(data=data, folder_path=folderpath)
         self.close_callback = close_callback
         self.callback = callback
         self.folderpath = folderpath
@@ -22,9 +25,9 @@ class ResultList(ctk.CTkFrame):
             self,
             model=self.model,
             title=_("Changed files"),
-            data=data,
+            data=self.data["present"],
             custom= {'main': 'id'})
-        
+
         self.close_folder_btn = CloseFolderBtn(self, command=close_callback)
         self.apply_changes_btn = ApplyChangesBtn(self, command=self._apply_changes)
 
@@ -61,7 +64,6 @@ class ResultList(ctk.CTkFrame):
         (data, headers) = self.list._get_data()
         utils.change_file_metadate(changed_files=data,folderpath=self.folderpath, options=headers, parent=self)
         self.after(100, self.close_callback)
-
 
     def _render_grid(self):
         self.grid_columnconfigure(0, weight=1)

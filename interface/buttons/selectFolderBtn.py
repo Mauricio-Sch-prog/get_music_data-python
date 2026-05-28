@@ -40,8 +40,10 @@ class SelectFolderBtn(ctk.CTkButton):
         self.after(0, lambda:self._load_folder())
 
     def _load_folder(self):
-        self.configure(state="normal")
-        self.configure(text=_("Select a folder"))
+        self.configure(
+            state="normal",
+            text=_("Select a folder"),
+            )
         if(self.folderData and self.callback):
             self.callback()
             return
