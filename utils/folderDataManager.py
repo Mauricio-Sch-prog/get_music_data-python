@@ -2,7 +2,9 @@ import os
 from utils import utils
 
 class FolderDataManager:
-    def get_folder_data(self, folder_path):
+    def get_folder_data(self, folder_path = None):
+        if not folder_path:
+            return []
         files = os.listdir(folder_path)
         folder_songs = [f for f in files if f.endswith(('.mp3', '.wav', '.flac'))]
         data = []

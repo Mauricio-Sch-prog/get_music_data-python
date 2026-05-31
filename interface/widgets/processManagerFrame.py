@@ -7,9 +7,10 @@ from utils.getMusicData import get_music_data
 
 
 from interface.widgets.loadingProcessFrame import LoadingProcessFrame
-from interface.buttons.btn import Btn
-from interface.icons import save_icon
-from interface.icons import repeat_icon
+from interface.buttons._btn import Btn
+from interface.buttons.resumeBtn import ResumeBtn
+from interface.buttons.saveBtn import SaveBtn 
+from interface.buttons.retryBtn import RetryBtn
 
 class ProcessManagerFrame(ctk.CTkFrame):
     def __init__(
@@ -38,24 +39,22 @@ class ProcessManagerFrame(ctk.CTkFrame):
             text=_(f"{process_result['progress']} out of {len(process_result['songs'])} were modified")
         )
 
-        self.resume_btn = Btn(
+        self.resume_btn = ResumeBtn(
             self,
             command=self._on_resume,
             text=_("Resume changed files"),
         )
 
-        self.save_process_btn = Btn(
+        self.save_process_btn = SaveBtn(
             self,
             command=self._on_save,
             text=_("Save progress for later"),
-            image=save_icon
         )
 
-        self.retry_btn = Btn(
+        self.retry_btn = RetryBtn(
             self,
             command=self._on_retry,
             text=_("Retry process"),
-            image=repeat_icon
         )
         self.label.pack()
         self.result_label.pack()
@@ -66,12 +65,11 @@ class ProcessManagerFrame(ctk.CTkFrame):
     def _on_resume(self):
         self.destroy()
         self.after(0, self.resume_callback, self.process_result)
-        return
 
     def _on_retry(self):
+        self.retry_btn.on_click()
         self.destroy()
         self.after(0, self.retry_callback, self.process_result)
-        return
     
     def _on_save(self):
         self.save_process_btn.on_click()
@@ -94,4 +92,4 @@ class ProcessManagerFrame(ctk.CTkFrame):
         self.after(0, lambda:self._on_save_end())
     
     def _on_save_end(self):
-        self.save_process_btn.on_click_end()
+        self.save_process_btn.save_finished()

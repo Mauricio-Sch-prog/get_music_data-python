@@ -39,7 +39,7 @@ class App():
         self.selectBtn.pack_forget()
         self.fileList = ProcessContainer(
             parent=self.root, 
-            folderPath=self.selectBtn.folderPath,
+            folder_path=self.selectBtn.folder_path,
             close_callback=on_close_folder)
         self.fileList.pack(fill="both", expand=True, padx=10, pady=10)
 

@@ -4,7 +4,7 @@ from interface.widgets.folderList import FolderList
 from interface.widgets.resultList import ResultList
 
 class ProcessContainer(ctk.CTkFrame):
-    def __init__(self, parent, folderPath, close_callback=None):
+    def __init__(self, parent, folder_path, close_callback=None):
         super().__init__(parent)
         self.configure(
             bg_color=app_config.get(section='theme', key='secondary_color'),
@@ -14,7 +14,7 @@ class ProcessContainer(ctk.CTkFrame):
         self.close_callback = close_callback
         self.result_list = None
 
-        self._load_folder_list(path = folderPath)
+        self._load_folder_list(path = folder_path)
         
 
     def _load_folder_list(self, path):

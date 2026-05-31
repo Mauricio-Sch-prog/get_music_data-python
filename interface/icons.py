@@ -47,8 +47,8 @@ x_icon = ctk.CTkImage(
 )
 
 check_icon = ctk.CTkImage(
-    light_image=Image.open(ICON_DIR / "check-light.png"),
-    dark_image=Image.open(ICON_DIR / "check-dark.png"),
+    light_image=Image.open(ICON_DIR / "check.png"),
+    dark_image=Image.open(ICON_DIR / "check.png"),
     size=(16, 16),
 )
 
@@ -67,5 +67,11 @@ save_icon = ctk.CTkImage(
 repeat_icon = ctk.CTkImage(
     light_image=Image.open(ICON_DIR / "repeat-light.png"),
     dark_image=Image.open(ICON_DIR / "repeat-dark.png"),
+    size=(24, 24),
+)
+
+resume_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "check-light.png"),
+    dark_image=Image.open(ICON_DIR / "check-dark.png"),
     size=(24, 24),
 )

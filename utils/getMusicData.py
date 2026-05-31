@@ -36,8 +36,8 @@ def get_music_data(
             if callback:
                 callback(progress / len(songs))
 
-            # if progress > 10:
-            #     raise ValueError("NÂO PASSARAS!")
+            if progress > 10:
+                raise ValueError("NÂO PASSARAS!")
 
 
             time.sleep(2)

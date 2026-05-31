@@ -2,8 +2,8 @@ import customtkinter as ctk
 from config.config import app_config
 from config.laguageSettings import laguage_settings
 from interface.buttons.applyChangesBtn import ApplyChangesBtn
-from interface.buttons.themeToggleBtn import ThemeToggleBtn
-from interface.buttons.switchBtn import SwitchBtn
+from interface.inputs.themeToggleBtn import ThemeToggleBtn
+from interface.inputs.switchBtn import SwitchBtn
 from interface.inputs.textInput import TextInput
 from interface.inputs.sliderFrame import Slider
 from interface.inputs.optionsInput import OptionsInputFrame
