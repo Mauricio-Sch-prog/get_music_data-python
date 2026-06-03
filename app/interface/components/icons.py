@@ -1,0 +1,79 @@
+import sys
+from pathlib import Path
+import customtkinter as ctk
+from PIL import Image
+from app.config.set_config import BASE_DIR
+
+# if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+#     BASE_DIR = Path(sys._MEIPASS)
+# else:
+#     BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+ICON_DIR = BASE_DIR / "app" / "interface" / "icons"
+print(ICON_DIR)
+
+config_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "settings-light.png"),
+    dark_image=Image.open(ICON_DIR / "settings-dark.png"),
+    size=(24, 24),
+)
+
+folder_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "folder-search-light.png"),
+    dark_image=Image.open(ICON_DIR / "folder-search-dark.png"),
+    size=(24, 24),
+)
+
+close_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "circle-x-light.png"),
+    dark_image=Image.open(ICON_DIR / "circle-x-dark.png"),
+    size=(24, 24),
+)
+
+arrow_right_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "circle-arrow-right-light.png"),
+    dark_image=Image.open(ICON_DIR / "circle-arrow-right-dark.png"),
+    size=(24, 24),
+)
+
+arrow_down_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "arrow-big-down-dash-light.png"),
+    dark_image=Image.open(ICON_DIR / "arrow-big-down-dash-dark.png"),
+    size=(24, 24),
+)
+
+x_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "x-light.png"),
+    dark_image=Image.open(ICON_DIR / "x-dark.png"),
+    size=(16, 16),
+)
+
+check_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "check.png"),
+    dark_image=Image.open(ICON_DIR / "check.png"),
+    size=(16, 16),
+)
+
+theme_toggle_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "theme_toggle_off.png"),
+    dark_image=Image.open(ICON_DIR / "theme_toggle_on.png"),
+    size=(24, 24),
+)
+
+save_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "save-light.png"),
+    dark_image=Image.open(ICON_DIR / "save-dark.png"),
+    size=(24, 24),
+)
+
+repeat_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "repeat-light.png"),
+    dark_image=Image.open(ICON_DIR / "repeat-dark.png"),
+    size=(24, 24),
+)
+
+resume_icon = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "check-light.png"),
+    dark_image=Image.open(ICON_DIR / "check-dark.png"),
+    size=(24, 24),
+)

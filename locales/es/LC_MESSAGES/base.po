@@ -8,115 +8,173 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-24 09:40-0300\n"
+"POT-Creation-Date: 2026-06-03 19:09-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
-#: interface/configFrame.py:21 interface/configFrame.py:129
-msgid "Config"
-msgstr "Configuración"
+"Language: es\n"
 
-#: interface/configFrame.py:25 interface/configFrame.py:130
-msgid "Batch fetch per api request"
-msgstr "Cantidad por petición de API (lote)"
-
-#: interface/configFrame.py:26 interface/configFrame.py:131
-msgid "Theme"
-msgstr "Tema"
-
-#: interface/configFrame.py:27 interface/configFrame.py:132
-msgid "Use system's theme"
-msgstr "Usar el tema del sistema"
-
-#: interface/configFrame.py:28 interface/configFrame.py:133
-msgid "API KEY"
-msgstr "Clave API"
-
-#: interface/configFrame.py:51 interface/configFrame.py:134
-msgid "Place here your gemini api key"
-msgstr "Introduce aquí tu clave API de Gemini"
-
-#: interface/processFrame.py:53
-msgid "No files"
-msgstr "Sin archivos"
-
-#: interface/processFrame.py:53
-msgid "No file changed"
-msgstr "Ningún archivo modificado"
-
-#: interface/processFrame.py:80 interface/processFrame.py:114
-msgid "Changed files"
-msgstr "Archivos modificados"
-
-#: interface/buttons/applyChangesBtn.py:9
-#: interface/buttons/applyChangesBtn.py:20
-msgid "Apply changes"
-msgstr "Aplicar cambios"
-
-#: interface/buttons/closeFolderBtn.py:10
-#: interface/buttons/closeFolderBtn.py:21
-msgid "Close folder"
-msgstr "Cerrar carpeta"
-
-#: interface/buttons/getDataBtn.py:9 interface/buttons/getDataBtn.py:22
-msgid "Get data"
-msgstr "Obtener datos"
-
-#: interface/buttons/selectFolderBtn.py:15
-#: interface/buttons/selectFolderBtn.py:55
-#: interface/buttons/selectFolderBtn.py:74
-msgid "Select a folder"
-msgstr "Seleccionar una carpeta"
-
-#: interface/buttons/selectFolderBtn.py:26
-msgid "Select your Music Folder"
-msgstr "Selecciona tu carpeta de música"
-
-#: interface/buttons/selectFolderBtn.py:28
+#: app/interface/app.py:37 app/interface/views/main_menu_view.py:18
 msgid "Scanning files..."
 msgstr "Escaneando archivos..."
 
-#: interface/buttons/selectFolderBtn.py:62
-msgid "Folder not selected"
-msgstr "Carpeta no seleccionada"
+#: app/interface/app.py:58
+msgid "Music folder not found or empty!"
+msgstr "¡Carpeta de música no encontrada o vacía!"
 
-#: interface/buttons/selectFolderBtn.py:63
-msgid "No folder was selected"
-msgstr "No se seleccionó ninguna carpeta"
+#: app/interface/app.py:62
+msgid "Talking to ai..."
+msgstr "Hablando con la IA..."
 
-#: interface/buttons/selectFolderBtn.py:68
+#: app/interface/app.py:82
+msgid "Loading results..."
+msgstr "Cargando resultados..."
+
+#: app/interface/app.py:103
+msgid "Applying changes..."
+msgstr "Aplicando cambios..."
+
+#: app/interface/app.py:123
 msgid "Error"
 msgstr "Error"
 
-#: interface/buttons/selectFolderBtn.py:69
-msgid "Music folder not found!"
-msgstr "¡No se encontró la carpeta de música!"
+#: app/interface/components/buttons/apply_changes_btn.py:8
+#: app/interface/views/config_view.py:142
+#: app/interface/views/result_list_view.py:73
+msgid "Apply changes"
+msgstr "Aplicar cambios"
 
-#: interface/widgets/headersFrame.py:100
+#: app/interface/components/buttons/close_folder_btn.py:8
+#: app/interface/views/folder_list_view.py:73
+#: app/interface/views/result_list_view.py:72
+msgid "Close folder"
+msgstr "Cerrar carpeta"
+
+#: app/interface/components/buttons/get_data_btn.py:7
+#: app/interface/views/folder_list_view.py:74
+msgid "Get data"
+msgstr "Obtener datos"
+
+#: app/interface/components/buttons/resume_btn.py:7
+msgid "Resume"
+msgstr "Reanudar"
+
+#: app/interface/components/buttons/retry_btn.py:7
+msgid "Retry"
+msgstr "Reintentar"
+
+#: app/interface/components/buttons/save_btn.py:7
+msgid "Save"
+msgstr "Guardar"
+
+#: app/interface/components/buttons/select_folder_btn.py:10
+#: app/interface/views/main_menu_view.py:23
+#: app/interface/views/main_menu_view.py:27
+msgid "Select a folder"
+msgstr "Seleccionar una carpeta"
+
+#: app/interface/components/cards/headers_card.py:100
 msgid "file"
 msgstr "archivo"
 
-#: interface/widgets/headersFrame.py:101
+#: app/interface/components/cards/headers_card.py:101
 msgid "title"
 msgstr "título"
 
-#: interface/widgets/headersFrame.py:102
+#: app/interface/components/cards/headers_card.py:102
 msgid "artist"
 msgstr "artista"
 
-#: interface/widgets/headersFrame.py:103
+#: app/interface/components/cards/headers_card.py:103
 msgid "genre"
 msgstr "género"
 
-#: interface/widgets/headersFrame.py:104
+#: app/interface/components/cards/headers_card.py:104
 msgid "album"
 msgstr "álbum"
 
-#: interface/widgets/headersFrame.py:105
+#: app/interface/components/cards/headers_card.py:105
 msgid "date"
-msgstr "año"
+msgstr "fecha"
 
+#: app/interface/views/config_view.py:25 app/interface/views/config_view.py:136
+msgid "Config"
+msgstr "Configuración"
+
+#: app/interface/views/config_view.py:29 app/interface/views/config_view.py:137
+msgid "Batch fetch per api request"
+msgstr "Cantidad de lotes por solicitud de API"
+
+#: app/interface/views/config_view.py:30 app/interface/views/config_view.py:138
+msgid "Theme"
+msgstr "Tema"
+
+#: app/interface/views/config_view.py:31 app/interface/views/config_view.py:139
+msgid "Use system's theme"
+msgstr "Usar el tema del sistema"
+
+#: app/interface/views/config_view.py:32
+msgid "Language"
+msgstr "Idioma"
+
+#: app/interface/views/config_view.py:33 app/interface/views/config_view.py:140
+msgid "API KEY"
+msgstr "Clave API"
+
+#: app/interface/views/config_view.py:67 app/interface/views/config_view.py:141
+msgid "Place here your gemini api key"
+msgstr "Coloque aquí su clave API de Gemini"
+
+#: app/interface/views/folder_list_view.py:44
+msgid "loading"
+msgstr "cargando"
+
+#: app/interface/views/main_menu_view.py:17
+msgid "Select your Music Folder"
+msgstr "Seleccione su carpeta de música"
+
+#: app/interface/views/main_menu_view.py:24
+msgid "No folder was selected"
+msgstr "No se seleccionó ninguna carpeta"
+
+#: app/interface/views/process_manager_view.py:20
+#: app/interface/views/process_manager_view.py:72
+msgid "Manager"
+msgstr "Administrador"
+
+#: app/interface/views/process_manager_view.py:25
+#: app/interface/views/process_manager_view.py:73
+msgid "progress"
+msgstr "progreso"
+
+#: app/interface/views/process_manager_view.py:31
+#: app/interface/views/process_manager_view.py:74
+msgid "Resume changed files"
+msgstr "Reanudar archivos modificados"
+
+#: app/interface/views/process_manager_view.py:37
+#: app/interface/views/process_manager_view.py:75
+msgid "Save progress for later"
+msgstr "Guardar progreso para más tarde"
+
+#: app/interface/views/process_manager_view.py:43
+#: app/interface/views/process_manager_view.py:76
+msgid "Retry process"
+msgstr "Reintentar proceso"
+
+#: app/interface/views/process_manager_view.py:60
+msgid "Saving progress"
+msgstr "Guardando progreso"
+
+#: app/interface/views/process_manager_view.py:69
+msgid "Progress saved!"
+msgstr "¡Progreso guardado!"
+
+#: app/interface/views/result_list_view.py:23
+#: app/interface/views/result_list_view.py:70
+msgid "Changed files"
+msgstr "Archivos modificados"
