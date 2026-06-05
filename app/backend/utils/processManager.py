@@ -3,6 +3,7 @@ import datetime
 from app.backend.services.folderDataManager import folder_manager
 from app.config.data import app_data
 
+
 class ProcessManager():
     def __init__(self):
         self.process = None
@@ -15,7 +16,7 @@ class ProcessManager():
             "songs": folder_manager.get_folder_data(folder_path),
             "progress": 0,
             "data": None,
-            "options": options
+            "options": options,
         }
 
     def get(self):
@@ -28,6 +29,15 @@ class ProcessManager():
 
     def save(self):
         if self.process:
-            app_data.add_data(key="saved_processes", value=self.process)
+            app_data.update_by_id(
+                key="saved_processes",
+                id=self.process['id'],
+                value=self.process
+                )
+            
+    def load(self, id):
+        processes = app_data.get(key="saved_processes")
+        self.process = processes[id]
+        return self.process
 
 app_process = ProcessManager()

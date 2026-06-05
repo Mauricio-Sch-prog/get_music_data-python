@@ -1,8 +1,10 @@
-import app.backend.services.gemini as gemini
-from google.genai import errors
 import time
-from app.config.config import app_config
+
+from google.genai import errors
+
+import app.backend.services.gemini as gemini
 from app.backend.utils.processManager import app_process
+from app.config.config import app_config
 
 
 def get_music_data():

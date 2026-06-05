@@ -1,5 +1,7 @@
 import customtkinter as ctk
+
 from app.config.config import app_config
+
 
 class BtnModel(ctk.CTkButton):
     def __init__(self, master, **kwargs):

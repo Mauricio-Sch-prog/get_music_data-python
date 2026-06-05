@@ -1,11 +1,12 @@
 from app.config.language_settings import language_settings
-
 from app.interface.events import event_bus
-from app.interface.views.main_menu_view import MainMenuView
-from app.interface.views.loading_view import LoadingView
 from app.interface.views.folder_list_view import FolderListView
-from app.interface.views.result_list_view import ResultListView
+from app.interface.views.loading_view import LoadingView
+from app.interface.views.main_menu_view import MainMenuView
 from app.interface.views.process_manager_view import ProcessManagerView
+from app.interface.views.result_list_view import ResultListView
+from app.interface.views.saved_processes_view import SavedProcessesView
+
 
 class Router:
     def __init__(self, root):
@@ -19,6 +20,7 @@ class Router:
         event_bus.subscribe("NAVIGATE_TO_FOLDER", self.show_folder)
         event_bus.subscribe("NAVIGATE_TO_POST_PROCESS", self.show_manager)
         event_bus.subscribe("NAVIGATE_TO_RESULTS", self.show_results)
+        event_bus.subscribe("NAVIGATE_TO_SAVED_PROCESSES", self.show_saved_processes)
 
     def _clear(self):
         if self.current_view:
@@ -26,7 +28,6 @@ class Router:
 
     def _update_gui(self):
         if self.current_view:
-            print(f"updating {self.current_view}")
             self.current_view.update_gui()
 
     def show_menu(self):
@@ -57,4 +58,8 @@ class Router:
         self.current_view = ResultListView(self.root, data, model)
         self.current_view.pack(fill="both", expand=True, padx=20, pady=(60, 20))
 
+    def show_saved_processes(self, data):
+        self._clear()
+        self.current_view = SavedProcessesView(self.root, data)
+        self.current_view.pack(fill="both", expand=True, padx=20, pady=(60, 20))
  

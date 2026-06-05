@@ -1,12 +1,14 @@
-import customtkinter as ctk
 import threading
 
+import customtkinter as ctk
+
 from app.backend.utils.processManager import app_process
+from app.interface.components.buttons.close_btn import CloseBtn
+from app.interface.components.buttons.resume_btn import ResumeBtn
+from app.interface.components.buttons.retry_btn import RetryBtn
+from app.interface.components.buttons.save_btn import SaveBtn
 from app.interface.events import event_bus
 
-from app.interface.components.buttons.resume_btn import ResumeBtn
-from app.interface.components.buttons.save_btn import SaveBtn 
-from app.interface.components.buttons.retry_btn import RetryBtn
 
 class ProcessManagerView(ctk.CTkFrame):
     def __init__(self, master, process,
@@ -27,36 +29,43 @@ class ProcessManagerView(ctk.CTkFrame):
 
         self.resume_btn = ResumeBtn(
             self,
-            command=self._on_resume,
+            command=self.on_resume,
             text=_("Resume changed files"),
         )
 
         self.save_process_btn = SaveBtn(
             self,
-            command=self._on_save,
+            command=self.on_save,
             text=_("Save progress for later"),
         )
 
         self.retry_btn = RetryBtn(
             self,
-            command=self._on_retry,
+            command=self.on_retry,
             text=_("Retry process"),
         )
+
+        self.close_btn = CloseBtn(
+            self,
+            command=self.on_close,
+        )
+
         self.label.pack()
         self.result_label.pack()
         self.resume_btn.pack()
         self.save_process_btn.pack()
         self.retry_btn.pack()
+        self.close_btn.pack()
 
-    def _on_resume(self):
+    def on_resume(self):
         self.resume_btn.on_click()
         event_bus.emit("START_LOADING_RESULTS")
 
-    def _on_retry(self):
+    def on_retry(self):
         self.retry_btn.on_click()
         event_bus.emit("START_DATA_ENRICHMENT")
     
-    def _on_save(self):
+    def on_save(self):
         self.save_process_btn.on_click(text=_("Saving progress"))
         thread = threading.Thread(target=self._on_save_logic, daemon=True)
         thread.start()
@@ -67,6 +76,10 @@ class ProcessManagerView(ctk.CTkFrame):
     
     def _on_save_end(self):
         self.save_process_btn.on_click(text=_("Progress saved!"))
+
+    def on_close(self):
+        self.close_btn.on_click()
+        event_bus.emit("NAVIGATE_TO_MENU")
 
     def update_gui(self):
         self.label.configure(text=_("Manager"))

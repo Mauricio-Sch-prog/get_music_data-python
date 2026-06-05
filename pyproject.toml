@@ -1,0 +1,17 @@
+[tool.ruff]
+target-version = "py314"
+
+line-length = 88
+
+builtins = ["_"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = []
+
+dummy-variable-rgx = "^(_+|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+

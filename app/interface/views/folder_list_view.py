@@ -1,13 +1,13 @@
-import customtkinter as ctk
 import threading
 
+import customtkinter as ctk
+
 from app.backend.utils.processManager import app_process
+from app.interface.components.buttons.close_btn import CloseBtn
+from app.interface.components.buttons.get_data_btn import GetDataBtn
+from app.interface.components.cards.list_card import ListCard
 from app.interface.events import event_bus
 
-
-from app.interface.components.cards.list_card import ListCard
-from app.interface.components.buttons.close_folder_btn import CloseFolderBtn
-from app.interface.components.buttons.get_data_btn import GetDataBtn
 
 class FolderListView(ctk.CTkFrame):
     def __init__(self, master, data):
@@ -31,7 +31,7 @@ class FolderListView(ctk.CTkFrame):
             title=self.master.folder_path,
             data=self.folder_data,
         )
-        self.close_folder_btn = CloseFolderBtn(self, command=self.on_close_click)
+        self.close_folder_btn = CloseBtn(self, command=self.on_close_click)
         self.get_data_btn = GetDataBtn(self, command=self.on_get_data_click)
 
         self._render_grid()
@@ -68,7 +68,6 @@ class FolderListView(ctk.CTkFrame):
         self.close_folder_btn.grid(row=1, column=0, sticky="NSEW", pady=5)
 
     def update_gui(self):
-        print("updating folder view")
         if hasattr(self, 'list'):
             self.list.update_gui()
             self.close_folder_btn.configure(text=_("Close folder"))

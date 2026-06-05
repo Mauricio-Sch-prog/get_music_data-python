@@ -1,7 +1,6 @@
-from pathlib import Path
 import json
 import sys
-
+from pathlib import Path
 
 if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
     BASE_DIR = Path(sys._MEIPASS)
@@ -33,7 +32,7 @@ api_batch_fetch = 10
 api_key = ""
 """
 
-default_data = {"unchanged_processes": []}
+default_data = {}
 
 def init_config():
     from app.config.config import app_config

@@ -1,5 +1,6 @@
 import customtkinter as ctk
 
+
 class ProgressBarCard(ctk.CTkProgressBar):
     def __init__(self, parent, **kwargs):
         super().__init__(parent, orientation="horizontal", **kwargs)

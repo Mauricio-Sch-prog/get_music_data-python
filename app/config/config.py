@@ -1,9 +1,11 @@
 import tomllib
-import tomlkit
+from pathlib import Path
 
 import darkdetect
-from pathlib import Path
+import tomlkit
+
 from app.config.set_config import CONFIG_FILE
+
 
 class ConfigManager():
 

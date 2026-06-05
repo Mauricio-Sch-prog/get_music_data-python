@@ -1,7 +1,8 @@
 
+from app.config.config import app_config
 from app.interface.components.buttons._btn import BtnModel
 from app.interface.components.icons import config_icon
-from app.config.config import app_config
+
 
 class ConfigBtn(BtnModel):
     def __init__(self, master, load = None, **kwargs):

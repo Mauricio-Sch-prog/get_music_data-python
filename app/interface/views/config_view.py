@@ -2,14 +2,14 @@ import customtkinter as ctk
 
 from app.config.config import app_config
 from app.config.language_settings import language_settings
-
 from app.interface.components.buttons.apply_changes_btn import ApplyChangesBtn
-from app.interface.components.inputs.theme_toggle_btn import ThemeToggleBtn
+from app.interface.components.inputs.options_input import OptionsInput
+from app.interface.components.inputs.slider_input import SliderInput
 from app.interface.components.inputs.switch_btn import SwitchBtn
 from app.interface.components.inputs.text_input import TextInput
-from app.interface.components.inputs.slider_input import SliderInput
-from app.interface.components.inputs.options_input import OptionsInput
- 
+from app.interface.components.inputs.theme_toggle_btn import ThemeToggleBtn
+
+
 class ConfigView(ctk.CTkFrame):
     def __init__(self, master, on_close_request):
         super().__init__(master, 

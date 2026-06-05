@@ -1,7 +1,8 @@
 import customtkinter as ctk
+
 from app.config.config import app_config
-from app.interface.components.icons import check_icon
-from app.interface.components.icons import x_icon
+from app.interface.components.icons import check_icon, x_icon
+
 
 class HeadersCard(ctk.CTkFrame):
     def __init__(self, master, model, **kwargs):

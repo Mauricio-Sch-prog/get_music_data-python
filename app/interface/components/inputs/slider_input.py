@@ -1,5 +1,8 @@
 import customtkinter as ctk
+
 from app.config.config import app_config
+
+
 class SliderInput(ctk.CTkFrame):
     def __init__(self, master, text="", steps = 1, callback = None, range = [0, 100], set = 0, **kwargs):
         super().__init__(

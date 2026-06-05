@@ -1,5 +1,7 @@
 import customtkinter as ctk
+
 from app.interface.components.cards.progress_bar_card import ProgressBarCard
+
 
 class LoadingView(ctk.CTkFrame):
     def __init__(self, master, text, progress = None):

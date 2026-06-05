@@ -1,6 +1,8 @@
 import customtkinter as ctk
-from app.interface.components.icons import theme_toggle_icon
+
 from app.config.config import app_config
+from app.interface.components.icons import theme_toggle_icon
+
 
 class ThemeToggleBtn(ctk.CTkFrame):
     def __init__(self,  master, text="", callback = None, **kwargs):

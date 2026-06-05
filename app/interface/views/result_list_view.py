@@ -1,12 +1,13 @@
-import customtkinter as ctk
 import threading
 
-from app.interface.events import event_bus
-from app.backend.utils.processManager import app_process
+import customtkinter as ctk
 
-from app.interface.components.cards.list_card import ListCard
+from app.backend.utils.processManager import app_process
 from app.interface.components.buttons.apply_changes_btn import ApplyChangesBtn
-from app.interface.components.buttons.close_folder_btn import CloseFolderBtn
+from app.interface.components.buttons.close_btn import CloseBtn
+from app.interface.components.cards.list_card import ListCard
+from app.interface.events import event_bus
+
 
 class ResultListView(ctk.CTkFrame):
     def __init__(self, master, data, model):
@@ -24,7 +25,7 @@ class ResultListView(ctk.CTkFrame):
             data=self.data,
             custom= {'main': 'id'})
 
-        self.close_folder_btn = CloseFolderBtn(self, command=self.on_close)
+        self.close_folder_btn = CloseBtn(self, command=self.on_close)
         self.apply_changes_btn = ApplyChangesBtn(self, command=self.apply_changes)
 
         self._render_grid()

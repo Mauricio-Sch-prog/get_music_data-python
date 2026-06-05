@@ -4,13 +4,8 @@ import customtkinter as ctk
 from PIL import Image
 from app.config.set_config import BASE_DIR
 
-# if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-#     BASE_DIR = Path(sys._MEIPASS)
-# else:
-#     BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 ICON_DIR = BASE_DIR / "app" / "interface" / "icons"
-print(ICON_DIR)
 
 config_icon = ctk.CTkImage(
     light_image=Image.open(ICON_DIR / "settings-light.png"),

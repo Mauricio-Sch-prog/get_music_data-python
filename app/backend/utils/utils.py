@@ -1,10 +1,12 @@
 
 from pathlib import Path
+
+from mutagen import MutagenError
 from mutagen.easyid3 import EasyID3
 from mutagen.id3 import ID3
-from mutagen import MutagenError
+
 from app.interface.events import event_bus
-                
+
 
 def get_file_metadata(folder_path, file_name):
     

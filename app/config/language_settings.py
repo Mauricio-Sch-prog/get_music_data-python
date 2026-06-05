@@ -1,7 +1,8 @@
 import gettext
 
-from app.config.set_config import LANGUAGE_LOCALE
 from app.config.config import app_config
+from app.config.set_config import LANGUAGE_LOCALE
+
 
 class LanguageSettingsManager():
     def __init__(self):
@@ -28,7 +29,6 @@ class LanguageSettingsManager():
         self.update_gui_callback = update_gui_callback
 
     def _update_gui(self):
-        print("updating gui")
         if self.update_gui_callback:
             self.update_gui_callback()
 

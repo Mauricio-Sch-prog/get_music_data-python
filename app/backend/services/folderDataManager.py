@@ -1,5 +1,7 @@
 import os
+
 from app.backend.utils import utils
+
 
 class FolderDataManager:
     def get_folder_data(self, folder_path = None):

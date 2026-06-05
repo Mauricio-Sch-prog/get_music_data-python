@@ -1,5 +1,6 @@
 import customtkinter as ctk
 
+
 class OptionsInput(ctk.CTkFrame):
     def __init__(self, master, options, callback, preset = None):
         super().__init__(

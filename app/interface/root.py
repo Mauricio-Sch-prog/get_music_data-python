@@ -1,6 +1,7 @@
 import customtkinter as ctk
-from tkinter import PhotoImage
+
 from app.config.config import app_config
+
 
 class Root(ctk.CTk):
     def __init__(self):

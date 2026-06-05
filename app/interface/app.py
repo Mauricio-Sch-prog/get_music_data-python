@@ -1,15 +1,19 @@
 
-from app.backend.utils import utils
-from app.interface.root import Root
-from app.interface.components.buttons.config_btn import ConfigBtn
 import threading
-from app.interface.router import Router
-from app.interface.events import event_bus
-from app.interface.views.config_view import ConfigView
+
 from CTkMessagebox import CTkMessagebox
+
 from app.backend.services.folderDataManager import folder_manager
 from app.backend.services.getMusicData import get_music_data
+from app.backend.utils import utils
 from app.backend.utils.processManager import app_process
+from app.config.data import app_data
+from app.interface.components.buttons.config_btn import ConfigBtn
+from app.interface.events import event_bus
+from app.interface.root import Root
+from app.interface.router import Router
+from app.interface.views.config_view import ConfigView
+
 
 class App():
     def __init__(self):
@@ -26,6 +30,9 @@ class App():
         event_bus.subscribe("START_DATA_ENRICHMENT", self.handle_data_enrichment)
         event_bus.subscribe("START_LOADING_RESULTS", self._load_result)
         event_bus.subscribe("START_APPLY_CHANGES", self._apply_changes)
+        event_bus.subscribe("LOAD_SAVED_PROCESSES", self.handle_saved_processes)
+        event_bus.subscribe("RELOAD_PROCESS", self.handle_reload_process)
+        event_bus.subscribe("REMOVE_SAVED_PROCESS", self.handle_remove_saved_process)
         event_bus.subscribe("SHOW_ERROR_MESSAGE", self.display_error)
 
         event_bus.emit("NAVIGATE_TO_MENU")
@@ -117,6 +124,51 @@ class App():
 
     def _finalize_changes(self):
         event_bus.emit("NAVIGATE_TO_MENU")
+
+    def handle_saved_processes(self):
+        event_bus.emit("NAVIGATE_TO_LOADING", _("Loading saved processes..."))
+        threading.Thread(
+            target=self._bg_saved_processes_worker,
+            args=(),
+            daemon=True
+        ).start()
+
+    def _bg_saved_processes_worker(self):
+        saved_processes = app_data.get(key="saved_processes")
+        for key, item in saved_processes.items():
+            checked_data = folder_manager.check_files_exists(
+                item['songs'], 
+                item['folder_path'])
+            saved_processes[key]['missing'] = checked_data['missing']
+
+        self.root.after(0, lambda:self.finish_saved_processes(saved_processes))
+
+    def finish_saved_processes(self, data):
+        event_bus.emit("NAVIGATE_TO_SAVED_PROCESSES", data)
+
+    def handle_reload_process(self, id):
+        threading.Thread(
+            target= self._bg_reload_process,
+            kwargs={'id': id},
+            daemon=True
+        ).start()
+
+    def _bg_reload_process(self, id):
+        process = app_process.load(id = id)
+        self.root.after(0, lambda: self._finish_reload_process(process))
+
+    def _finish_reload_process(self, process):
+        event_bus.emit("NAVIGATE_TO_POST_PROCESS", process)
+
+    def handle_remove_saved_process(self, id):
+        threading.Thread(
+            target= self._bg_remove_saved_process,
+            kwargs={'id': id},
+            daemon=True
+        ).start()
+
+    def _bg_remove_saved_process(self, id):
+        app_data.remove_by_id(key="saved_processes", id=id)
 
     def display_error(self, message="Error"):
         CTkMessagebox(title=_("Error"), message=message, icon="cancel")
