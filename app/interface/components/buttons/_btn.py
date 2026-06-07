@@ -12,7 +12,6 @@ class BtnModel(ctk.CTkButton):
             "border_width":2,
             "corner_radius":5,
         }
-        
         defaults.update(kwargs)
         super().__init__(
             master, 

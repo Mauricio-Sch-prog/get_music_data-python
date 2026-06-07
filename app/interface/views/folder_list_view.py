@@ -11,7 +11,7 @@ from app.interface.events import event_bus
 
 class FolderListView(ctk.CTkFrame):
     def __init__(self, master, data):
-        super().__init__(master)
+        super().__init__(master, bg_color="transparent")
         
         self.folder_data = data
     #     self._on_data_ready()

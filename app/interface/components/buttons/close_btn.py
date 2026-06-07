@@ -10,8 +10,8 @@ class CloseBtn(BtnModel):
             "fg_color":app_config.get(section='theme', key='secondary_color'),
             "bg_color":app_config.get(section='theme', key='secondary_color'),
             "image":close_icon,
-            "border_color":"#fc030b", 
-            "hover_color":"#fc030b",
+            "border_color":"#e74c3c", 
+            "hover_color":"#e74c3c",
         }
         defaults.update(kwargs)
         super().__init__(master, **defaults)

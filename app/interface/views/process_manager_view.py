@@ -3,6 +3,7 @@ import threading
 import customtkinter as ctk
 
 from app.backend.utils.processManager import app_process
+from app.config.config import app_config
 from app.interface.components.buttons.close_btn import CloseBtn
 from app.interface.components.buttons.resume_btn import ResumeBtn
 from app.interface.components.buttons.retry_btn import RetryBtn
@@ -11,51 +12,86 @@ from app.interface.events import event_bus
 
 
 class ProcessManagerView(ctk.CTkFrame):
-    def __init__(self, master, process,
-            ):
-        
-        super().__init__(master=master)
+    def __init__(self, master, process):
+        super().__init__(
+            master, 
+            fg_color="transparent",
+            )
         self.process = process
         
-        self.label = ctk.CTkLabel(
+        BUTTON_WIDTH = 220
+
+        self.total_songs = len(process.get('songs', []))
+        self.completed_songs = process.get('progress', 0)
+        self.progress_ratio = self.completed_songs / self.total_songs if self.total_songs > 0 else 0
+
+
+        self.frame = ctk.CTkFrame(
             self,
-            text=_("Manager")
+            fg_color=app_config.get(section="theme", key="list_primary_color"),
+            bg_color="transparent",
+        )
+
+        self.label = ctk.CTkLabel(
+            self.frame,
+            text=_("Manager"),
+            font=ctk.CTkFont(size=18, weight="bold")
         )
 
         self.result_label = ctk.CTkLabel(
-            self,
-            text=_(f"{process['progress']} out of {len(process['songs'])} were modified")
+            self.frame,
+            text=_(f"{process['progress']} out of {len(process['songs'])} were modified"),
+            font=ctk.CTkFont(size=13)
         )
 
+        self.progress_bar = ctk.CTkProgressBar(
+            self.frame, 
+            height=8,
+            progress_color=app_config.get(section="theme", key="success_color")
+            )
+        self.progress_bar.set(self.progress_ratio)
+
         self.resume_btn = ResumeBtn(
-            self,
+            self.frame,
             command=self.on_resume,
             text=_("Resume changed files"),
+            width=BUTTON_WIDTH
         )
 
         self.save_process_btn = SaveBtn(
-            self,
+            self.frame,
             command=self.on_save,
             text=_("Save progress for later"),
+            fg_color=app_config.get(section="theme", key="list_primary_color"),
+            hover_color=app_config.get(section='theme', key='list_secondary_color'),
+            width=BUTTON_WIDTH
         )
 
         self.retry_btn = RetryBtn(
-            self,
+            self.frame,
             command=self.on_retry,
             text=_("Retry process"),
+            fg_color=app_config.get(section="theme", key="list_primary_color"),
+            hover_color=app_config.get(section='theme', key='list_secondary_color'),
+            width=BUTTON_WIDTH
         )
 
         self.close_btn = CloseBtn(
-            self,
+            self.frame,
+            fg_color=app_config.get(section="theme", key="list_primary_color"),
             command=self.on_close,
+            width=BUTTON_WIDTH
         )
+        
 
-        self.label.pack()
-        self.result_label.pack()
-        self.resume_btn.pack()
-        self.save_process_btn.pack()
-        self.retry_btn.pack()
-        self.close_btn.pack()
+        self.frame.pack()
+        self.label.pack(pady=(20, 5), padx=20)
+        self.result_label.pack(pady=(0,10), padx=20)
+        self.progress_bar.pack(fill="x", pady=(0,20), padx=10)
+        self.resume_btn.pack(pady=6, padx=20)
+        self.save_process_btn.pack(pady=6, padx=20)
+        self.retry_btn.pack(pady=6, padx=20)
+        self.close_btn.pack(pady=(15, 20), padx=20)
 
     def on_resume(self):
         self.resume_btn.on_click()

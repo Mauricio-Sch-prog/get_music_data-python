@@ -1,5 +1,7 @@
 import customtkinter as ctk
 
+from app.config.config import app_config
+
 
 class OptionsInput(ctk.CTkFrame):
     def __init__(self, master, options, callback, preset = None):
@@ -15,8 +17,12 @@ class OptionsInput(ctk.CTkFrame):
 
         self.select = ctk.CTkOptionMenu(
             self,
+            text_color=app_config.get(section='theme', key='text_color'),
+            fg_color=app_config.get(section='theme', key='secondary_color'),
+            button_color=app_config.get(section='theme', key='success_color'),
+            button_hover_color=app_config.get(section='theme', key='primary_color'),
             values=self.options_display,
-            command=self._on_select_change
+            command=self._on_select_change,
         )
         if self.set_value:
             self.select.set(self.options[self.set_value])

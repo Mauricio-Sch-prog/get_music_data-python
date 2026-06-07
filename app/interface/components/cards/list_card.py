@@ -7,7 +7,7 @@ from app.interface.components.cards.headers_card import HeadersCard
 
 class ListCard(ctk.CTkFrame):
     def __init__(self, parent, model: dict, title, data, custom={'main': False}):
-        super().__init__(parent)
+        super().__init__(parent, bg_color="transparent")
         self.data = [item | {"status": False} for item in data]
         self.model_keys = {k: v for k, v in model.items() if v.get('optional') != 'Ignore'}
         self.custom = custom
@@ -28,9 +28,12 @@ class ListCard(ctk.CTkFrame):
         
         self.header_frame = HeadersCard(self,model=self.model_keys)
 
+
+        current_theme = ctk.get_appearance_mode().lower()
+        canvas_colors = app_config.get(section="theme", key='list_primary_color')
         self.canvas = ctk.CTkCanvas(
             self, 
-            bg=app_config.get(section="theme", key='list_primary_color'), 
+            bg=canvas_colors[0] if current_theme == "light" else canvas_colors[1], 
             highlightthickness=0)
         self.scrollbar = ctk.CTkScrollbar(self, orientation="vertical", command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self._scroll_sync)
@@ -69,7 +72,11 @@ class ListCard(ctk.CTkFrame):
         for i, key in enumerate(self.model_keys):
             frame.columnconfigure(i, weight=1, uniform="col")
             if self.custom.get('main') == key:
-                w = ctk.CTkCheckBox(frame, text="")
+                w = ctk.CTkCheckBox(
+                    frame, 
+                    text="", 
+                    fg_color=app_config.get(section='theme', key='success_color'),
+                    hover_color=app_config.get(section='theme', key='success_color'))
                 w.grid(row=0, column=i, padx=5, sticky="w")
             else:
                 w = ctk.CTkLabel(frame, text="", compound="right", anchor="w")
@@ -179,5 +186,11 @@ class ListCard(ctk.CTkFrame):
 
 
     def update_gui(self):
+        current_theme = ctk.get_appearance_mode().lower()
+        canvas_colors = app_config.get(section="theme", key='list_primary_color')
+        self.canvas.configure(bg=canvas_colors[0] if current_theme == "light" else canvas_colors[1])
+
+
+
         self.header_frame.update_gui()
         return

@@ -80,7 +80,7 @@ def batchFetchData(musicList, api_key):
     formatted_list = ", ".join(filenames)
     
     research_response = aiQuery(
-        f"Research the following music files and find their official title, artist, and genre: {formatted_list}",
+        f"Research the following music files and find their official title, artist, genre and release year: {formatted_list}",
         api_key = api_key,
         tools = [search_tool],
     )

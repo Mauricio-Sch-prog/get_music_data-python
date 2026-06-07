@@ -1,5 +1,3 @@
-import threading
-
 import customtkinter as ctk
 
 from app.interface.components.buttons.close_btn import CloseBtn
@@ -9,24 +7,41 @@ from app.interface.events import event_bus
 
 class SavedProcessesView(ctk.CTkFrame):
     def __init__(self, master, data):
-        super().__init__(master)
-        self.label = ctk.CTkLabel(self, text="Saved processes")
-        self.label.pack()
+        super().__init__(master, fg_color="transparent")
         self.data = data
-        self.close_btn = CloseBtn(self, command=self.on_close)
-        self.close_btn.pack()
+        
+        self.header_frame = ctk.CTkFrame(self, fg_color="transparent")
+        self.header_frame.pack(fill="x", padx=20, pady=(10, 5))
+        
+        self.label = ctk.CTkLabel(
+            self.header_frame, 
+            text="Saved Processes", 
+            font=ctk.CTkFont(size=20, weight="bold")
+        )
+        self.label.pack(side="left")
+        
+        self.close_btn = CloseBtn(self.header_frame, command=self.on_close)
+        self.close_btn.pack(side="right")
+
+        self.scroll_container = ctk.CTkScrollableFrame(
+            self, 
+            label_text=None,
+            fg_color="transparent"
+        )
+        self.scroll_container.pack(fill="both", expand=True, padx=10, pady=10)
 
 
-        threading.Thread(
-            target=self._load_cards,
-            args=(),
-            daemon=True
-        ).start()
+        self._load_cards()
 
     def _load_cards(self):
         for key, value in self.data.items():
-            ProcessCard(self, value).pack()
+            card = ProcessCard(self.scroll_container, value)
+            card.pack(fill="x", pady=8, padx=5)
 
     def on_close(self):
         self.close_btn.on_click()
         event_bus.emit("NAVIGATE_TO_MENU")
+
+    def update_gui(self):
+        for widget in self.scroll_container.winfo_children():
+            widget.update_gui()

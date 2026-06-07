@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from customtkinter import filedialog
 
+from app.config.config import app_config
 from app.interface.components.buttons._btn import BtnModel
 from app.interface.components.buttons.select_folder_btn import SelectFolderBtn
 from app.interface.events import event_bus
@@ -8,18 +9,27 @@ from app.interface.events import event_bus
 
 class MainMenuView(ctk.CTkFrame):
     def __init__(self, master):
-        super().__init__(
-            master
+        super().__init__(master, fg_color="transparent")
+        
+        BUTTON_WIDTH = 220
+
+        self.select_folder_btn = SelectFolderBtn(
+            self, 
+            command=self.on_select,
+            width=BUTTON_WIDTH
         )
-        self.select_folder_btn = SelectFolderBtn(self, command=self.on_select)
-        self.select_folder_btn.pack()
+        self.select_folder_btn.pack(pady=(20, 10), padx=20)
 
-        self.load_saved_processes_btn = BtnModel(self, text = _("Saved processes"),command=self.on_load_saved)
-        self.load_saved_processes_btn.pack()
-
+        self.load_saved_processes_btn = BtnModel(
+            self, 
+            text=_("Saved processes"),
+            hover_color=app_config.get(section='theme', key='accent_color'),
+            command=self.on_load_saved,
+            width=BUTTON_WIDTH
+        )
+        self.load_saved_processes_btn.pack(pady=10, padx=20)
 
     def on_select(self):
-
         path = filedialog.askdirectory(title=_("Select your Music Folder"))
         self.select_folder_btn.on_click(text=_("Scanning files..."))
 

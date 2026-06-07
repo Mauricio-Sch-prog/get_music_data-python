@@ -9,7 +9,6 @@ class SelectFolderBtn(BtnModel):
         defaults = {
             "text":_("Select a folder"),
             "image":folder_icon,
-            "corner_radius":20,
             "border_width" : None,
             "bg_color":app_config.get(section='theme', key='secondary_color'),
             "fg_color":app_config.get(section='theme', key='primary_color'),

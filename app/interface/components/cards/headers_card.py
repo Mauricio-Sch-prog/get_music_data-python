@@ -10,7 +10,7 @@ class HeadersCard(ctk.CTkFrame):
             master=master, 
             height=30, 
             fg_color=app_config.get(section="theme", key='list_primary_color'),
-            bg_color=app_config.get(section="theme", key='list_primary_color'),
+            bg_color="transparent",
             )
         self.pack(fill="x")
         self.data = {}

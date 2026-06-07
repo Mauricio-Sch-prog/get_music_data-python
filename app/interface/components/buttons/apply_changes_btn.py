@@ -11,8 +11,8 @@ class ApplyChangesBtn(BtnModel):
             "fg_color":app_config.get(section='theme', key='secondary_color'),
             "bg_color":app_config.get(section='theme', key='secondary_color'),
             "image":arrow_down_icon,
-            "border_color":"#0320fc", 
-            "hover_color":"#0320fc",
+            "border_color":app_config.get(section='theme', key='success_color'), 
+            "hover_color":app_config.get(section='theme', key='success_color'),
         }
         defaults.update(kwargs)
         super().__init__(master, **defaults)

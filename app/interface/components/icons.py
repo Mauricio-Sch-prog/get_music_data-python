@@ -1,9 +1,7 @@
-import sys
-from pathlib import Path
 import customtkinter as ctk
 from PIL import Image
-from app.config.set_config import BASE_DIR
 
+from app.config.set_config import BASE_DIR
 
 ICON_DIR = BASE_DIR / "app" / "interface" / "icons"
 
@@ -41,6 +39,12 @@ x_icon = ctk.CTkImage(
     light_image=Image.open(ICON_DIR / "x-light.png"),
     dark_image=Image.open(ICON_DIR / "x-dark.png"),
     size=(16, 16),
+)
+
+x_icon_2 = ctk.CTkImage(
+    light_image=Image.open(ICON_DIR / "x-light.png"),
+    dark_image=Image.open(ICON_DIR / "x-dark.png"),
+    size=(24, 24),
 )
 
 check_icon = ctk.CTkImage(
