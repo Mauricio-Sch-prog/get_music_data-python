@@ -97,7 +97,7 @@ class HeadersCard(ctk.CTkFrame):
 
     def _get_header_text(self):
         self.header_text = {
-            'id' : 'id', 
+            'id' : _('id'), 
             'file' : _('file'), 
             'title' : _('title'), 
             'artist' : _('artist'), 

@@ -1,9 +1,18 @@
+import sys
+from pathlib import Path
+
 import customtkinter as ctk
 from PIL import Image
 
 from app.config.set_config import BASE_DIR
 
-ICON_DIR = BASE_DIR / "app" / "interface" / "icons"
+# Fix the path dynamically for PyInstaller vs Dev environment
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    # In the executable, 'icons' is copied directly to the root of _MEIPASS
+    ICON_DIR = BASE_DIR / "icons"
+else:
+    # In local development, it lives deep within your source folders
+    ICON_DIR = BASE_DIR / "app" / "interface" / "icons"
 
 config_icon = ctk.CTkImage(
     light_image=Image.open(ICON_DIR / "settings-light.png"),

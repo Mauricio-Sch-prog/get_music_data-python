@@ -44,3 +44,4 @@ class MainMenuView(ctk.CTkFrame):
 
     def update_gui(self):
         self.select_folder_btn.configure(text=_("Select a folder"))
+        self.load_saved_processes_btn.configure(text=_("Saved processes"))

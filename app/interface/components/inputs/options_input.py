@@ -30,8 +30,11 @@ class OptionsInput(ctk.CTkFrame):
         self.select.pack(anchor="center")
 
     def _on_select_change(self, value):
+        lang = next((k for k, v in self.options.items() if v == value), None)
+        self.set_value = lang
+        
         if self.callback:
-            self.callback(next((k for k, v in self.options.items() if v == value), None))
+            self.callback(self.set_value)
 
     def set(self, value = None):
         if value:
@@ -39,5 +42,6 @@ class OptionsInput(ctk.CTkFrame):
         self.select.set(self.options[self.set_value])
     
     def get(self):
-        return next((k for k, v in self.options.items() if v == self.select.get()), None)
+        return self.set_value
+
     

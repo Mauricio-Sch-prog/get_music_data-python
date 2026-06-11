@@ -15,7 +15,7 @@ class SavedProcessesView(ctk.CTkFrame):
         
         self.label = ctk.CTkLabel(
             self.header_frame, 
-            text="Saved Processes", 
+            text=_("Saved Processes"), 
             font=ctk.CTkFont(size=20, weight="bold")
         )
         self.label.pack(side="left")
@@ -43,5 +43,7 @@ class SavedProcessesView(ctk.CTkFrame):
         event_bus.emit("NAVIGATE_TO_MENU")
 
     def update_gui(self):
+        self.label.configure(text=_("Saved Processes"))
+        self.close_btn.configure(text=_("Close"))
         for widget in self.scroll_container.winfo_children():
             widget.update_gui()

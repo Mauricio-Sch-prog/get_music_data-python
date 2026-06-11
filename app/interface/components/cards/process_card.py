@@ -39,7 +39,11 @@ class ProcessCard(ctk.CTkFrame):
 
         self.label = ctk.CTkLabel(
             self.frame,
-            text=_(f"{self.completed_songs} out of {self.total_songs} songs modified"),
+            text=_("{completed} out of {total} songs modified")
+            .format(
+                completed=self.completed_songs, 
+                total=self.total_songs
+    ),
             text_color=app_config.get(section="theme", key='text_color'),
             font=ctk.CTkFont(size=12),
             anchor="w"
@@ -47,7 +51,10 @@ class ProcessCard(ctk.CTkFrame):
 
         self.missing_label = ctk.CTkLabel(
             self.frame,
-            text=_(f"Missing songs: {len(self.data.get('missing', []))}"),
+            text=_("Missing songs: {count}")
+            .format(
+                count=len(self.data.get('missing', []))
+    ),
             font=ctk.CTkFont(size=11),
             text_color=app_config.get(section="theme", key='text_color'),
             anchor="w"
@@ -94,8 +101,18 @@ class ProcessCard(ctk.CTkFrame):
         self.destroy()
 
     def update_gui(self):
-        self.label.configure(text=_(f"{self.completed_songs} out of {self.total_songs} songs modified")) 
-        self.missing_label.configure(text=_(f"Missing songs: {len(self.data.get('missing', []))}"),)
+        self.label.configure(
+            text=_("{completed} out of {total} songs modified")
+            .format(
+                completed=self.completed_songs, 
+                total=self.total_songs
+    )) 
+        
+        self.missing_label.configure(
+            text=_("Missing songs: {count}")
+            .format(
+                count=len(self.data.get('missing', []))
+    ),)
 
         self.resume_process_btn.configure(text=_("Resume"))
         self.remove_process_btn.configure(text=_("Remove"))

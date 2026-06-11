@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 
-datas = [('icons', 'icons')]
+datas = [('app/interface/icons', 'icons'), ('locales', 'locales')]
 binaries = []
 hiddenimports = []
 tmp_ret = collect_all('customtkinter')

@@ -2,15 +2,21 @@ import json
 import sys
 from pathlib import Path
 
+# Inside your config file setup:
 if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    # For user data, use the path of the actual folder where the .exe sits!
+    USER_DATA_DIR = Path(sys.executable).parent
     BASE_DIR = Path(sys._MEIPASS)
 else:
-    BASE_DIR = Path(__file__).resolve().parent.parent.parent
+    USER_DATA_DIR = Path(__file__).resolve().parent.parent.parent
+    BASE_DIR = USER_DATA_DIR
 
-
-CONFIG_FILE = BASE_DIR / "config.toml"
-DATA_FILE = BASE_DIR / "data.json"
+# Keep internal read-only translations in the temp bundle:
 LANGUAGE_LOCALE = BASE_DIR / "locales"
+
+# Write user settings to the persistent folder next to the executable:
+CONFIG_FILE = USER_DATA_DIR / "config.toml"
+DATA_FILE = USER_DATA_DIR / "data.json"
 
 DEFAULT_CONFIG = """# Application Configuration File
 

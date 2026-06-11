@@ -13,6 +13,7 @@ class LanguageSettingsManager():
     def change_language(self, language = None):
         lang_code = language if language else app_config.get(section="system", key="language")
         
+        print(lang_code)
         es_translations = gettext.translation(
             'base', 
             localedir=LANGUAGE_LOCALE, 

@@ -20,18 +20,14 @@ def get_music_data():
         fetch = process["songs"][process["progress"] : process["progress"] + batch_size]
 
         try:
-            # edited_fetch = gemini.batchFetchData(musicList=fetch, api_key=api_key)
-            # if edited_fetch:
-            #     for count, entry in enumerate(edited_fetch, 1):
-            #         entry['id'] = progress + count
-            #     process["data"].extend(edited_fetch)
+            edited_fetch = gemini.batchFetchData(musicList=fetch, api_key=api_key)
+            if edited_fetch:
+                for count, entry in enumerate(edited_fetch, 1):
+                    entry['id'] = process["progress"] + count
+                process["data"].extend(edited_fetch)
             process["data"].extend(fetch)
             
             process["progress"] += len(fetch)
-
-            if process["progress"] > 10:
-                raise ValueError("NÂO PASSARAS!")
-
 
             time.sleep(2)
 

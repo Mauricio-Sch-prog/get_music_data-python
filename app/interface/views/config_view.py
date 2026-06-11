@@ -19,6 +19,18 @@ class ConfigView(ctk.CTkFrame):
                         )
         
         self.on_close = on_close_request
+        self.language_options = {
+            "en": "English",
+            "es": "Español",
+            "bn": "বাংলা",
+            "de": "Deutsch",
+            "fr": "Français",
+            "hi": "हिन्दी",
+            "ja": "日本語",
+            "pt_br": "Português (Brasil)",
+            "ru": "Русский",
+            "zh": "简体中文"
+            }
 
         self.label = ctk.CTkLabel(
             self,
@@ -51,13 +63,11 @@ class ConfigView(ctk.CTkFrame):
             callback=self._switch_system_theme,
             set=app_config.get(section="system", key="system_theme"),
         )
+        
 
         self.language_select = OptionsInput(
             self,
-            options={
-                "en" : "English", 
-                "es" : "Spanish",
-                },
+            options=self.language_options,
             callback=self._on_language_change,
             preset=app_config.get(section="system", key="language")
         )
@@ -111,6 +121,7 @@ class ConfigView(ctk.CTkFrame):
         ctk.set_appearance_mode(app_config.adjust_system_theme())
         
     def _on_language_change(self, value):
+        print(f"Changing to {value}")
         language_settings.change_language(value)
         self.update_gui()
         return
@@ -129,7 +140,6 @@ class ConfigView(ctk.CTkFrame):
         self.api_key_input.input_var.set(app_config.get(section="system", key="api_key"))
         self.language_select.set(app_config.get(section="system", key="language"))
         self._on_language_change(app_config.get(section="system", key="language"))
-
         return
     
     def update_gui(self):
@@ -137,6 +147,7 @@ class ConfigView(ctk.CTkFrame):
         self.slider_label.configure(text=_("Batch fetch per api request"))
         self.theme_label.configure(text=_("Theme"))
         self.system_theme_label.configure(text=_("Use system's theme"))
+        self.select_language_label.configure(text=_("Language"))
         self.api_key_label.configure(text=_("API KEY"))
         self.api_key_input.input.configure(placeholder_text=_("Place here your gemini api key"))
         self.apply_changes_btn.configure(text=_("Apply changes"))

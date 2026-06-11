@@ -40,7 +40,11 @@ class ProcessManagerView(ctk.CTkFrame):
 
         self.result_label = ctk.CTkLabel(
             self.frame,
-            text=_(f"{process['progress']} out of {len(process['songs'])} were modified"),
+            text=_("{completed} out of {total} were modified")
+            .format(
+                completed=self.completed_songs,
+                total=self.total_songs,
+            ),
             font=ctk.CTkFont(size=13)
         )
 
@@ -119,7 +123,13 @@ class ProcessManagerView(ctk.CTkFrame):
 
     def update_gui(self):
         self.label.configure(text=_("Manager"))
-        self.result_label.configure(_(f"{self.process['progress']} out of {len(self.process['songs'])} were modified"))
+        self.result_label.configure(
+            text=_("{completed} out of {total} were modified")
+            .format(
+                completed=self.completed_songs,
+                total=self.total_songs,
+            )
+        )
         self.resume_btn.configure(text=_("Resume changed files"))
         self.save_process_btn.configure(text=_("Save progress for later"))
         self.retry_btn.configure(text=_("Retry process"))

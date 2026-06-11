@@ -1,19 +1,17 @@
-# Spanish translations for Get Music Data.
+# Translations template for PROJECT.
 # Copyright (C) 2026 ORGANIZATION
-# This file is distributed under the same license as the Get Music Data
-# project.
-# FIRST AUTHOR mauricio.ass.2016@gmail.com, 2026.
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version:  1.0\n"
-"Report-Msgid-Bugs-To: mauricio.ass.2016@gmail.com\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-06-10 20:17-0300\n"
-"PO-Revision-Date: 2026-06-09 20:05-0300\n"
-"Last-Translator: MAURICIO LUIS SCHWANTES mauricio.ass.2016@gmail.com\n"
-"Language: es\n"
-"Language-Team: Spanish <es@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,203 +19,203 @@ msgstr ""
 
 #: app/interface/app.py:43 app/interface/views/main_menu_view.py:34
 msgid "Scanning files..."
-msgstr "Escaneando archivos..."
+msgstr ""
 
 #: app/interface/app.py:64
 msgid "Music folder not found or empty!"
-msgstr "¡Carpeta de música no encontrada o vacía!"
+msgstr ""
 
 #: app/interface/app.py:68
 msgid "Talking to ai..."
-msgstr "Comunicándose con la IA..."
+msgstr ""
 
 #: app/interface/app.py:88
 msgid "Loading results..."
-msgstr "Cargando resultados..."
+msgstr ""
 
 #: app/interface/app.py:109
 msgid "Applying changes..."
-msgstr "Aplicando cambios..."
+msgstr ""
 
 #: app/interface/app.py:129
 msgid "Loading saved processes..."
-msgstr "Cargando procesos guardados..."
+msgstr ""
 
 #: app/interface/app.py:174
 msgid "Error"
-msgstr "Error"
+msgstr ""
 
 #: app/interface/components/buttons/apply_changes_btn.py:10
 #: app/interface/views/config_view.py:153
 #: app/interface/views/result_list_view.py:74
 msgid "Apply changes"
-msgstr "Aplicar cambios"
+msgstr ""
 
 #: app/interface/components/buttons/close_btn.py:9
 #: app/interface/views/saved_processes_view.py:47
 msgid "Close"
-msgstr "Cerrar"
+msgstr ""
 
 #: app/interface/components/buttons/get_data_btn.py:9
 #: app/interface/views/folder_list_view.py:74
 msgid "Get data"
-msgstr "Obtener datos"
+msgstr ""
 
 #: app/interface/components/buttons/resume_btn.py:9
 #: app/interface/components/cards/process_card.py:117
 msgid "Resume"
-msgstr "Reanudar"
+msgstr ""
 
 #: app/interface/components/buttons/retry_btn.py:8
 msgid "Retry"
-msgstr "Reintentar"
+msgstr ""
 
 #: app/interface/components/buttons/save_btn.py:8
 msgid "Save"
-msgstr "Guardar"
+msgstr ""
 
 #: app/interface/components/buttons/select_folder_btn.py:10
 #: app/interface/views/main_menu_view.py:39
 #: app/interface/views/main_menu_view.py:46
 msgid "Select a folder"
-msgstr "Seleccionar una carpeta"
+msgstr ""
 
 #: app/interface/components/cards/headers_card.py:100
 msgid "id"
-msgstr "id"
+msgstr ""
 
 #: app/interface/components/cards/headers_card.py:101
 msgid "file"
-msgstr "archivo"
+msgstr ""
 
 #: app/interface/components/cards/headers_card.py:102
 msgid "title"
-msgstr "título"
+msgstr ""
 
 #: app/interface/components/cards/headers_card.py:103
 msgid "artist"
-msgstr "artista"
+msgstr ""
 
 #: app/interface/components/cards/headers_card.py:104
 msgid "genre"
-msgstr "género"
+msgstr ""
 
 #: app/interface/components/cards/headers_card.py:105
 msgid "album"
-msgstr "álbum"
+msgstr ""
 
 #: app/interface/components/cards/headers_card.py:106
 msgid "date"
-msgstr "fecha"
+msgstr ""
 
 #: app/interface/components/cards/process_card.py:42
 #: app/interface/components/cards/process_card.py:105
 #, python-brace-format
 msgid "{completed} out of {total} songs modified"
-msgstr "{completed} de {total} canciones modificadas"
+msgstr ""
 
 #: app/interface/components/cards/process_card.py:54
 #: app/interface/components/cards/process_card.py:112
 #, python-brace-format
 msgid "Missing songs: {count}"
-msgstr "Canciones faltantes: {count}"
+msgstr ""
 
 #: app/interface/components/cards/process_card.py:74
 #: app/interface/components/cards/process_card.py:118
 msgid "Remove"
-msgstr "Eliminar"
+msgstr ""
 
 #: app/interface/views/config_view.py:37 app/interface/views/config_view.py:146
 msgid "Config"
-msgstr "Configuración"
+msgstr ""
 
 #: app/interface/views/config_view.py:41 app/interface/views/config_view.py:147
 msgid "Batch fetch per api request"
-msgstr "Lote de obtención por solicitud de API"
+msgstr ""
 
 #: app/interface/views/config_view.py:42 app/interface/views/config_view.py:148
 msgid "Theme"
-msgstr "Tema"
+msgstr ""
 
 #: app/interface/views/config_view.py:43 app/interface/views/config_view.py:149
 msgid "Use system's theme"
-msgstr "Usar el tema del sistema"
+msgstr ""
 
 #: app/interface/views/config_view.py:44 app/interface/views/config_view.py:150
 msgid "Language"
-msgstr "Idioma"
+msgstr ""
 
 #: app/interface/views/config_view.py:45 app/interface/views/config_view.py:151
 msgid "API KEY"
-msgstr "Clave API"
+msgstr ""
 
 #: app/interface/views/config_view.py:77 app/interface/views/config_view.py:152
 msgid "Place here your gemini api key"
-msgstr "Coloque aquí su clave API de Gemini"
+msgstr ""
 
 #: app/interface/views/folder_list_view.py:44
 msgid "loading"
-msgstr "cargando"
+msgstr ""
 
 #: app/interface/views/folder_list_view.py:73
 #: app/interface/views/result_list_view.py:73
 msgid "Close folder"
-msgstr "Cerrar carpeta"
+msgstr ""
 
 #: app/interface/views/main_menu_view.py:25
 #: app/interface/views/main_menu_view.py:47
 msgid "Saved processes"
-msgstr "Procesos guardados"
+msgstr ""
 
 #: app/interface/views/main_menu_view.py:33
 msgid "Select your Music Folder"
-msgstr "Seleccione su carpeta de música"
+msgstr ""
 
 #: app/interface/views/main_menu_view.py:40
 msgid "No folder was selected"
-msgstr "No se seleccionó ninguna carpeta"
+msgstr ""
 
 #: app/interface/views/process_manager_view.py:37
 #: app/interface/views/process_manager_view.py:125
 msgid "Manager"
-msgstr "Administrador"
+msgstr ""
 
 #: app/interface/views/process_manager_view.py:43
 #: app/interface/views/process_manager_view.py:127
 #, python-brace-format
 msgid "{completed} out of {total} were modified"
-msgstr "{completed} de {total} fueron modificados"
+msgstr ""
 
 #: app/interface/views/process_manager_view.py:61
 #: app/interface/views/process_manager_view.py:133
 msgid "Resume changed files"
-msgstr "Reanudar archivos modificados"
+msgstr ""
 
 #: app/interface/views/process_manager_view.py:68
 #: app/interface/views/process_manager_view.py:134
 msgid "Save progress for later"
-msgstr "Guardar progreso para más tarde"
+msgstr ""
 
 #: app/interface/views/process_manager_view.py:77
 #: app/interface/views/process_manager_view.py:135
 msgid "Retry process"
-msgstr "Reintentar proceso"
+msgstr ""
 
 #: app/interface/views/process_manager_view.py:109
 msgid "Saving progress"
-msgstr "Guardando progreso"
+msgstr ""
 
 #: app/interface/views/process_manager_view.py:118
 msgid "Progress saved!"
-msgstr "¡Progreso guardado!"
+msgstr ""
 
 #: app/interface/views/result_list_view.py:24
 #: app/interface/views/result_list_view.py:71
 msgid "Changed files"
-msgstr "Archivos modificados"
+msgstr ""
 
 #: app/interface/views/saved_processes_view.py:18
 #: app/interface/views/saved_processes_view.py:46
-#, fuzzy
 msgid "Saved Processes"
-msgstr "Procesos guardados"
+msgstr ""
+
