@@ -5,3 +5,4 @@ config.toml
 data.json
 dist
 build
+main.spec
