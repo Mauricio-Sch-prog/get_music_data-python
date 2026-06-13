@@ -1,3 +1,21 @@
+[project]
+name = "get-music-data-python"
+version = "0.1.0"
+description = "AI Powered Music Data App"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "ctkmessagebox>=2.7",
+    "customtkinter>=5.2.2",
+    "mutagen>=1.47.0",
+    "pillow>=12.2.0",
+    "pyautogui>=0.9.54",
+    "pydantic>=2.13.4",
+    "pygetwindow>=0.0.9",
+    "requests>=2.34.2",
+]
+
+
 [tool.ruff]
 target-version = "py314"
 

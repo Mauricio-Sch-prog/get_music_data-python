@@ -14,9 +14,6 @@ class FolderListView(ctk.CTkFrame):
         super().__init__(master, bg_color="transparent")
         
         self.folder_data = data
-    #     self._on_data_ready()
-
-    # def _on_data_ready(self):
     
         self.list = ListCard(
             self,

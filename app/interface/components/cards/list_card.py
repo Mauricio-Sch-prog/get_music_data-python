@@ -58,7 +58,7 @@ class ListCard(ctk.CTkFrame):
         self.canvas.bind("<Button-4>", self._on_mousewheel)
         self.canvas.bind("<Button-5>", self._on_mousewheel) 
         
-        self._update_view()
+        self.after(100, self._update_view)
 
     def _create_row_widgets(self):
         frame = ctk.CTkFrame(
@@ -155,6 +155,10 @@ class ListCard(ctk.CTkFrame):
 
 
     def show_tooltip(self, event, label):
+
+        if not self.winfo_exists() or not self.winfo_viewable():
+            return
+
         text = label.cget("text")
         if not text:
             return

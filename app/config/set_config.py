@@ -2,32 +2,28 @@ import json
 import sys
 from pathlib import Path
 
-# Inside your config file setup:
 if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-    # For user data, use the path of the actual folder where the .exe sits!
     USER_DATA_DIR = Path(sys.executable).parent
     BASE_DIR = Path(sys._MEIPASS)
 else:
     USER_DATA_DIR = Path(__file__).resolve().parent.parent.parent
     BASE_DIR = USER_DATA_DIR
 
-# Keep internal read-only translations in the temp bundle:
 LANGUAGE_LOCALE = BASE_DIR / "locales"
 
-# Write user settings to the persistent folder next to the executable:
 CONFIG_FILE = USER_DATA_DIR / "config.toml"
 DATA_FILE = USER_DATA_DIR / "data.json"
 
 DEFAULT_CONFIG = """# Application Configuration File
 
 [theme]
-primary_color = ["#6347d1","#7b5bf2"]
-secondary_color = ["#ffffff","#1b1d26"]
-accent_color = ["#f4f4f9","#242732"]
-text_color = ["#1a1a1b","#ffffff"]
-success_color = ["#5236b8","#2ecc71"]
-list_primary_color = "#252525"
-list_secondary_color = "#333333"
+primary_color = ["#5b3cc4", "#7b5bf2"]
+secondary_color = ["#f8f9fa", "#1b1d26"]
+accent_color = ["#eef0f3", "#242732"]
+text_color = ["#212529", "#ffffff"] 
+success_color = ["#2ecc71", "#2ecc71"]
+list_primary_color = ["#e2e5e9", "#252525"]
+list_secondary_color = ["#d1d5db", "#333333"]
 
 
 [system]

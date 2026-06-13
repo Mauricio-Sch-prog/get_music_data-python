@@ -16,7 +16,7 @@ class OptionsInput(ctk.CTkFrame):
         self.set_value = preset
 
         self.select = ctk.CTkOptionMenu(
-            self,
+            master = self,
             text_color=app_config.get(section='theme', key='text_color'),
             fg_color=app_config.get(section='theme', key='secondary_color'),
             button_color=app_config.get(section='theme', key='success_color'),
