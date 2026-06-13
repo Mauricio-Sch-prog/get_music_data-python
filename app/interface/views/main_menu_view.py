@@ -29,6 +29,7 @@ class MainMenuView(ctk.CTkFrame):
         )
         self.load_saved_processes_btn.pack(pady=10, padx=20)
 
+
     def on_select(self):
         path = filedialog.askdirectory(title=_("Select your Music Folder"))
         self.select_folder_btn.on_click(text=_("Scanning files..."))
