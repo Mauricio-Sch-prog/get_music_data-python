@@ -9,7 +9,7 @@ the app itself is built on a fragile structure and heavely relies on the ai, whi
 the app allows for the user to select which tags to modify and which files to exclude from the modification.
 
 # How to run de application
-
+Follow the instructions below
 
 ## step 1:
     run git clone to get the repository on your system
