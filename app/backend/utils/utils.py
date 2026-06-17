@@ -39,36 +39,41 @@ def get_file_metadata(folder_path, file_name):
         return default_metadata
 
 
-def change_file_metadata(folder_path, changed_files, options = False):
-    original_folder_path = Path(f'{folder_path}')
-    
 
+def change_file_metadata(folder_path, changed_files, options=False):
+    original_folder_path = Path(folder_path)
+    print(f"Processing {len(changed_files)} files...")
     
+    if not options:
+        options = {}
+
     for count, entry in enumerate(changed_files):
-        event_bus.emit("UPDATE_LOADING_PROGRESS", message=_(f"modifying {entry}"), progress=(count / len(changed_files)) * 100)
-        # bar.updateStatus()
+        progress_val = (count / len(changed_files)) * 100
+        event_bus.emit("UPDATE_LOADING_PROGRESS", message=_(f"modifying {entry['file']}"), progress=progress_val)
+        
         file_path = original_folder_path / entry['file']
         if not file_path.exists():
-            print(f'not found file path: {file_path}')
+            print(f"File not found: {file_path}")
             continue
         
         try:
-            
             try:
                 song = EasyID3(file_path)
             except MutagenError:
-                print(f"No ID3 header found for {entry['filename']}. Creating one...")
+                print(f"No ID3 header found for {entry['file']}. Creating one...")
                 new_tag = ID3()
                 new_tag.save(file_path)
                 song = EasyID3(file_path)
             
-            song = EasyID3(file_path)
             for key, value in entry.items():
-                if key == 'file' or key == 'id':
+                if key in ['file', 'id']:
                     continue
-                if not options[key]:
+                
+                if not options.get(key, False):
                     song[key] = str(value)
+                    
             song.save()
+            print(f"Successfully updated: {entry['file']}")
             
         except Exception as e:
             print(f"Error processing {entry['file']}: {e}")

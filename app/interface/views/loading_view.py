@@ -28,4 +28,7 @@ class LoadingView(ctk.CTkFrame):
             else:
                 self.loading_bar = ProgressBarCard(self)
                 self.loading_bar.update_status(progress)
+    
+    def update_gui(self):
+        return
         

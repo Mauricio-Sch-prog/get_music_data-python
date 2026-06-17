@@ -11,7 +11,7 @@ from tenacity import (
 )
 
 getSongsDetails = types.FunctionDeclaration(
-    name='get_songs-details',
+    name='get_songs_details',
     description='Extract metadata from music filenames.',
     parameters_json_schema={
         'type': 'object',

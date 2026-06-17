@@ -7,6 +7,11 @@ from app.backend.utils.processManager import app_process
 from app.config.config import app_config
 
 
+def sort_by_id(data):
+    print(data[0])
+    sorted_list = sorted(data, key=lambda obj: obj['id'])
+    return sorted_list
+
 def get_music_data():
     process = app_process.get()
 
@@ -15,17 +20,20 @@ def get_music_data():
         
     batch_size = app_config.get(section="system", key="api_batch_fetch")
     api_key = app_config.get(section="system", key="api_key")
-
+    
     while process["progress"] < len(process["songs"]):
         fetch = process["songs"][process["progress"] : process["progress"] + batch_size]
 
         try:
             edited_fetch = gemini.batchFetchData(musicList=fetch, api_key=api_key)
+            
             if edited_fetch:
                 for count, entry in enumerate(edited_fetch, 1):
                     entry['id'] = process["progress"] + count
                 process["data"].extend(edited_fetch)
-            process["data"].extend(fetch)
+            else:
+                print(f"AI failed for batch starting at {process['progress']}. Saving raw data.")
+                process["data"].extend(fetch)
             
             process["progress"] += len(fetch)
 
