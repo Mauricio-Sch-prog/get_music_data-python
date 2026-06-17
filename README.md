@@ -13,16 +13,16 @@ Follow the instructions below
 
 ## step 1:
 run git clone to get the repository on your system
-'''bash
+```bash
 git clone https://github.com/Mauricio-Sch-prog/get_music_data-python.git
-'''
+```
 
 or either download the repository folder
 
 ## step 2:
 if you don't yet have uv(Astral) on your system, run:
-macOS/Linux: ' -LsSf [https://astral.sh/uv/install.sh](https://astral.sh/uv/install.sh) | sh'
-Windows (PowerShell): 'powershell -c "irm [https://astral.sh/uv/install.ps1](https://astral.sh/uv/install.ps1) | iex"'
+macOS/Linux: ` -LsSf [https://astral.sh/uv/install.sh](https://astral.sh/uv/install.sh) | sh`
+Windows (PowerShell): `powershell -c "irm [https://astral.sh/uv/install.ps1](https://astral.sh/uv/install.ps1) | iex"`
 
 ## step 3:
-run the app on your terminal with 'uv run main.py'
+run the app on your terminal with `uv run main.py`
